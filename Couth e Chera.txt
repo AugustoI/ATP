@@ -1,2 +1,4 @@
 ﻿Senhores, se vocês estão vendo isto é por que conseguiram utilizar o GitHub.
-Teste 123
+Então galera,
+O GitHub é um versionador, ele vai nos permitir trabalhar num mesmo projeto da maneira como bem entendermos.
+É simples e fácil, vou ajudar vocês!
