@@ -1,0 +1,46 @@
+--Banco--
+
+CREATE DATABASE Quest;
+
+CREATE TABLE Usuarios (	Usuario_ID INT PRIMARY KEY NOT NULL,
+						Login VARCHAR(10) NOT NULL,
+						Senha VARBINARY(250) NOT NULL
+						);
+						
+CREATE TABLE Cabecalho (Cabecalho_ID INT PRIMARY KEY NOT NULL,
+						NomeInstituicao VARCHAR(50) NOT NULL,
+						Instrucoes TEXT NOT NULL,
+						Titulo VARCHAR(20) NULL,
+						SubTitulo VARCHAR(20) NULL,
+						Serie  VARCHAR(20) NULL,
+						Valor  VARCHAR(20) NULL
+						);
+						
+CREATE TABLE Disciplinas (	Disciplinas_ID INT PRIMARY KEY AUTO_INCREMENT,
+							NomeDisciplinas VARCHAR(50) NOT NULL);
+							
+							
+CREATE TABLE Conteudos (	Conteudos_ID INT PRIMARY KEY AUTO_INCREMENT,
+							NomeConteudos VARCHAR(50) NOT NULL,
+							CodSerie VARCHAR(6) NULL,
+							ID_Disciplinas INT NOT NULL,
+							FOREIGN KEY(ID_Disciplinas) REFERENCES Disciplinas(Disciplinas_ID));	
+							
+CREATE TABLE Questoes (		Questoes_ID INT PRIMARY KEY AUTO_INCREMENT,
+							Enunciado TEXT,
+							Dificuldade INT NOT NULL,
+							ID_Conteudos INT NOT NULL,
+							MultiplaEscolha VARCHAR(1) NOT NULL,
+							AlternativaA TEXT,
+							AlternativaB TEXT,
+							AlternativaC TEXT,
+							AlternativaD TEXT,
+							AlternativaE TEXT,
+							AlternativaF TEXT,
+							FOREIGN KEY(ID_Conteudos) REFERENCES Conteudos(Conteudos_ID));
+
+CREATE TABLE ImagemQuest(	ImagemQuest_ID INT PRIMARY KEY AUTO_INCREMENT,
+							ID_Questao INT NOT NULL,
+							Imagem LONGBLOB NOT NULL,
+							POSICAO INT NOT NULL,
+							FOREIGN KEY(ID_Questao) REFERENCES Questoes(Questoes_ID));
