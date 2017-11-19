@@ -2,6 +2,8 @@
 
 CREATE DATABASE Quest;
 
+USE Quest;
+
 CREATE TABLE Usuarios (	Usuario_ID INT PRIMARY KEY NOT NULL,
 						Login VARCHAR(10) NOT NULL,
 						Senha VARBINARY(250) NOT NULL
