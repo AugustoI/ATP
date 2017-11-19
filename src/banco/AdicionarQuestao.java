@@ -12,8 +12,8 @@ import java.sql.SQLException;
  *
  * @author Couth
  */
-public class AdicionarQuestao {
+public class AdicionarQuestao extends Banco{
     public void inserirQuestao() throws SQLException{
-        Connection con = new ConexaoDAO().conectar();
+        
     }
 }
