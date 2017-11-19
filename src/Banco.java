@@ -15,6 +15,6 @@ import java.sql.SQLException;
  */
 public class Banco {    
     public Connection conectar() throws SQLException{        
-        return DriverManager.getConnection("jdbc:mysql://127.0.0.1/Sisham","root","061099");
+        return DriverManager.getConnection("jdbc:mysql://127.0.0.1/quest","root","061099");
     }     
 }
