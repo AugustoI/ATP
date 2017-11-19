@@ -104,14 +104,17 @@ public class LoginGUI extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    public static LoginDAO Login;
+    
     private void btEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btEntrarActionPerformed
         LoginDAO Logar = new LoginDAO();
         Logar.setLogin(txtLogin.getText().toString());
         Logar.setSenha(txtSenha.getPassword().toString());
         try {
-            if (Logar.Logar()){
-                Login = Logar;
+            if (Logar.Logar()){                
+                MenuGUI mn = new MenuGUI();
+                MenuGUI.Login = Logar;
+                mn.setVisible(true);
+                this.dispose();                
             }
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null,"Erro ao tentar logar:  " + ex.getMessage(), "Erro", JOptionPane.ERROR);
