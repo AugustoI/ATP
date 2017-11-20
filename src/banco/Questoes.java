@@ -5,6 +5,7 @@
  */
 package banco;
 
+import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -49,6 +50,17 @@ public class Questoes {
         p.setString(9, letraD);
         p.setString(10, letraE);
         p.setString(11, letraF);
+        p.executeUpdate();
+    }
+    
+    public void inserirImagem(String e, int d, Blob img, int pos) throws SQLException{
+        String inserir = "insert into imagemquest values(?,?,?,?)";
+        Connection con = new ConexaoDAO().conectar();
+        PreparedStatement p = con.prepareStatement(inserir);
+        p.setInt(1, 0);
+        p.setInt(2, 0); //NÃO ESTÁ CERTO
+        p.setBlob(3, img);
+        p.setInt(4, pos);
         p.executeUpdate();
     }
     

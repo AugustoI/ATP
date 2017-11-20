@@ -204,6 +204,11 @@ public class EditorDeQuestoesAbertas extends javax.swing.JFrame {
         jmArquivo.add(jmiSalvar);
 
         jmiImagem.setText("Carregar imagem");
+        jmiImagem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiImagemActionPerformed(evt);
+            }
+        });
         jmArquivo.add(jmiImagem);
 
         jmiSair.setText("Sair");
@@ -271,6 +276,11 @@ public class EditorDeQuestoesAbertas extends javax.swing.JFrame {
         String multipla = "N";
         SalvarQuestao(enunciado, dificuldade, multipla);
     }//GEN-LAST:event_jmiSalvarActionPerformed
+
+    private void jmiImagemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiImagemActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_jmiImagemActionPerformed
     
     /**
      * @param args the command line arguments
