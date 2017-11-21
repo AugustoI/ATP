@@ -5,11 +5,16 @@
  */
 package editorQuestoes;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
@@ -20,8 +25,10 @@ public class AdicionarImagem extends javax.swing.JFrame {
     /**
      * Creates new form AdicionarImagem
      */
+    boolean adicionou = false;
     public AdicionarImagem() {
         initComponents();
+        setLocationRelativeTo(null);        
     }
 
     /**
@@ -55,6 +62,7 @@ public class AdicionarImagem extends javax.swing.JFrame {
         jrbDireita.setText("Direita");
 
         jbSalvar.setText("Salvar");
+        jbSalvar.setEnabled(false);
         jbSalvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbSalvarActionPerformed(evt);
@@ -100,9 +108,9 @@ public class AdicionarImagem extends javax.swing.JFrame {
                         .addComponent(jrbDireita)
                         .addComponent(jrbCentralizada)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jbSalvar)
-                    .addComponent(jbCarregar))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jbCarregar)
+                    .addComponent(jbSalvar))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -129,29 +137,10 @@ public class AdicionarImagem extends javax.swing.JFrame {
     }//GEN-LAST:event_jbSalvarActionPerformed
 
     private void jbCarregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCarregarActionPerformed
-        // TODO add your handling code here:
-        //CONFERIR TUDO
-        JFileChooser fileChooser = new JFileChooser(); 
-        fileChooser.setDialogTitle("Selecione a imagem");
-        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        fileChooser.showOpenDialog(null);
-        String caminhoImagem = null;  
-        int a = fileChooser.showOpenDialog(null);  
-        if (a==0) {  
-            //CONFERIR
-            /*
-            caminhoImagem = fileChooser.getSelectedFile().getAbsolutePath();// Aqui estou pegando o nome do arquivo e o endereco dele    
-            File input = new File(caminhoImagem);//Seleciona o arquivo do disco                                       
-            //Crie um ByteArrayOutputStream  
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();  
-            //Jogue a imagem lá dentro do byteArrayOutputStream  
-            ImageIO.write(scaled, "png", byteArrayOutputStream);  
-            //Prepara a sql e logo em seguida inser os bytes no campo parametrizado  
-            pstmt = Questoes.prepareStatement("INSERT INTO imagens values (0,?)");// o ? significa que ainda completareios parametros que faltam  
-            pstmt.setBytes(1, byteArrayOutputStream.toByteArray()); //Complemento agora, passando a posicao do parametro e o valor  
-            pstmt.executeUpdate();// Insiro no BD           
-            */            
-        }  
+        // TODO add your handling code here:        
+        buscar();
+        if (adicionou)
+            jbSalvar.setEnabled(true);
     }//GEN-LAST:event_jbCarregarActionPerformed
 
     /**
@@ -187,6 +176,33 @@ public class AdicionarImagem extends javax.swing.JFrame {
                 new AdicionarImagem().setVisible(true);
             }
         });
+    }
+    
+    public void buscar() {
+        FileNameExtensionFilter fileNameExtensionFilter = new FileNameExtensionFilter(
+                "Imagens", "png", "jpg");
+        JFileChooser chooser = new JFileChooser();
+        chooser.setFileFilter(fileNameExtensionFilter);
+        chooser.setDialogTitle("Selecione a imagem");
+        int resposta = chooser.showOpenDialog(null);
+        if (resposta == JFileChooser.APPROVE_OPTION) {
+            File file = new File(chooser.getSelectedFile().getAbsolutePath());
+            FileReader fis;
+            try {
+                fis = new FileReader(file);
+                BufferedReader bis = new BufferedReader(fis);
+                while (bis.ready()) {
+                    System.out.println(bis.readLine()+"\n");
+                }
+                bis.close();
+                fis.close();
+                adicionou = true;
+            } catch (FileNotFoundException e) {
+                adicionou = false;
+            } catch (IOException e) {
+                adicionou = false;
+            }
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
