@@ -279,7 +279,11 @@ public class EditorDeQuestoesAbertas extends javax.swing.JFrame {
 
     private void jmiImagemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiImagemActionPerformed
         // TODO add your handling code here:
-        
+        String nome = "";
+        nome = jcbDisciplina.getSelectedItem().toString();
+        AdicionarImagem adc = new AdicionarImagem(nome);
+        adc.setVisible(true);
+        adc.setLocationRelativeTo(null);        
     }//GEN-LAST:event_jmiImagemActionPerformed
     
     /**

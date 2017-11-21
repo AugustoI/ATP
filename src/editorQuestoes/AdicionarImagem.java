@@ -5,12 +5,15 @@
  */
 package editorQuestoes;
 
+import banco.Questoes;
 import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.sql.Blob;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -26,9 +29,20 @@ public class AdicionarImagem extends javax.swing.JFrame {
      * Creates new form AdicionarImagem
      */
     boolean adicionou = false;
+    Questoes questoesBanco = new Questoes();
+    ResultSet rs;
+    int posicao;
+    String nome;   
+    Blob img;
     public AdicionarImagem() {
         initComponents();
         setLocationRelativeTo(null);        
+    }
+    
+    public AdicionarImagem(String nome) {
+        initComponents();
+        setLocationRelativeTo(null); 
+        nome = this.nome;
     }
 
     /**
@@ -120,8 +134,7 @@ public class AdicionarImagem extends javax.swing.JFrame {
     private void jbSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSalvarActionPerformed
         // TODO add your handling code here:
         //CONFERIR
-        if ((jrbEsquerda.isSelected())||(jrbCentralizada.isSelected())||(jrbDireita.isSelected())) {
-            int posicao;
+        if ((jrbEsquerda.isSelected())||(jrbCentralizada.isSelected())||(jrbDireita.isSelected())) {           
             if (jrbEsquerda.isSelected()) {
                 posicao = 1;
             }
@@ -131,13 +144,25 @@ public class AdicionarImagem extends javax.swing.JFrame {
             if (jrbDireita.isSelected()) {
                 posicao = 3;
             }
+            try {
+                rs = questoesBanco.pegarConteudosID(nome);                
+                if (rs!=null) {                    
+                    //img está vazio                    
+                    questoesBanco.inserirImagem(rs.getInt("Conteudos_ID"), img, posicao);
+                    dispose();
+                }
+            } catch (SQLException ex) {
+                //Error msg
+            }
         } else {
             JOptionPane.showMessageDialog(this, "Selecione a posição da imagem!");
         }
     }//GEN-LAST:event_jbSalvarActionPerformed
 
     private void jbCarregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCarregarActionPerformed
-        // TODO add your handling code here:        
+        // TODO add your handling code here:     
+        //passar valor da busca pro img aqui
+        //passar para a img o valor da busca do método
         buscar();
         if (adicionou)
             jbSalvar.setEnabled(true);

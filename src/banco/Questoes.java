@@ -53,15 +53,29 @@ public class Questoes {
         p.executeUpdate();
     }
     
-    public void inserirImagem(String e, int d, Blob img, int pos) throws SQLException{
+    public void inserirImagem(int id, Blob img, int pos) throws SQLException{
         String inserir = "insert into imagemquest values(?,?,?,?)";
         Connection con = new ConexaoDAO().conectar();
         PreparedStatement p = con.prepareStatement(inserir);
         p.setInt(1, 0);
-        p.setInt(2, 0); //NÃO ESTÁ CERTO
+        p.setInt(2, id);
         p.setBlob(3, img);
         p.setInt(4, pos);
         p.executeUpdate();
+    }
+    
+    public ResultSet pegarConteudosID(String nome) throws SQLException{
+        String conteudo = "select Conteudos_ID from conteudos where ID_Disciplinas="
+                + "(select Disciplinas_ID from disciplinas where NomeDisciplinas=?)";
+        Connection con = new ConexaoDAO().conectar();
+        PreparedStatement p = con.prepareStatement(conteudo);
+        p.setString(1, nome);        
+        ResultSet rs = p.executeQuery();
+        if (rs.next()) {
+            return rs;
+        } else {
+            return null;
+        }
     }
     
     public ResultSet pegarDisciplinas() throws SQLException { 
