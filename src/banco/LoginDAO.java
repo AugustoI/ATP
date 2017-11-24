@@ -32,7 +32,11 @@ public class LoginDAO extends Banco{
     }
 
     public void setSenha(String Senha) {
-        this.Senha = Senha;
+        if ((!"".equals(Senha)) && (!" ".equals(Senha))){
+            this.Senha = Senha;
+        }else{            
+            throw new RuntimeException("Senha Inválida!");
+        }
     }
     public boolean Logar() throws SQLException{
         Statement Log = conectar().createStatement();
