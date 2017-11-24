@@ -5,6 +5,7 @@
  */
 package banco;
 
+import java.io.InputStream;
 import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,14 +17,14 @@ import java.sql.SQLException;
  * @author Couth
  */
 public class Questoes {
-    public void inserirQuestaoAberta(String e, int d, String m) throws SQLException{
+    public void inserirQuestaoAberta(String e, int d, String m, int idConteudo) throws SQLException{
         String inserir = "insert into questoes values(?,?,?,?,?,?,?,?,?,?,?)";
         Connection con = new ConexaoDAO().conectar();
         PreparedStatement p = con.prepareStatement(inserir);
         p.setInt(1, 0);
         p.setString(2, e);
         p.setInt(3, d);
-        p.setInt(4, 0); //NÃO ESTÁ CERTO
+        p.setInt(4, idConteudo);
         p.setString(5, m);
         p.setString(6, "");
         p.setString(7, "");
@@ -35,14 +36,14 @@ public class Questoes {
     }
     
     public void inserirQuestaoFechada(String e, int d, String m, String letraA, String letraB, String letraC,
-                                      String letraD, String letraE, String letraF) throws SQLException{
+                                      String letraD, String letraE, String letraF, int idConteudo) throws SQLException{
         String inserir = "insert into questoes values(?,?,?,?,?,?,?,?,?,?,?)";
         Connection con = new ConexaoDAO().conectar();
         PreparedStatement p = con.prepareStatement(inserir);
         p.setInt(1, 0);
         p.setString(2, e);
         p.setInt(3, d);
-        p.setInt(4, 0); //NÃO ESTÁ CERTO
+        p.setInt(4, idConteudo);
         p.setString(5, m);
         p.setString(6, letraA);
         p.setString(7, letraB);
@@ -53,13 +54,13 @@ public class Questoes {
         p.executeUpdate();
     }
     
-    public void inserirImagem(int id, Blob img, int pos) throws SQLException{
+    public void inserirImagem(int id, InputStream img, int pos) throws SQLException{
         String inserir = "insert into imagemquest values(?,?,?,?)";
         Connection con = new ConexaoDAO().conectar();
         PreparedStatement p = con.prepareStatement(inserir);
         p.setInt(1, 0);
         p.setInt(2, id);
-        p.setBlob(3, img);
+        p.setBinaryStream(3, img);
         p.setInt(4, pos);
         p.executeUpdate();
     }
@@ -80,6 +81,18 @@ public class Questoes {
     
     public ResultSet pegarDisciplinas() throws SQLException { 
         String pesquisar = "select NomeDisciplinas from disciplinas";
+        Connection con = new ConexaoDAO().conectar();        
+        PreparedStatement p = con.prepareStatement(pesquisar);
+        ResultSet rs = p.executeQuery();        
+        if (rs.next()) {
+            return rs;
+        } else {
+            return null;
+        }
+    }
+    
+    public ResultSet pegarConteudos() throws SQLException { 
+        String pesquisar = "select NomeConteudos from conteudos";
         Connection con = new ConexaoDAO().conectar();        
         PreparedStatement p = con.prepareStatement(pesquisar);
         ResultSet rs = p.executeQuery();        

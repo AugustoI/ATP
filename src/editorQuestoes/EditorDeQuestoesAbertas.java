@@ -50,6 +50,7 @@ public class EditorDeQuestoesAbertas extends javax.swing.JFrame {
     Questoes questoesBanco = new Questoes();
     ResultSet resultSet;
     DefaultComboBoxModel modelComboBox;
+    int idConteudo;
     public EditorDeQuestoesAbertas() {
         initComponents();       
         frame = this;
@@ -58,9 +59,9 @@ public class EditorDeQuestoesAbertas extends javax.swing.JFrame {
         
         //Carregar ComboBox Disciplinas        
         try {
+            //Disciplinas
             modelComboBox = new DefaultComboBoxModel();
-            modelComboBox.addElement("");
-            
+            modelComboBox.addElement("");           
             resultSet = questoesBanco.pegarDisciplinas();
             if (resultSet!=null) {
                 do {
@@ -68,9 +69,21 @@ public class EditorDeQuestoesAbertas extends javax.swing.JFrame {
                         resultSet.getString("NomeDisciplinas"),
                     });
                 } while (resultSet.next());
-            }
-            
+            }            
             jcbDisciplina.setModel(modelComboBox);
+            
+            //Conteúdos
+            modelComboBox = new DefaultComboBoxModel();
+            modelComboBox.addElement("");
+            resultSet = questoesBanco.pegarConteudos();
+            if (resultSet!=null) {
+                do {
+                    modelComboBox.addElement(new Object[]{
+                        resultSet.getString("NomeConteudos"),
+                    });
+                } while (resultSet.next());
+            }            
+            jcbConteudo.setModel(modelComboBox);
         } catch (SQLException sqlEx) {
             JOptionPane.showMessageDialog(this, "Error SQL: "+sqlEx);
         } catch (Exception ex) {
@@ -123,6 +136,9 @@ public class EditorDeQuestoesAbertas extends javax.swing.JFrame {
         jbSalvar = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jcbConteudo = new javax.swing.JComboBox<>();
+        jbImagem = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jmArquivo = new javax.swing.JMenu();
         jmiSalvar = new javax.swing.JMenuItem();
@@ -152,6 +168,15 @@ public class EditorDeQuestoesAbertas extends javax.swing.JFrame {
 
         jLabel3.setText("Dificuldade:");
 
+        jLabel4.setText("Conteúdo:");
+
+        jbImagem.setText("Carregar imagem");
+        jbImagem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbImagemActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -163,16 +188,22 @@ public class EditorDeQuestoesAbertas extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jcbDisciplina, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(31, 31, 31)
+                        .addComponent(jcbDisciplina, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel1))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jcbConteudo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jbSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jcbDificuldade, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
-                        .addComponent(jbSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 137, Short.MAX_VALUE)
+                        .addComponent(jbImagem)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -180,16 +211,23 @@ public class EditorDeQuestoesAbertas extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jbSalvar)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jbSalvar)
+                        .addComponent(jcbConteudo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel4))
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jcbDisciplina, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel2)
-                        .addComponent(jLabel3)
-                        .addComponent(jcbDificuldade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jLabel2)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel1)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(jcbDificuldade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addComponent(jbImagem))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 284, Short.MAX_VALUE))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 272, Short.MAX_VALUE))
         );
 
         jmArquivo.setText("Arquivo");
@@ -250,8 +288,18 @@ public class EditorDeQuestoesAbertas extends javax.swing.JFrame {
             String enunciado = jtpEnunciado.getText();
             int dificuldade = Integer.parseInt(jcbDificuldade.getSelectedItem().toString());
             String multipla = "N";
-            SalvarQuestao(enunciado, dificuldade, multipla);
-            System.exit(0);
+            try {
+                resultSet = questoesBanco.pegarConteudosID(jcbDisciplina.getSelectedItem().toString());
+                if (resultSet!=null) {
+                    do {
+                        idConteudo = Integer.parseInt(resultSet.getString("NomeDisciplinas"));                    
+                    } while (resultSet.next());
+                }   
+            } catch (SQLException e) {
+
+            }
+            SalvarQuestao(enunciado, dificuldade, multipla, idConteudo);
+            dispose();
         }
         if (x==1) {
             MenuGUI menu = new MenuGUI();
@@ -266,7 +314,17 @@ public class EditorDeQuestoesAbertas extends javax.swing.JFrame {
         String enunciado = jtpEnunciado.getText();
         int dificuldade = Integer.parseInt(jcbDificuldade.getSelectedItem().toString());
         String multipla = "N";
-        SalvarQuestao(enunciado, dificuldade, multipla);
+        try {
+            resultSet = questoesBanco.pegarConteudosID(jcbDisciplina.getSelectedItem().toString());
+            if (resultSet!=null) {
+                do {
+                    idConteudo = Integer.parseInt(resultSet.getString("NomeDisciplinas"));                    
+                } while (resultSet.next());
+            }   
+        } catch (SQLException e) {
+            
+        }        
+        SalvarQuestao(enunciado, dificuldade, multipla, idConteudo);
     }//GEN-LAST:event_jbSalvarActionPerformed
 
     private void jmiSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiSalvarActionPerformed
@@ -274,7 +332,17 @@ public class EditorDeQuestoesAbertas extends javax.swing.JFrame {
         String enunciado = jtpEnunciado.getText();
         int dificuldade = Integer.parseInt(jcbDificuldade.getSelectedItem().toString());
         String multipla = "N";
-        SalvarQuestao(enunciado, dificuldade, multipla);
+        try {
+            resultSet = questoesBanco.pegarConteudosID(jcbDisciplina.getSelectedItem().toString());
+            if (resultSet!=null) {
+                do {
+                    idConteudo = Integer.parseInt(resultSet.getString("NomeDisciplinas"));                    
+                } while (resultSet.next());
+            }   
+        } catch (SQLException e) {
+            
+        }        
+        SalvarQuestao(enunciado, dificuldade, multipla, idConteudo);
     }//GEN-LAST:event_jmiSalvarActionPerformed
 
     private void jmiImagemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiImagemActionPerformed
@@ -285,6 +353,15 @@ public class EditorDeQuestoesAbertas extends javax.swing.JFrame {
         adc.setVisible(true);
         adc.setLocationRelativeTo(null);        
     }//GEN-LAST:event_jmiImagemActionPerformed
+
+    private void jbImagemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbImagemActionPerformed
+        // TODO add your handling code here:
+        String nome = "";
+        nome = jcbDisciplina.getSelectedItem().toString();
+        AdicionarImagem adc = new AdicionarImagem(nome);
+        adc.setVisible(true);
+        adc.setLocationRelativeTo(null); 
+    }//GEN-LAST:event_jbImagemActionPerformed
     
     /**
      * @param args the command line arguments
@@ -337,9 +414,9 @@ public class EditorDeQuestoesAbertas extends javax.swing.JFrame {
     }        
     
     //SALVAR QUESTÃO
-    public void SalvarQuestao(String e, int d, String m) {        
+    public void SalvarQuestao(String e, int d, String m, int idConteudo) {        
         try {
-            questoesBanco.inserirQuestaoAberta(e, d, m);
+            questoesBanco.inserirQuestaoAberta(e, d, m, idConteudo);
         } catch (SQLException sqlEx) {
             JOptionPane.showMessageDialog(this, "Error SQL: "+sqlEx);
         } catch (Exception ex) {
@@ -620,10 +697,13 @@ public class EditorDeQuestoesAbertas extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JButton jbImagem;
     private javax.swing.JButton jbSalvar;
+    private javax.swing.JComboBox<String> jcbConteudo;
     private javax.swing.JComboBox<String> jcbDificuldade;
     private javax.swing.JComboBox<String> jcbDisciplina;
     private javax.swing.JMenu jmArquivo;

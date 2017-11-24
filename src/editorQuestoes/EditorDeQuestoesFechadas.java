@@ -29,6 +29,7 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 import javax.swing.text.StyledEditorKit;
+import telas.MenuGUI;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -49,6 +50,7 @@ public class EditorDeQuestoesFechadas extends javax.swing.JFrame {
     Questoes questoesBanco = new Questoes();
     ResultSet resultSet;
     DefaultComboBoxModel modelComboBox;
+    int idConteudo;
     public EditorDeQuestoesFechadas() {
         initComponents();       
         frame = this;
@@ -57,9 +59,9 @@ public class EditorDeQuestoesFechadas extends javax.swing.JFrame {
         
         //Carregar ComboBox Disciplinas        
         try {
+            //Disciplinas
             modelComboBox = new DefaultComboBoxModel();
-            modelComboBox.addElement("");
-            
+            modelComboBox.addElement("");           
             resultSet = questoesBanco.pegarDisciplinas();
             if (resultSet!=null) {
                 do {
@@ -67,9 +69,21 @@ public class EditorDeQuestoesFechadas extends javax.swing.JFrame {
                         resultSet.getString("NomeDisciplinas"),
                     });
                 } while (resultSet.next());
-            }
-            
+            }            
             jcbDisciplina.setModel(modelComboBox);
+            
+            //Conteúdos
+            modelComboBox = new DefaultComboBoxModel();
+            modelComboBox.addElement("");
+            resultSet = questoesBanco.pegarConteudos();
+            if (resultSet!=null) {
+                do {
+                    modelComboBox.addElement(new Object[]{
+                        resultSet.getString("NomeConteudos"),
+                    });
+                } while (resultSet.next());
+            }            
+            jcbConteudo.setModel(modelComboBox);
         } catch (SQLException sqlEx) {
             JOptionPane.showMessageDialog(this, "Error SQL: "+sqlEx);
         } catch (Exception ex) {
@@ -146,6 +160,9 @@ public class EditorDeQuestoesFechadas extends javax.swing.JFrame {
         jrbNãoE = new javax.swing.JRadioButton();
         jrbSimF = new javax.swing.JRadioButton();
         jrbNãoF = new javax.swing.JRadioButton();
+        jLabel4 = new javax.swing.JLabel();
+        jcbConteudo = new javax.swing.JComboBox<>();
+        jbImagem = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jmArquivo = new javax.swing.JMenu();
         jmiSalvar = new javax.swing.JMenuItem();
@@ -161,6 +178,17 @@ public class EditorDeQuestoesFechadas extends javax.swing.JFrame {
 
         jcbDificuldade.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
         jcbDificuldade.setToolTipText("");
+        jcbDificuldade.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcbDificuldadeActionPerformed(evt);
+            }
+        });
+
+        jcbDisciplina.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcbDisciplinaActionPerformed(evt);
+            }
+        });
 
         jScrollPane2.setViewportView(jtpEnunciado);
 
@@ -237,26 +265,24 @@ public class EditorDeQuestoesFechadas extends javax.swing.JFrame {
             }
         });
 
+        jLabel4.setText("Conteúdo:");
+
+        jbImagem.setText("Carregar imagem");
+        jbImagem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbImagemActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jcbDisciplina, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(31, 31, 31)
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jcbDificuldade, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 166, Short.MAX_VALUE)
-                        .addComponent(jbSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
                             .addComponent(jLabelA)
                             .addComponent(jLabelC)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -265,8 +291,31 @@ public class EditorDeQuestoesFechadas extends javax.swing.JFrame {
                                 .addComponent(jrbSimE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jrbNãoE)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addGap(133, 133, 133))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jcbDisciplina, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jcbConteudo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jbSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jcbDificuldade, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jbImagem)
+                                .addContainerGap())))))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 339, Short.MAX_VALUE)
@@ -293,24 +342,32 @@ public class EditorDeQuestoesFechadas extends javax.swing.JFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(11, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jbSalvar)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jcbDisciplina, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel2)
-                        .addComponent(jLabel3)
-                        .addComponent(jcbDificuldade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jLabel4)
+                        .addComponent(jcbConteudo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(3, 3, 3)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jcbDificuldade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3)
+                            .addComponent(jbImagem)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel1)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabelA))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(261, 261, 261)
+                        .addGap(231, 231, 231)
                         .addComponent(jLabel6)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -350,6 +407,11 @@ public class EditorDeQuestoesFechadas extends javax.swing.JFrame {
         jmArquivo.add(jmiSalvar);
 
         jmiImagem.setText("Carregar imagem");
+        jmiImagem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiImagemActionPerformed(evt);
+            }
+        });
         jmArquivo.add(jmiImagem);
 
         jmiSair.setText("Sair");
@@ -390,13 +452,33 @@ public class EditorDeQuestoesFechadas extends javax.swing.JFrame {
         int x = JOptionPane.showConfirmDialog(this.getContentPane(), "Deseja salvar antes de sair?", "Encerrar",
                 JOptionPane.YES_NO_CANCEL_OPTION);
         if (x==0) {
-            //CHAMAR MÉTODO DO SALVAR
-            //CHAMAR O MENU AO INVÉS DE FECHAR
-            System.exit(0);
+            String enunciado = jtpEnunciado.getText();
+            int dificuldade = Integer.parseInt(jcbDificuldade.getSelectedItem().toString());
+            String multipla = "S";
+            String letraA = jtpLetraA.getText();
+            String letraB = jtpLetraB.getText();
+            String letraC = jtpLetraC.getText();
+            String letraD = jtpLetraD.getText();
+            String letraE = jtpLetraE.getText();
+            String letraF = jtpLetraF.getText();
+            try {
+                resultSet = questoesBanco.pegarConteudosID(jcbDisciplina.getSelectedItem().toString());
+                if (resultSet!=null) {
+                    do {
+                        idConteudo = Integer.parseInt(resultSet.getString("NomeDisciplinas"));                    
+                    } while (resultSet.next());
+                }   
+            } catch (SQLException e) {
+
+            }
+            SalvarQuestao(enunciado, dificuldade, multipla, letraA, letraB, letraC, letraD, letraE, letraF, idConteudo);
+            dispose();
         }
         if (x==1) {
-            //CHAMAR O MENU AO INVÉS DE FECHAR
-            System.exit(0);
+            MenuGUI menu = new MenuGUI();
+            menu.setVisible(true);
+            menu.setLocationRelativeTo(null);
+            dispose();
         }
     }//GEN-LAST:event_jmiSairActionPerformed
 
@@ -411,7 +493,17 @@ public class EditorDeQuestoesFechadas extends javax.swing.JFrame {
         String letraD = jtpLetraD.getText();
         String letraE = jtpLetraE.getText();
         String letraF = jtpLetraF.getText();
-        SalvarQuestao(enunciado, dificuldade, multipla, letraA, letraB, letraC, letraD, letraE, letraF);
+        try {
+            resultSet = questoesBanco.pegarConteudosID(jcbDisciplina.getSelectedItem().toString());
+            if (resultSet!=null) {
+                do {
+                    idConteudo = Integer.parseInt(resultSet.getString("NomeDisciplinas"));                    
+                } while (resultSet.next());
+            }   
+        } catch (SQLException e) {
+            
+        }
+        SalvarQuestao(enunciado, dificuldade, multipla, letraA, letraB, letraC, letraD, letraE, letraF, idConteudo);
         
     }//GEN-LAST:event_jbSalvarActionPerformed
 
@@ -426,7 +518,17 @@ public class EditorDeQuestoesFechadas extends javax.swing.JFrame {
         String letraD = jtpLetraD.getText();
         String letraE = jtpLetraE.getText();
         String letraF = jtpLetraF.getText();
-        SalvarQuestao(enunciado, dificuldade, multipla, letraA, letraB, letraC, letraD, letraE, letraF);
+        try {
+            resultSet = questoesBanco.pegarConteudosID(jcbDisciplina.getSelectedItem().toString());
+            if (resultSet!=null) {
+                do {
+                    idConteudo = Integer.parseInt(resultSet.getString("NomeDisciplinas"));                    
+                } while (resultSet.next());
+            }   
+        } catch (SQLException e) {
+            
+        }
+        SalvarQuestao(enunciado, dificuldade, multipla, letraA, letraB, letraC, letraD, letraE, letraF, idConteudo);
     }//GEN-LAST:event_jmiSalvarActionPerformed
 
     private void jrbSimEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jrbSimEActionPerformed
@@ -457,6 +559,32 @@ public class EditorDeQuestoesFechadas extends javax.swing.JFrame {
         jtpLetraE.setEnabled(false);
         jLabelE.setEnabled(false);
     }//GEN-LAST:event_jrbNãoFActionPerformed
+
+    private void jcbDificuldadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbDificuldadeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jcbDificuldadeActionPerformed
+
+    private void jbImagemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbImagemActionPerformed
+        // TODO add your handling code here:
+        String nome = "";
+        nome = jcbDisciplina.getSelectedItem().toString();
+        AdicionarImagem adc = new AdicionarImagem(nome);
+        adc.setVisible(true);
+        adc.setLocationRelativeTo(null); 
+    }//GEN-LAST:event_jbImagemActionPerformed
+
+    private void jmiImagemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiImagemActionPerformed
+        // TODO add your handling code here:
+        String nome = "";
+        nome = jcbDisciplina.getSelectedItem().toString();
+        AdicionarImagem adc = new AdicionarImagem(nome);
+        adc.setVisible(true);
+        adc.setLocationRelativeTo(null); 
+    }//GEN-LAST:event_jmiImagemActionPerformed
+
+    private void jcbDisciplinaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbDisciplinaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jcbDisciplinaActionPerformed
     
     /**
      * @param args the command line arguments
@@ -496,9 +624,9 @@ public class EditorDeQuestoesFechadas extends javax.swing.JFrame {
     
     //SALVAR QUESTÃO
     public void SalvarQuestao(String e, int d, String m, String letraA, String letraB, String letraC,
-                              String letraD, String letraE, String letraF) {        
+                              String letraD, String letraE, String letraF, int idConteudo) {        
         try {
-            questoesBanco.inserirQuestaoFechada(e, d, m, letraA, letraB, letraC, letraD, letraE, letraF);
+            questoesBanco.inserirQuestaoFechada(e, d, m, letraA, letraB, letraC, letraD, letraE, letraF, idConteudo);
         } catch (SQLException sqlEx) {
             JOptionPane.showMessageDialog(this, "Error SQL: "+sqlEx);
         } catch (Exception ex) {
@@ -779,6 +907,7 @@ public class EditorDeQuestoesFechadas extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabelA;
     private javax.swing.JLabel jLabelC;
@@ -793,7 +922,9 @@ public class EditorDeQuestoesFechadas extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
+    private javax.swing.JButton jbImagem;
     private javax.swing.JButton jbSalvar;
+    private javax.swing.JComboBox<String> jcbConteudo;
     private javax.swing.JComboBox<String> jcbDificuldade;
     private javax.swing.JComboBox<String> jcbDisciplina;
     private javax.swing.JMenu jmArquivo;

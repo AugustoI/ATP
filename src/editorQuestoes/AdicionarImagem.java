@@ -6,15 +6,10 @@
 package editorQuestoes;
 
 import banco.Questoes;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.sql.Blob;
+import java.io.FileInputStream;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -33,7 +28,7 @@ public class AdicionarImagem extends javax.swing.JFrame {
     ResultSet rs;
     int posicao;
     String nome;   
-    Blob img;
+    FileInputStream input;
     public AdicionarImagem() {
         initComponents();
         setLocationRelativeTo(null);        
@@ -148,11 +143,11 @@ public class AdicionarImagem extends javax.swing.JFrame {
                 rs = questoesBanco.pegarConteudosID(nome);                
                 if (rs!=null) {                    
                     //img está vazio                    
-                    questoesBanco.inserirImagem(rs.getInt("Conteudos_ID"), img, posicao);
+                    questoesBanco.inserirImagem(rs.getInt("Conteudos_ID"), input, posicao);
                     dispose();
                 }
             } catch (SQLException ex) {
-                //Error msg
+                JOptionPane.showMessageDialog(this, "Ocorreu um erro, tente novamente");
             }
         } else {
             JOptionPane.showMessageDialog(this, "Selecione a posição da imagem!");
@@ -211,13 +206,18 @@ public class AdicionarImagem extends javax.swing.JFrame {
         chooser.setDialogTitle("Selecione a imagem");
         int resposta = chooser.showOpenDialog(null);
         if (resposta == JFileChooser.APPROVE_OPTION) {
-            File file = new File(chooser.getSelectedFile().getAbsolutePath());
-            FileReader fis;
+            try {
+                File file = new File(chooser.getSelectedFile().getAbsolutePath());            
+                input = new FileInputStream(file);                 
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Error: "+e);
+            }
+            /*FileReader fis;
             try {
                 fis = new FileReader(file);
-                BufferedReader bis = new BufferedReader(fis);
+                BufferedReader bis = new BufferedReader(fis);                
                 while (bis.ready()) {
-                    System.out.println(bis.readLine()+"\n");
+                     //?
                 }
                 bis.close();
                 fis.close();
@@ -227,6 +227,7 @@ public class AdicionarImagem extends javax.swing.JFrame {
             } catch (IOException e) {
                 adicionou = false;
             }
+            */
         }
     }
 
