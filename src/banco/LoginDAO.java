@@ -20,7 +20,11 @@ public class LoginDAO extends Banco{
     }
 
     public void setLogin(String Login) {
-        this.Login = Login;
+        if ((!"".equals(Login)) && (!" ".equals(Login))){
+            this.Login = Login.trim().toUpperCase();
+        }else{
+            throw new RuntimeException("Login Inválido!");
+        }
     }
 
     public String getSenha() {

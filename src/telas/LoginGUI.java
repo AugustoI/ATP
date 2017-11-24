@@ -111,13 +111,15 @@ public class LoginGUI extends javax.swing.JFrame {
     private void btEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btEntrarActionPerformed
         LoginDAO Logar = new LoginDAO();
         Logar.setLogin(txtLogin.getText().toString());
-        Logar.setSenha(txtSenha.getPassword().toString());
+        Logar.setSenha(new String(txtSenha.getPassword()).trim());
         try {
             if (Logar.Logar()){                
                 MenuGUI mn = new MenuGUI();
                 MenuGUI.Login = Logar;
                 mn.setVisible(true);
                 this.dispose();                
+            }else{
+                JOptionPane.showMessageDialog(null,"Usuário não encontrado. ", "Alerta", JOptionPane.INFORMATION_MESSAGE);
             }
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null,"Erro ao tentar logar:  " + ex.getMessage(), "Erro", JOptionPane.ERROR);
