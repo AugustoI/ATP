@@ -82,7 +82,6 @@ public class MenuGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         EditorDeQuestoes escolha = new EditorDeQuestoes();
         escolha.setVisible(true);
-        escolha.setLocationRelativeTo(null);
         dispose();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 

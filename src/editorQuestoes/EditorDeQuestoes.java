@@ -14,6 +14,7 @@ import java.awt.GraphicsEnvironment;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileInputStream;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -52,8 +53,10 @@ public class EditorDeQuestoes extends javax.swing.JFrame {
     Questoes questoesBanco = new Questoes();
     ResultSet resultSet;
     DefaultComboBoxModel modelComboBox;
-    int idConteudo;
+    int idConteudo, idQuestao, posicaoImagem;
     List<String> strList = new ArrayList<String>();  
+    boolean img;
+    FileInputStream input;
     public EditorDeQuestoes() {
         initComponents();
         jTabbedPane1.setTitleAt(0, "Questão ABERTA");
@@ -62,6 +65,8 @@ public class EditorDeQuestoes extends javax.swing.JFrame {
         this.setResizable(false);
         this.setSize(new Dimension(this.getSize().width, 380)); 
         this.setTitle("Editor de Questões");
+        
+        img = false;
         
         //Carregar os dois combobox (disciplinas e conteúdos)
         CarregarComboBox();
@@ -531,22 +536,35 @@ public class EditorDeQuestoes extends javax.swing.JFrame {
         // TODO add your handling code here:               
         try {
             if (!jtpEnunciado.getText().isEmpty()) {
-                int x = JOptionPane.showConfirmDialog(this.getContentPane(), "Tem certeza que deseja salvar esta questão?", "Salvar questão",
-                JOptionPane.YES_NO_CANCEL_OPTION);
-                if (x==0) {
-                    String enunciado = jtpEnunciado.getText();
-                    int dificuldade = Integer.parseInt(jcbDificuldade.getSelectedItem().toString());
-                    String multipla = "N";
-                    resultSet = questoesBanco.pegarConteudosID(jcbConteudo.getSelectedItem().toString());
-                    if (resultSet!=null) {
-                        do {
-                            //idConteudo = Integer.parseInt(resultSet.getString("Conteudos_ID"));
+                if (jcbConteudo.getItemCount() != 0) {
+                    int x = JOptionPane.showConfirmDialog(this.getContentPane(), "Tem certeza que deseja salvar esta questão?", "Salvar questão",
+                    JOptionPane.YES_NO_CANCEL_OPTION);
+                    if (x==0) {
+                        String enunciado = jtpEnunciado.getText();
+                        int dificuldade = Integer.parseInt(jcbDificuldade.getSelectedItem().toString());
+                        String multipla = "N";
+                        resultSet = questoesBanco.pegarConteudosID(jcbConteudo.getSelectedItem().toString());
+                        if (resultSet!=null) {
+                            do {
+                                //idConteudo = Integer.parseInt(resultSet.getString("Conteudos_ID"));
                                 idConteudo = resultSet.getInt("Conteudos_ID");                        
-                        } while (resultSet.next());
+                            } while (resultSet.next());
+                            SalvarQuestaoAberta(enunciado, dificuldade, multipla, idConteudo); 
+                        }
+
+                        resultSet = questoesBanco.pegarUltimaQuestao();
+                        if (resultSet!=null) {
+                            do {
+                                idQuestao = resultSet.getInt("ult");                      
+                            } while (resultSet.next());
+                            AddImagem(idQuestao);
+                        }
+
+                        jtpEnunciado.setText("");
+                        JOptionPane.showMessageDialog(this, "Questão adicionada com sucesso!");
                     }
-                    SalvarQuestaoAberta(enunciado, dificuldade, multipla, idConteudo); 
-                    jtpEnunciado.setText("");
-                    JOptionPane.showMessageDialog(this, "Questão adicionada com sucesso!");
+                } else {
+                    JOptionPane.showMessageDialog(this, "Não há conteúdo cadastrado nesta disciplina!");
                 }
             } else {
                 JOptionPane.showMessageDialog(this, "O enunciado da questão não pode ser vazio!");
@@ -558,11 +576,17 @@ public class EditorDeQuestoes extends javax.swing.JFrame {
 
     private void jbImagemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbImagemActionPerformed
         // TODO add your handling code here:
-        String nome = "";
-        nome = jcbDisciplina.getSelectedItem().toString();
-        AdicionarImagem adc = new AdicionarImagem(nome);
-        adc.setVisible(true);
-        adc.setLocationRelativeTo(null);
+        //String nome = "";
+        //nome = jcbDisciplina.getSelectedItem().toString();
+        //AdicionarImagem adc = new AdicionarImagem(nome);
+        //adc.setVisible(true);
+        //adc.setLocationRelativeTo(null);
+        
+        TesteImagem a = new TesteImagem(this, true);
+        a.setVisible(true); 
+        img = a.certo;
+        posicaoImagem = a.posicao;
+        input = a.input;
     }//GEN-LAST:event_jbImagemActionPerformed
 
     private void jmiSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiSalvarActionPerformed
@@ -577,11 +601,7 @@ public class EditorDeQuestoes extends javax.swing.JFrame {
 
     private void jmiImagemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiImagemActionPerformed
         // TODO add your handling code here:
-        String nome = "";
-        nome = jcbDisciplina.getSelectedItem().toString();
-        AdicionarImagem adc = new AdicionarImagem(nome);
-        adc.setVisible(true);
-        adc.setLocationRelativeTo(null);
+        jbImagemActionPerformed(evt);
     }//GEN-LAST:event_jmiImagemActionPerformed
 
     private void jmiSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiSairActionPerformed
@@ -591,11 +611,31 @@ public class EditorDeQuestoes extends javax.swing.JFrame {
         if (x==0) {
             if (jTabbedPane1.getSelectedIndex() == 0) {
                 jbSalvarActionPerformed(evt);
+                if (!jtpEnunciado.getText().isEmpty()) {
+                    if (jcbConteudo.getItemCount() != 0) {
+                        MenuGUI menu = new MenuGUI();
+                        menu.setVisible(true);
+                        menu.setLocationRelativeTo(null);
+                        dispose();
+                    }
+                }
             }
             if (jTabbedPane1.getSelectedIndex() == 1) {
                 jbSalvar2ActionPerformed(evt);
-            }
-            dispose();
+                if ((!jtpEnunciado2.getText().isEmpty())&&(!jtpLetraA1.getText().isEmpty())&&(!jtpLetraB1.getText().isEmpty())
+                    &&(!jtpLetraC1.getText().isEmpty())&&(!jtpLetraD1.getText().isEmpty())) {
+                    if (((!jtpLetraE1.getText().isEmpty())&&(jrbSimE1.isSelected()))||(jrbNãoE1.isSelected())) {
+                        if (((!jtpLetraF1.getText().isEmpty())&&(jrbSimF1.isSelected()))||(jrbNãoF1.isSelected())) {
+                            if (jcbConteudo.getItemCount() != 0) {
+                                MenuGUI menu = new MenuGUI();
+                                menu.setVisible(true);
+                                menu.setLocationRelativeTo(null);
+                                dispose();
+                            }
+                        }
+                    }
+                }
+            }            
         }
         if (x==1) {
             MenuGUI menu = new MenuGUI();
@@ -642,43 +682,56 @@ public class EditorDeQuestoes extends javax.swing.JFrame {
                     &&(!jtpLetraC1.getText().isEmpty())&&(!jtpLetraD1.getText().isEmpty())) {
                 if (((!jtpLetraE1.getText().isEmpty())&&(jrbSimE1.isSelected()))||(jrbNãoE1.isSelected())) {
                     if (((!jtpLetraF1.getText().isEmpty())&&(jrbSimF1.isSelected()))||(jrbNãoF1.isSelected())) {
-                        int x = JOptionPane.showConfirmDialog(this.getContentPane(), "Tem certeza que deseja salvar esta questão?", "Salvar questão",
-                        JOptionPane.YES_NO_CANCEL_OPTION);
-                        if (x==0) {
-                            String enunciado = jtpEnunciado2.getText();
-                            int dificuldade = Integer.parseInt(jcbDificuldade3.getSelectedItem().toString());
-                            String multipla = "S";
-                            String letraA = jtpLetraA1.getText();
-                            String letraB = jtpLetraB1.getText();
-                            String letraC = jtpLetraC1.getText();
-                            String letraD = jtpLetraD1.getText();
-                            String letraE = jtpLetraE1.getText();
-                            String letraF = jtpLetraF1.getText();
-                            resultSet = questoesBanco.pegarConteudosID(jcbConteudo3.getSelectedItem().toString());
-                            if (resultSet!=null) {
-                                do {
-                                    idConteudo = resultSet.getInt("Conteudos_ID");    
-                                } while (resultSet.next());
+                        if (jcbConteudo.getItemCount() != 0) {
+                            int x = JOptionPane.showConfirmDialog(this.getContentPane(), "Tem certeza que deseja salvar esta questão?", "Salvar questão",
+                            JOptionPane.YES_NO_CANCEL_OPTION);
+                            if (x==0) {
+                                String enunciado = jtpEnunciado2.getText();
+                                int dificuldade = Integer.parseInt(jcbDificuldade3.getSelectedItem().toString());
+                                String multipla = "S";
+                                String letraA = jtpLetraA1.getText();
+                                String letraB = jtpLetraB1.getText();
+                                String letraC = jtpLetraC1.getText();
+                                String letraD = jtpLetraD1.getText();
+                                String letraE = jtpLetraE1.getText();
+                                String letraF = jtpLetraF1.getText();
+
+                                resultSet = questoesBanco.pegarConteudosID(jcbConteudo3.getSelectedItem().toString());
+                                if (resultSet!=null) {
+                                    do {
+                                        idConteudo = resultSet.getInt("Conteudos_ID");    
+                                    } while (resultSet.next());
+                                    SalvarQuestaoFechada(enunciado, dificuldade, multipla, letraA, letraB, letraC, letraD, letraE, letraF, idConteudo);
+                                }                            
+
+                                resultSet = questoesBanco.pegarUltimaQuestao();
+                                if (resultSet!=null) {
+                                    do {
+                                        idQuestao = resultSet.getInt("ult");                      
+                                    } while (resultSet.next());
+                                    AddImagem(idQuestao);
+                                }
+
+                                jtpEnunciado2.setText("");
+                                jtpLetraA1.setText("");
+                                jtpLetraB1.setText("");
+                                jtpLetraC1.setText("");
+                                jtpLetraD1.setText("");
+                                jtpLetraE1.setText("");
+                                jtpLetraF1.setText("");
+
+                                jLabelE1.setEnabled(false);
+                                jLabelF1.setEnabled(false);
+                                jrbSimE1.setSelected(true);
+                                jrbNãoE1.setSelected(true);
+                                jrbSimF1.setSelected(true);
+                                jrbNãoF1.setSelected(true);
+                                jtpLetraE1.setEnabled(false);
+                                jtpLetraF1.setEnabled(false);
+                                JOptionPane.showMessageDialog(this, "Questão adicionada com sucesso!");
                             }
-                            SalvarQuestaoFechada(enunciado, dificuldade, multipla, letraA, letraB, letraC, letraD, letraE, letraF, idConteudo);
-
-                            jtpEnunciado2.setText("");
-                            jtpLetraA1.setText("");
-                            jtpLetraB1.setText("");
-                            jtpLetraC1.setText("");
-                            jtpLetraD1.setText("");
-                            jtpLetraE1.setText("");
-                            jtpLetraF1.setText("");
-
-                            jLabelE1.setEnabled(false);
-                            jLabelF1.setEnabled(false);
-                            jrbSimE1.setSelected(true);
-                            jrbNãoE1.setSelected(true);
-                            jrbSimF1.setSelected(true);
-                            jrbNãoF1.setSelected(true);
-                            jtpLetraE1.setEnabled(false);
-                            jtpLetraF1.setEnabled(false);
-                            JOptionPane.showMessageDialog(this, "Questão adicionada com sucesso!");
+                        } else {
+                            JOptionPane.showMessageDialog(this, "Não há conteúdo cadastrado nesta disciplina!");
                         }
                     } else {
                         JOptionPane.showMessageDialog(this, "A letra F está vazia!");
@@ -778,6 +831,17 @@ public class EditorDeQuestoes extends javax.swing.JFrame {
                 new EditorDeQuestoes().setVisible(true);
             }
         });
+    }
+    
+    //SALVAR IMAGEM
+    public void AddImagem(int idDestaQuestao) {        
+        if (img) {
+            try {
+                questoesBanco.inserirImagem(idDestaQuestao, input, posicaoImagem);              
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(this, "Ocorreu um erro, tente novamente!");
+            }
+        }
     }
     
     //SALVAR QUESTÃO ABERTA

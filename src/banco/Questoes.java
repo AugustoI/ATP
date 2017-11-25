@@ -115,4 +115,16 @@ public class Questoes {
             return null;
         }
     }
+    
+    public ResultSet pegarUltimaQuestao() throws SQLException { 
+        String pesquisar = "select max(Questoes_ID) as ult from questoes";        
+        Connection con = new ConexaoDAO().conectar();        
+        PreparedStatement p = con.prepareStatement(pesquisar);
+        ResultSet rs = p.executeQuery();
+        if (rs.next()) {
+            return rs;
+        } else {
+            return null;
+        }
+    }
 }
