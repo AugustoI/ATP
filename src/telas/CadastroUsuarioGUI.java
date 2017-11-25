@@ -1,15 +1,14 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package telas;
 
+import banco.LoginDAO;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 /**
- *
  * @author GUSTAVO
- */
+**/
 public class CadastroUsuarioGUI extends javax.swing.JFrame {
 
     /**
@@ -36,13 +35,13 @@ public class CadastroUsuarioGUI extends javax.swing.JFrame {
         btBuscar = new javax.swing.JButton();
         btEditar = new javax.swing.JButton();
         btExcluir = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btUltimo = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         btIncluir = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         jLabel1.setText("Usuário");
@@ -55,20 +54,50 @@ public class CadastroUsuarioGUI extends javax.swing.JFrame {
         btSalvar.setText("Salvar");
 
         btBuscar.setText("Buscar");
+        btBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btBuscarActionPerformed(evt);
+            }
+        });
 
         btEditar.setText("Editar");
 
         btExcluir.setText("Excluir");
 
-        jButton2.setText("|<");
+        btUltimo.setText("|<");
+        btUltimo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btUltimoActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("<");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton4.setText(">");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jButton5.setText(">|");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         btIncluir.setText("Incluir");
+        btIncluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btIncluirActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -81,7 +110,7 @@ public class CadastroUsuarioGUI extends javax.swing.JFrame {
                     .addComponent(txtLogin)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jButton2)
+                            .addComponent(btUltimo)
                             .addComponent(btBuscar))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -133,12 +162,114 @@ public class CadastroUsuarioGUI extends javax.swing.JFrame {
                     .addComponent(jButton3)
                     .addComponent(jButton4)
                     .addComponent(jButton5)
-                    .addComponent(jButton2))
+                    .addComponent(btUltimo))
                 .addGap(18, 18, 18))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+    ResultSet Usuarios;
+    private void btBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btBuscarActionPerformed
+        LoginDAO Busca = new LoginDAO();
+        Busca.setLogin(txtLogin.getText().toString());
+        try{
+            Usuarios = Busca.BuscaUsuario();
+        }catch (SQLException exSQL){
+            JOptionPane.showMessageDialog(null,exSQL.getMessage());
+        }catch (RuntimeException ex){
+            JOptionPane.showMessageDialog(null,ex.getMessage());
+        }
+        try {           
+            txtLogin.setText(Usuarios.getString("Login"));
+            txtSenha.setText("senha");
+        } catch (Exception exSQL) {
+            JOptionPane.showMessageDialog(null,exSQL.getMessage());
+        }
+    }//GEN-LAST:event_btBuscarActionPerformed
+
+    private void btIncluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btIncluirActionPerformed
+        txtLogin.setText("");
+        txtSenha.setText("");
+        txtLogin.requestFocus();
+        LoginDAO Inserir = new LoginDAO();
+        Inserir.setLogin(txtLogin.getText().toString());
+        Inserir.setSenha(new String(txtSenha.getPassword()).trim());
+        try {
+            Inserir.InserirLogin();
+            JOptionPane.showMessageDialog(null,"Usuário incluso com sucesso!");
+        } catch (SQLException exSQL) {
+            JOptionPane.showMessageDialog(null,"Erro ao inserir o usuário" + exSQL.getMessage());
+        }
+        txtLogin.setText("");
+        txtSenha.setText("");
+        txtLogin.requestFocus();
+    }//GEN-LAST:event_btIncluirActionPerformed
+
+    private void btUltimoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btUltimoActionPerformed
+        try{
+            Usuarios.first();
+            try {
+                txtLogin.setText(Usuarios.getString("Login"));
+                txtSenha.setText(Usuarios.getString("Senha"));
+            } catch (SQLException ex1) {
+                Logger.getLogger(CadastroUsuarioGUI.class.getName()).log(Level.SEVERE, null, ex1);
+            }
+        }catch(Exception ex){
+            
+        }                
+    }//GEN-LAST:event_btUltimoActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        try{
+            Usuarios.last();
+            try {
+                txtLogin.setText(Usuarios.getString("Login"));
+                txtSenha.setText(Usuarios.getString("Senha"));
+            } catch (SQLException ex1) {
+                Logger.getLogger(CadastroUsuarioGUI.class.getName()).log(Level.SEVERE, null, ex1);
+            }
+        }catch(Exception ex){
+            
+        }
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        try{
+            Usuarios.next();
+            if (Usuarios.isAfterLast()){
+                Usuarios.previous();
+                JOptionPane.showMessageDialog(null,"Último registro.");
+            }else {
+                try {
+                    txtLogin.setText(Usuarios.getString("Login"));
+                    txtSenha.setText(Usuarios.getString("Senha"));
+                } catch (SQLException ex1) {
+                    Logger.getLogger(CadastroUsuarioGUI.class.getName()).log(Level.SEVERE, null, ex1);
+                }                
+            }            
+        }catch(Exception ex){
+            
+        }
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        try{
+            Usuarios.previous();
+            if (Usuarios.isBeforeFirst()){
+                Usuarios.next();
+                JOptionPane.showMessageDialog(null,"Primeiro registro.");
+            }else{
+                try {
+                    txtLogin.setText(Usuarios.getString("Login"));
+                    txtSenha.setText(Usuarios.getString("Senha"));
+                } catch (SQLException ex1) {
+                    Logger.getLogger(CadastroUsuarioGUI.class.getName()).log(Level.SEVERE, null, ex1);
+                }                  
+            }
+        }catch(Exception ex){
+            
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -181,7 +312,7 @@ public class CadastroUsuarioGUI extends javax.swing.JFrame {
     private javax.swing.JButton btExcluir;
     private javax.swing.JButton btIncluir;
     private javax.swing.JButton btSalvar;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton btUltimo;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;

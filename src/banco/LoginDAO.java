@@ -47,7 +47,7 @@ public class LoginDAO extends Banco{
     }
     
     public void InserirLogin() throws SQLException{
-        String SQLInsere = "INSERT INTO Usuarios(Login, Senha) VALUES (?,?)";
+        String SQLInsere = "INSERT INTO Usuarios VALUES (0,?,PASSWORD(?))";
         PreparedStatement Inserir = conectar().prepareStatement(SQLInsere);
         Inserir.setString(1, this.getLogin());
         Inserir.setString(2, this.getSenha());        
@@ -70,10 +70,15 @@ public class LoginDAO extends Banco{
         Editar.executeUpdate();
     } 
     
-    public ResultSet BuscaUsuario(String Login) throws SQLException{
+    public ResultSet BuscaUsuario() throws SQLException{
         Statement Log = conectar().createStatement();
         ResultSet dados;
-        dados = Log.executeQuery("SELECT * FROM Usuarios WHERE Login LIKE '%" + Login + "%");
-        return (dados);
+        dados = Log.executeQuery("SELECT Login, Senha FROM Usuarios WHERE Login LIKE '%" + this.getLogin() + "%'");        
+        if (dados.next()){
+            return (dados);
+        }else {
+            throw new RuntimeException("Usuário não encontrado!");
+        }
+        
     }
 }
