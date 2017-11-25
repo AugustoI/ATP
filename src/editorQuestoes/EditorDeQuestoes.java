@@ -530,23 +530,26 @@ public class EditorDeQuestoes extends javax.swing.JFrame {
     private void jbSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSalvarActionPerformed
         // TODO add your handling code here:               
         try {
-            int x = JOptionPane.showConfirmDialog(this.getContentPane(), "Tem certeza que deseja salvar esta questão?", "Salvar questão",
-            JOptionPane.YES_NO_CANCEL_OPTION);
-            if (x==0) {
-                String enunciado = jtpEnunciado.getText();
-                int dificuldade = Integer.parseInt(jcbDificuldade.getSelectedItem().toString());
-                String multipla = "N";
-                resultSet = questoesBanco.pegarConteudosID(jcbDisciplina.getSelectedItem().toString());
-                if (resultSet!=null) {
-                    do {
-                        idConteudo = Integer.parseInt(resultSet.getString("NomeDisciplinas"));
-                    } while (resultSet.next());
+            if (!jtpEnunciado.getText().isEmpty()) {
+                int x = JOptionPane.showConfirmDialog(this.getContentPane(), "Tem certeza que deseja salvar esta questão?", "Salvar questão",
+                JOptionPane.YES_NO_CANCEL_OPTION);
+                if (x==0) {
+                    String enunciado = jtpEnunciado.getText();
+                    int dificuldade = Integer.parseInt(jcbDificuldade.getSelectedItem().toString());
+                    String multipla = "N";
+                    resultSet = questoesBanco.pegarConteudosID(jcbConteudo.getSelectedItem().toString());
+                    if (resultSet!=null) {
+                        do {
+                            //idConteudo = Integer.parseInt(resultSet.getString("Conteudos_ID"));
+                                idConteudo = resultSet.getInt("Conteudos_ID");                        
+                        } while (resultSet.next());
+                    }
+                    SalvarQuestaoAberta(enunciado, dificuldade, multipla, idConteudo); 
+                    jtpEnunciado.setText("");
+                    JOptionPane.showMessageDialog(this, "Questão adicionada com sucesso!");
                 }
-                SalvarQuestaoAberta(enunciado, dificuldade, multipla, idConteudo); 
-                jtpEnunciado.setText("");
-                jcbDificuldade.setSelectedIndex(0);
-                jcbConteudo.setSelectedIndex(0);
-                jcbDisciplina.setSelectedIndex(0);
+            } else {
+                JOptionPane.showMessageDialog(this, "O enunciado da questão não pode ser vazio!");
             }
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(this, "Ocorreu um erro. Tente novamente");
@@ -635,42 +638,60 @@ public class EditorDeQuestoes extends javax.swing.JFrame {
     private void jbSalvar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSalvar2ActionPerformed
         // TODO add your handling code here:        
         try {
-            int x = JOptionPane.showConfirmDialog(this.getContentPane(), "Tem certeza que deseja salvar esta questão?", "Salvar questão",
-            JOptionPane.YES_NO_CANCEL_OPTION);
-            if (x==0) {
-                String enunciado = jtpEnunciado1.getText();
-                int dificuldade = Integer.parseInt(jcbDificuldade2.getSelectedItem().toString());
-                String multipla = "S";
-                String letraA = jtpLetraA.getText();
-                String letraB = jtpLetraB.getText();
-                String letraC = jtpLetraC.getText();
-                String letraD = jtpLetraD.getText();
-                String letraE = jtpLetraE.getText();
-                String letraF = jtpLetraF.getText();
-                resultSet = questoesBanco.pegarConteudosID(jcbDisciplina.getSelectedItem().toString());
-                if (resultSet!=null) {
-                    do {
-                        idConteudo = Integer.parseInt(resultSet.getString("NomeDisciplinas"));
-                    } while (resultSet.next());
-                }
-                SalvarQuestaoFechada(enunciado, dificuldade, multipla, letraA, letraB, letraC, letraD, letraE, letraF, idConteudo);
+            if ((!jtpEnunciado2.getText().isEmpty())&&(!jtpLetraA1.getText().isEmpty())&&(!jtpLetraB1.getText().isEmpty())
+                    &&(!jtpLetraC1.getText().isEmpty())&&(!jtpLetraD1.getText().isEmpty())) {
+                if (((!jtpLetraE1.getText().isEmpty())&&(jrbSimE1.isSelected()))||(jrbNãoE1.isSelected())) {
+                    if (((!jtpLetraF1.getText().isEmpty())&&(jrbSimF1.isSelected()))||(jrbNãoF1.isSelected())) {
+                        int x = JOptionPane.showConfirmDialog(this.getContentPane(), "Tem certeza que deseja salvar esta questão?", "Salvar questão",
+                        JOptionPane.YES_NO_CANCEL_OPTION);
+                        if (x==0) {
+                            String enunciado = jtpEnunciado2.getText();
+                            int dificuldade = Integer.parseInt(jcbDificuldade3.getSelectedItem().toString());
+                            String multipla = "S";
+                            String letraA = jtpLetraA1.getText();
+                            String letraB = jtpLetraB1.getText();
+                            String letraC = jtpLetraC1.getText();
+                            String letraD = jtpLetraD1.getText();
+                            String letraE = jtpLetraE1.getText();
+                            String letraF = jtpLetraF1.getText();
+                            resultSet = questoesBanco.pegarConteudosID(jcbConteudo3.getSelectedItem().toString());
+                            if (resultSet!=null) {
+                                do {
+                                    idConteudo = resultSet.getInt("Conteudos_ID");    
+                                } while (resultSet.next());
+                            }
+                            SalvarQuestaoFechada(enunciado, dificuldade, multipla, letraA, letraB, letraC, letraD, letraE, letraF, idConteudo);
 
-                jtpEnunciado1.setText("");
-                jtpLetraA.setText("");
-                jtpLetraB.setText("");
-                jtpLetraC.setText("");
-                jtpLetraD.setText("");
-                jtpLetraE.setText("");
-                jtpLetraF.setText("");
-                jcbDificuldade3.setSelectedIndex(0);
-                jcbConteudo3.setSelectedIndex(0);
-                jcbDisciplina3.setSelectedIndex(0);
-                jLabelE1.setEnabled(false);
-                jLabelF1.setEnabled(false);
-                jrbSimE1.setSelected(true);
-                jrbNãoE1.setSelected(true);
-                jrbSimF1.setSelected(true);
-                jrbNãoF1.setSelected(true);
+                            jtpEnunciado2.setText("");
+                            jtpLetraA1.setText("");
+                            jtpLetraB1.setText("");
+                            jtpLetraC1.setText("");
+                            jtpLetraD1.setText("");
+                            jtpLetraE1.setText("");
+                            jtpLetraF1.setText("");
+
+                            jLabelE1.setEnabled(false);
+                            jLabelF1.setEnabled(false);
+                            jrbSimE1.setSelected(true);
+                            jrbNãoE1.setSelected(true);
+                            jrbSimF1.setSelected(true);
+                            jrbNãoF1.setSelected(true);
+                            jtpLetraE1.setEnabled(false);
+                            jtpLetraF1.setEnabled(false);
+                            JOptionPane.showMessageDialog(this, "Questão adicionada com sucesso!");
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(this, "A letra F está vazia!");
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(this, "A letra E está vazia!");
+                }
+            } else {
+                if (jtpEnunciado2.getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "O enunciado da questão não pode ser vazio!");
+                } else {
+                    JOptionPane.showMessageDialog(this, "Uma ou mais opções estão vazias!");
+                }
             }
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(this, "Ocorreu um erro. Tente novamente");

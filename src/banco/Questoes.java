@@ -78,8 +78,7 @@ public class Questoes {
     }
     
     public ResultSet pegarConteudosID(String nome) throws SQLException{
-        String conteudo = "select Conteudos_ID from conteudos where ID_Disciplinas="
-                + "(select Disciplinas_ID from disciplinas where NomeDisciplinas=?)";
+        String conteudo = "select Conteudos_ID from conteudos where NomeConteudos=?";
         Connection con = new ConexaoDAO().conectar();
         PreparedStatement p = con.prepareStatement(conteudo);
         p.setString(1, nome);        
