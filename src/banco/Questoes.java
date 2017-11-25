@@ -6,7 +6,6 @@
 package banco;
 
 import java.io.InputStream;
-import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -65,6 +64,19 @@ public class Questoes {
         p.executeUpdate();
     }
     
+    public ResultSet pegarDisciplinasID(String nome) throws SQLException{
+        String conteudo = "select Disciplinas_ID from disciplinas where NomeDisciplinas=?";
+        Connection con = new ConexaoDAO().conectar();
+        PreparedStatement p = con.prepareStatement(conteudo);
+        p.setString(1, nome);        
+        ResultSet rs = p.executeQuery();
+        if (rs.next()) {
+            return rs;
+        } else {
+            return null;
+        }
+    }
+    
     public ResultSet pegarConteudosID(String nome) throws SQLException{
         String conteudo = "select Conteudos_ID from conteudos where ID_Disciplinas="
                 + "(select Disciplinas_ID from disciplinas where NomeDisciplinas=?)";
@@ -91,10 +103,12 @@ public class Questoes {
         }
     }
     
-    public ResultSet pegarConteudos() throws SQLException { 
-        String pesquisar = "select NomeConteudos from conteudos";
+    public ResultSet pegarConteudos(String nome) throws SQLException { 
+        String pesquisar = "select NomeConteudos from conteudos where ID_Disciplinas="
+                + "(select Disciplinas_ID from disciplinas where NomeDisciplinas=?)";        
         Connection con = new ConexaoDAO().conectar();        
         PreparedStatement p = con.prepareStatement(pesquisar);
+        p.setString(1, nome);        
         ResultSet rs = p.executeQuery();        
         if (rs.next()) {
             return rs;
