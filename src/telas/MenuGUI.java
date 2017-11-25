@@ -2,6 +2,7 @@ package telas;
 
 
 import banco.LoginDAO;
+import editorQuestoes.EditorDeQuestoes;
 import editorQuestoes.EscolhaQuestao;
 
 /**
@@ -79,7 +80,7 @@ public class MenuGUI extends javax.swing.JFrame {
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         // TODO add your handling code here:
-        EscolhaQuestao escolha = new EscolhaQuestao();
+        EditorDeQuestoes escolha = new EditorDeQuestoes();
         escolha.setVisible(true);
         escolha.setLocationRelativeTo(null);
         dispose();
