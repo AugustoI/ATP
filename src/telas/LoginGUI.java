@@ -112,8 +112,13 @@ public class LoginGUI extends javax.swing.JFrame {
     
     private void btEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btEntrarActionPerformed
         LoginDAO Logar = new LoginDAO();
-        Logar.setLogin(txtLogin.getText().toString());
-        Logar.setSenha(new String(txtSenha.getPassword()).trim());
+        try{
+            Logar.setLogin(txtLogin.getText().toString());
+            Logar.setSenha(new String(txtSenha.getPassword()).trim());
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null,ex.getMessage(), "Erro", JOptionPane.ERROR);
+        }                
+        
         try {
             if (Logar.Logar()){                
                 MenuGUI mn = new MenuGUI();

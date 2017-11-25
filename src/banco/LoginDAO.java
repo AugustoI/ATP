@@ -51,5 +51,29 @@ public class LoginDAO extends Banco{
         PreparedStatement Inserir = conectar().prepareStatement(SQLInsere);
         Inserir.setString(1, this.getLogin());
         Inserir.setString(2, this.getSenha());        
+        Inserir.executeUpdate();
+    }
+    
+     public void EditarLogin(String NovoLogin, String NovaSenha) throws SQLException{
+        String SQLInsere = " UPDATE Usuarios SET Login = ?, Senha = ? WHERE Login = ? ";
+        PreparedStatement Editar = conectar().prepareStatement(SQLInsere);
+        Editar.setString(1, NovoLogin);
+        Editar.setString(2, NovaSenha);        
+        Editar.setString(3, this.getLogin());        
+        Editar.executeUpdate();
+    }
+     
+    public void ExcluirLogin() throws SQLException{
+        String SQLInsere = "DELETE FROM Usuarios WHERE Login = ? ";
+        PreparedStatement Editar = conectar().prepareStatement(SQLInsere);
+        Editar.setString(1, this.getLogin());        
+        Editar.executeUpdate();
+    } 
+    
+    public ResultSet BuscaUsuario(String Login) throws SQLException{
+        Statement Log = conectar().createStatement();
+        ResultSet dados;
+        dados = Log.executeQuery("SELECT * FROM Usuarios WHERE Login LIKE '%" + Login + "%");
+        return (dados);
     }
 }
