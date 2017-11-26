@@ -2,7 +2,8 @@ package telas;
 
 
 import banco.LoginDAO;
-import editorQuestoes.EscolhaQuestao;
+import editorQuestoes.EditorDeQuestoes;
+import editorQuestoes.TelaDeQuestoes;
 
 /**
  *
@@ -51,9 +52,15 @@ public class MenuGUI extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+<<<<<<< HEAD
         jMenu1.setText("Arquivo");
 
         jMenuItem1.setText("Cadastro de Usuários");
+=======
+        jMenu1.setText("Questão");
+
+        jMenuItem1.setText("Adicionar");
+>>>>>>> 0cf9f6f80bf5fbe0226fe37ea6e97f1caef9a940
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem1ActionPerformed(evt);
@@ -61,8 +68,20 @@ public class MenuGUI extends javax.swing.JFrame {
         });
         jMenu1.add(jMenuItem1);
 
+<<<<<<< HEAD
         jMenuItem2.setText("Sobre");
         jMenu1.add(jMenuItem2);
+=======
+        jMenuItem2.setText("Editar");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem2);
+
+        jMenuBar1.add(jMenu1);
+>>>>>>> 0cf9f6f80bf5fbe0226fe37ea6e97f1caef9a940
 
         mnMenu.add(jMenu1);
 
@@ -102,6 +121,7 @@ public class MenuGUI extends javax.swing.JFrame {
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         // TODO add your handling code here:
+<<<<<<< HEAD
         CadastroUsuarioGUI cad = new CadastroUsuarioGUI();
         cad.setVisible(true);
         cad.setLocationRelativeTo(null);
@@ -115,6 +135,19 @@ public class MenuGUI extends javax.swing.JFrame {
         escolha.setLocationRelativeTo(null);        
         mnMenu.setEnabled(false);
     }//GEN-LAST:event_jMenuItem5ActionPerformed
+=======
+        EditorDeQuestoes escolha = new EditorDeQuestoes();
+        escolha.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+>>>>>>> 0cf9f6f80bf5fbe0226fe37ea6e97f1caef9a940
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        // TODO add your handling code here:
+        TelaDeQuestoes tela = new TelaDeQuestoes();
+        tela.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -157,9 +190,12 @@ public class MenuGUI extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
+<<<<<<< HEAD
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuBar mnMenu;
+=======
+>>>>>>> 0cf9f6f80bf5fbe0226fe37ea6e97f1caef9a940
     // End of variables declaration//GEN-END:variables
 }
