@@ -693,9 +693,15 @@ public class EditorDeQuestoes extends javax.swing.JFrame {
                                 String letraB = jtpLetraB1.getText();
                                 String letraC = jtpLetraC1.getText();
                                 String letraD = jtpLetraD1.getText();
-                                String letraE = jtpLetraE1.getText();
-                                String letraF = jtpLetraF1.getText();
-
+                                String letraE = "";
+                                String letraF = "";
+                                if (jrbSimE1.isSelected()) {
+                                    letraE = jtpLetraE1.getText();
+                                }
+                                if (jrbSimF1.isSelected()) {
+                                    letraF = jtpLetraF1.getText();
+                                }
+                                
                                 resultSet = questoesBanco.pegarConteudosID(jcbConteudo3.getSelectedItem().toString());
                                 if (resultSet!=null) {
                                     do {
@@ -832,7 +838,7 @@ public class EditorDeQuestoes extends javax.swing.JFrame {
             }
         });
     }
-    
+        
     //SALVAR IMAGEM
     public void AddImagem(int idDestaQuestao) {        
         if (img) {
