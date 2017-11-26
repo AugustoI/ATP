@@ -3,13 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package editorQuestoes;
 
 import banco.Questoes;
+import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.sql.Blob;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -18,24 +23,26 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  *
  * @author Couth
  */
-public class TesteImagem extends javax.swing.JDialog {
+public class AdicionarImagem extends javax.swing.JFrame {
 
     /**
-     * Creates new form TesteImagem
+     * Creates new form AdicionarImagem
      */
     boolean adicionou = false;
     Questoes questoesBanco = new Questoes();
     ResultSet rs;
     int posicao;
-    FileInputStream input;
-    boolean certo = false;
-    
-    public TesteImagem(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
+    String nome;   
+    Blob img;
+    public AdicionarImagem() {
         initComponents();
-        certo = false;
-        this.setTitle("Adicionar imagem");
-        this.setLocationRelativeTo(this);
+        setLocationRelativeTo(null);        
+    }
+    
+    public AdicionarImagem(String nome) {
+        initComponents();
+        setLocationRelativeTo(null); 
+        nome = this.nome;
     }
 
     /**
@@ -48,16 +55,14 @@ public class TesteImagem extends javax.swing.JDialog {
     private void initComponents() {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
-        jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jrbEsquerda = new javax.swing.JRadioButton();
         jrbCentralizada = new javax.swing.JRadioButton();
         jrbDireita = new javax.swing.JRadioButton();
         jbSalvar = new javax.swing.JButton();
         jbCarregar = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setText("Selecione a posição da imagem em relação ao texto:");
 
@@ -78,73 +83,49 @@ public class TesteImagem extends javax.swing.JDialog {
             }
         });
 
-        jbCarregar.setText("Selecionar imagem");
+        jbCarregar.setText("Carregar imagem");
         jbCarregar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbCarregarActionPerformed(evt);
             }
         });
 
-        jButton1.setText("Cancelar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jrbEsquerda)
-                            .addComponent(jButton1))
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jbCarregar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jbSalvar))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                .addGap(22, 22, 22)
-                                .addComponent(jrbCentralizada)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jrbDireita)))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jrbEsquerda)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jrbDireita)
-                        .addComponent(jrbCentralizada)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jbSalvar)
-                    .addComponent(jbCarregar)
-                    .addComponent(jButton1))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addComponent(jbCarregar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jbSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addComponent(jrbEsquerda)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jrbCentralizada)
+                        .addGap(31, 31, 31)
+                        .addComponent(jrbDireita)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jrbEsquerda)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jrbDireita)
+                        .addComponent(jrbCentralizada)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jbCarregar)
+                    .addComponent(jbSalvar))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -152,9 +133,8 @@ public class TesteImagem extends javax.swing.JDialog {
 
     private void jbSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSalvarActionPerformed
         // TODO add your handling code here:
-                      
         //CONFERIR
-        if ((jrbEsquerda.isSelected())||(jrbCentralizada.isSelected())||(jrbDireita.isSelected())) {
+        if ((jrbEsquerda.isSelected())||(jrbCentralizada.isSelected())||(jrbDireita.isSelected())) {           
             if (jrbEsquerda.isSelected()) {
                 posicao = 1;
             }
@@ -164,24 +144,29 @@ public class TesteImagem extends javax.swing.JDialog {
             if (jrbDireita.isSelected()) {
                 posicao = 3;
             }
-            certo = true;
-            dispose();            
+            try {
+                rs = questoesBanco.pegarConteudosID(nome);                
+                if (rs!=null) {                    
+                    //img está vazio                    
+                    questoesBanco.inserirImagem(rs.getInt("Conteudos_ID"), img, posicao);
+                    dispose();
+                }
+            } catch (SQLException ex) {
+                //Error msg
+            }
         } else {
             JOptionPane.showMessageDialog(this, "Selecione a posição da imagem!");
         }
     }//GEN-LAST:event_jbSalvarActionPerformed
 
     private void jbCarregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCarregarActionPerformed
-        // TODO add your handling code here:
+        // TODO add your handling code here:     
+        //passar valor da busca pro img aqui
+        //passar para a img o valor da busca do método
         buscar();
         if (adicionou)
             jbSalvar.setEnabled(true);
     }//GEN-LAST:event_jbCarregarActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        dispose();
-    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -200,27 +185,20 @@ public class TesteImagem extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(TesteImagem.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AdicionarImagem.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(TesteImagem.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AdicionarImagem.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(TesteImagem.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AdicionarImagem.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(TesteImagem.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AdicionarImagem.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
-        /* Create and display the dialog */
+        /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                TesteImagem dialog = new TesteImagem(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
+                new AdicionarImagem().setVisible(true);
             }
         });
     }
@@ -233,36 +211,28 @@ public class TesteImagem extends javax.swing.JDialog {
         chooser.setDialogTitle("Selecione a imagem");
         int resposta = chooser.showOpenDialog(null);
         if (resposta == JFileChooser.APPROVE_OPTION) {
-            try {
-                File file = new File(chooser.getSelectedFile().getAbsolutePath());            
-                input = new FileInputStream(file);  
-                adicionou = true;
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "Error: "+e);
-            }
-            /*FileReader fis;
+            File file = new File(chooser.getSelectedFile().getAbsolutePath());
+            FileReader fis;
             try {
                 fis = new FileReader(file);
-                BufferedReader bis = new BufferedReader(fis);                
+                BufferedReader bis = new BufferedReader(fis);
                 while (bis.ready()) {
-                     //?
+                    System.out.println(bis.readLine()+"\n");
                 }
                 bis.close();
-                fis.close();                
+                fis.close();
+                adicionou = true;
             } catch (FileNotFoundException e) {
                 adicionou = false;
             } catch (IOException e) {
                 adicionou = false;
             }
-            */
         }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JButton jbCarregar;
     private javax.swing.JButton jbSalvar;
     private javax.swing.JRadioButton jrbCentralizada;
