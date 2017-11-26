@@ -21,12 +21,20 @@
       <SubComponents>
         <Menu class="javax.swing.JMenu" name="jMenu1">
           <Properties>
+<<<<<<< HEAD
             <Property name="text" type="java.lang.String" value="Arquivo"/>
+=======
+            <Property name="text" type="java.lang.String" value="Quest&#xe3;o"/>
+>>>>>>> 0cf9f6f80bf5fbe0226fe37ea6e97f1caef9a940
           </Properties>
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItem1">
               <Properties>
+<<<<<<< HEAD
                 <Property name="text" type="java.lang.String" value="Cadastro de Usu&#xe1;rios"/>
+=======
+                <Property name="text" type="java.lang.String" value="Adicionar"/>
+>>>>>>> 0cf9f6f80bf5fbe0226fe37ea6e97f1caef9a940
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem1ActionPerformed"/>
@@ -34,8 +42,16 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItem2">
               <Properties>
+<<<<<<< HEAD
                 <Property name="text" type="java.lang.String" value="Sobre"/>
               </Properties>
+=======
+                <Property name="text" type="java.lang.String" value="Editar"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem2ActionPerformed"/>
+              </Events>
+>>>>>>> 0cf9f6f80bf5fbe0226fe37ea6e97f1caef9a940
             </MenuItem>
           </SubComponents>
         </Menu>
