@@ -91,6 +91,8 @@ public class TelaDeQuestoes extends javax.swing.JFrame {
             public void removeUpdate(DocumentEvent e) {
                 if (jtPesquisar.getText().isEmpty()) {
                     jbVerTodasActionPerformed(null);
+                } else {
+                    jbPesquisarActionPerformed(null);
                 }
             }
 
