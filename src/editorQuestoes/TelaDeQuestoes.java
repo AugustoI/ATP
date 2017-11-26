@@ -10,9 +10,12 @@ import banco.Questoes;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
+import telas.MenuGUI;
 
 /**
  *
@@ -78,6 +81,25 @@ public class TelaDeQuestoes extends javax.swing.JFrame {
             }
         });
         
+        jtPesquisar.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                jbPesquisarActionPerformed(null);                
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                if (jtPesquisar.getText().isEmpty()) {
+                    jbVerTodasActionPerformed(null);
+                }
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                //
+            }
+        });        
+        
         for (int i=0; i<=(tabelaQuestoes.getRowCount()-1); i++) {
             String multipla = tabelaQuestoes.getModel().getValueAt(i, 3).toString();
             if (multipla.equals("N")) {
@@ -110,6 +132,7 @@ public class TelaDeQuestoes extends javax.swing.JFrame {
         jbVerTodas = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
         jmiSair = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jmiEditar = new javax.swing.JMenuItem();
@@ -216,7 +239,20 @@ public class TelaDeQuestoes extends javax.swing.JFrame {
         jMenu1.setText("Arquivo");
         jMenu1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
 
-        jmiSair.setText("Sair");
+        jMenuItem1.setText("Adicionar questão");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem1);
+
+        jmiSair.setText("Menu principal");
+        jmiSair.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiSairActionPerformed(evt);
+            }
+        });
         jMenu1.add(jmiSair);
 
         jMenuBar1.add(jMenu1);
@@ -467,6 +503,21 @@ public class TelaDeQuestoes extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jbExcluirActionPerformed
 
+    private void jmiSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiSairActionPerformed
+        // TODO add your handling code here:
+        MenuGUI menu = new MenuGUI();
+        menu.setVisible(true);
+        menu.setLocationRelativeTo(null);
+        dispose();
+    }//GEN-LAST:event_jmiSairActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        // TODO add your handling code here:
+        EditorDeQuestoes editor = new EditorDeQuestoes();
+        editor.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -508,6 +559,7 @@ public class TelaDeQuestoes extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton jbEditar;

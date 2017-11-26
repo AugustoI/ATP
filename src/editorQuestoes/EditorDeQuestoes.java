@@ -12,6 +12,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GraphicsEnvironment;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileInputStream;
@@ -60,10 +61,10 @@ public class EditorDeQuestoes extends javax.swing.JFrame {
     public EditorDeQuestoes() {
         initComponents();
         jTabbedPane1.setTitleAt(0, "Questão ABERTA");
-        jTabbedPane1.setTitleAt(1, "Questão FECHADA");
-        this.setLocationRelativeTo(null);
+        jTabbedPane1.setTitleAt(1, "Questão FECHADA");        
         this.setResizable(false);
         this.setSize(new Dimension(this.getSize().width, 380)); 
+        this.setLocationRelativeTo(null);
         this.setTitle("Editor de Questões");
         
         img = false;
@@ -161,9 +162,10 @@ public class EditorDeQuestoes extends javax.swing.JFrame {
         jrbNãoF1 = new javax.swing.JRadioButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jmArquivo = new javax.swing.JMenu();
-        jmiSalvar = new javax.swing.JMenuItem();
         jmiImagem = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
         jmiSair = new javax.swing.JMenuItem();
+        jmiSalvar = new javax.swing.JMenuItem();
         jmTexto = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -485,14 +487,6 @@ public class EditorDeQuestoes extends javax.swing.JFrame {
         jmArquivo.setText("Arquivo");
         jmArquivo.setFont(new java.awt.Font("sansserif", 1, 12)); // NOI18N
 
-        jmiSalvar.setText("Salvar");
-        jmiSalvar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jmiSalvarActionPerformed(evt);
-            }
-        });
-        jmArquivo.add(jmiSalvar);
-
         jmiImagem.setText("Carregar imagem");
         jmiImagem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -501,13 +495,29 @@ public class EditorDeQuestoes extends javax.swing.JFrame {
         });
         jmArquivo.add(jmiImagem);
 
-        jmiSair.setText("Sair");
+        jMenuItem1.setText("Editar questão");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jmArquivo.add(jMenuItem1);
+
+        jmiSair.setText("Menu principal");
         jmiSair.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jmiSairActionPerformed(evt);
             }
         });
         jmArquivo.add(jmiSair);
+
+        jmiSalvar.setText("Salvar");
+        jmiSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiSalvarActionPerformed(evt);
+            }
+        });
+        jmArquivo.add(jmiSalvar);
 
         jMenuBar1.add(jmArquivo);
 
@@ -667,10 +677,16 @@ public class EditorDeQuestoes extends javax.swing.JFrame {
     private void jTabbedPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPane1MouseClicked
         // TODO add your handling code here:
         if (jTabbedPane1.getSelectedIndex() == 0) {
-            this.setSize(new Dimension(this.getSize().width, 380));            
+            this.setSize(new Dimension(this.getSize().width, 380)); 
+            this.setLocationRelativeTo(null);
         }
         if (jTabbedPane1.getSelectedIndex() == 1) {
             this.setSize(new Dimension(this.getSize().width, 705)); 
+            Toolkit kit = Toolkit.getDefaultToolkit();
+            Dimension tamanhoTela = kit.getScreenSize();
+            int width = tamanhoTela.width;
+            int height = tamanhoTela.height;
+            this.setLocation( width / 4, 20);
         }
         CarregarComboBox();
     }//GEN-LAST:event_jTabbedPane1MouseClicked
@@ -803,6 +819,47 @@ public class EditorDeQuestoes extends javax.swing.JFrame {
         jtpLetraF1.setEnabled(false);
         jLabelF1.setEnabled(false);
     }//GEN-LAST:event_jrbNãoF1ActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        // TODO add your handling code here:
+        int x = JOptionPane.showConfirmDialog(this.getContentPane(), "Deseja salvar antes de sair?", "Encerrar",
+            JOptionPane.YES_NO_CANCEL_OPTION);
+        if (x==0) {
+            if (jTabbedPane1.getSelectedIndex() == 0) {
+                jbSalvarActionPerformed(evt);
+                if (!jtpEnunciado.getText().isEmpty()) {
+                    if (jcbConteudo.getItemCount() != 0) {
+                        TelaDeQuestoes editor = new TelaDeQuestoes();
+                        editor.setVisible(true);
+                        editor.setLocationRelativeTo(null);
+                        dispose();
+                    }
+                }
+            }
+            if (jTabbedPane1.getSelectedIndex() == 1) {
+                jbSalvar2ActionPerformed(evt);
+                if ((!jtpEnunciado2.getText().isEmpty())&&(!jtpLetraA1.getText().isEmpty())&&(!jtpLetraB1.getText().isEmpty())
+                    &&(!jtpLetraC1.getText().isEmpty())&&(!jtpLetraD1.getText().isEmpty())) {
+                    if (((!jtpLetraE1.getText().isEmpty())&&(jrbSimE1.isSelected()))||(jrbNãoE1.isSelected())) {
+                        if (((!jtpLetraF1.getText().isEmpty())&&(jrbSimF1.isSelected()))||(jrbNãoF1.isSelected())) {
+                            if (jcbConteudo.getItemCount() != 0) {
+                                TelaDeQuestoes editor = new TelaDeQuestoes();
+                                editor.setVisible(true);
+                                editor.setLocationRelativeTo(null);
+                                dispose();
+                            }
+                        }
+                    }
+                }
+            }            
+        }
+        if (x==1) {
+            TelaDeQuestoes editor = new TelaDeQuestoes();
+            editor.setVisible(true);
+            editor.setLocationRelativeTo(null);
+            dispose();
+        }                
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1178,12 +1235,7 @@ public class EditorDeQuestoes extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
@@ -1191,21 +1243,15 @@ public class EditorDeQuestoes extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JLabel jLabelA;
     private javax.swing.JLabel jLabelA1;
-    private javax.swing.JLabel jLabelC;
     private javax.swing.JLabel jLabelC1;
-    private javax.swing.JLabel jLabelE;
     private javax.swing.JLabel jLabelE1;
-    private javax.swing.JLabel jLabelF;
     private javax.swing.JLabel jLabelF1;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane10;
     private javax.swing.JScrollPane jScrollPane11;
     private javax.swing.JScrollPane jScrollPane12;
@@ -1213,60 +1259,37 @@ public class EditorDeQuestoes extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane14;
     private javax.swing.JScrollPane jScrollPane15;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JScrollPane jScrollPane5;
-    private javax.swing.JScrollPane jScrollPane6;
-    private javax.swing.JScrollPane jScrollPane7;
-    private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JButton jbImagem;
-    private javax.swing.JButton jbImagem2;
     private javax.swing.JButton jbImagem3;
     private javax.swing.JButton jbSalvar;
-    private javax.swing.JButton jbSalvar2;
     private javax.swing.JButton jbSalvar3;
     private javax.swing.JButton jbVoltar;
     private javax.swing.JButton jbVoltar1;
     private javax.swing.JComboBox<String> jcbConteudo;
-    private javax.swing.JComboBox<String> jcbConteudo2;
     private javax.swing.JComboBox<String> jcbConteudo3;
     private javax.swing.JComboBox<String> jcbDificuldade;
-    private javax.swing.JComboBox<String> jcbDificuldade2;
     private javax.swing.JComboBox<String> jcbDificuldade3;
     private javax.swing.JComboBox<String> jcbDisciplina;
-    private javax.swing.JComboBox<String> jcbDisciplina2;
     private javax.swing.JComboBox<String> jcbDisciplina3;
     private javax.swing.JMenu jmArquivo;
     private javax.swing.JMenu jmTexto;
     private javax.swing.JMenuItem jmiImagem;
     private javax.swing.JMenuItem jmiSair;
     private javax.swing.JMenuItem jmiSalvar;
-    private javax.swing.JRadioButton jrbNãoE;
     private javax.swing.JRadioButton jrbNãoE1;
-    private javax.swing.JRadioButton jrbNãoF;
     private javax.swing.JRadioButton jrbNãoF1;
-    private javax.swing.JRadioButton jrbSimE;
     private javax.swing.JRadioButton jrbSimE1;
-    private javax.swing.JRadioButton jrbSimF;
     private javax.swing.JRadioButton jrbSimF1;
     private javax.swing.JTextPane jtpEnunciado;
-    private javax.swing.JTextPane jtpEnunciado1;
     private javax.swing.JTextPane jtpEnunciado2;
-    private javax.swing.JTextPane jtpLetraA;
     private javax.swing.JTextPane jtpLetraA1;
-    private javax.swing.JTextPane jtpLetraB;
     private javax.swing.JTextPane jtpLetraB1;
-    private javax.swing.JTextPane jtpLetraC;
     private javax.swing.JTextPane jtpLetraC1;
-    private javax.swing.JTextPane jtpLetraD;
     private javax.swing.JTextPane jtpLetraD1;
-    private javax.swing.JTextPane jtpLetraE;
     private javax.swing.JTextPane jtpLetraE1;
-    private javax.swing.JTextPane jtpLetraF;
     private javax.swing.JTextPane jtpLetraF1;
-    private javax.swing.JLabel letraD;
     private javax.swing.JLabel letraD1;
     private javax.swing.ButtonGroup letraE;
     private javax.swing.ButtonGroup letraF;

@@ -231,8 +231,8 @@ public class EditorQuestaoFechada extends javax.swing.JDialog {
         jrbNãoF1 = new javax.swing.JRadioButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jmArquivo = new javax.swing.JMenu();
-        jmiSalvar = new javax.swing.JMenuItem();
         jmiImagem = new javax.swing.JMenuItem();
+        jmiSalvar = new javax.swing.JMenuItem();
         jmiSair = new javax.swing.JMenuItem();
         jmTexto = new javax.swing.JMenu();
 
@@ -450,14 +450,6 @@ public class EditorQuestaoFechada extends javax.swing.JDialog {
         jmArquivo.setText("Arquivo");
         jmArquivo.setFont(new java.awt.Font("sansserif", 1, 12)); // NOI18N
 
-        jmiSalvar.setText("Salvar");
-        jmiSalvar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jmiSalvarActionPerformed(evt);
-            }
-        });
-        jmArquivo.add(jmiSalvar);
-
         jmiImagem.setText("Carregar imagem");
         jmiImagem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -466,7 +458,15 @@ public class EditorQuestaoFechada extends javax.swing.JDialog {
         });
         jmArquivo.add(jmiImagem);
 
-        jmiSair.setText("Sair");
+        jmiSalvar.setText("Salvar");
+        jmiSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiSalvarActionPerformed(evt);
+            }
+        });
+        jmArquivo.add(jmiSalvar);
+
+        jmiSair.setText("Menu principal");
         jmiSair.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jmiSairActionPerformed(evt);
