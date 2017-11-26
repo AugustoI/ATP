@@ -18,6 +18,8 @@ public class LoginGUI extends javax.swing.JFrame {
      */
     public LoginGUI() {
         initComponents();
+        setLocationRelativeTo(this); 
+        getRootPane().setDefaultButton(btEntrar);
     }
 
     /**
@@ -37,7 +39,7 @@ public class LoginGUI extends javax.swing.JFrame {
         btEntrar = new javax.swing.JButton();
         btCancel = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -110,8 +112,13 @@ public class LoginGUI extends javax.swing.JFrame {
     
     private void btEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btEntrarActionPerformed
         LoginDAO Logar = new LoginDAO();
-        Logar.setLogin(txtLogin.getText().toString());
-        Logar.setSenha(new String(txtSenha.getPassword()).trim());
+        try{
+            Logar.setLogin(txtLogin.getText().toString());
+            Logar.setSenha(new String(txtSenha.getPassword()).trim());
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null,ex.getMessage(), "Erro", JOptionPane.ERROR);
+        }                
+        
         try {
             if (Logar.Logar()){                
                 MenuGUI mn = new MenuGUI();

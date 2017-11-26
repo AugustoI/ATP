@@ -2,8 +2,6 @@ package telas;
 
 
 import banco.LoginDAO;
-import editorQuestoes.EditorDeQuestoes;
-import editorQuestoes.TelaDeQuestoes;
 
 /**
  *
@@ -17,6 +15,7 @@ public class MenuGUI extends javax.swing.JFrame {
     public static LoginDAO Login;
     public MenuGUI() {
         initComponents();
+        setLocationRelativeTo(this); 
     }
 
     /**
@@ -29,11 +28,14 @@ public class MenuGUI extends javax.swing.JFrame {
     private void initComponents() {
 
         jLayeredPane1 = new javax.swing.JLayeredPane();
-        jMenuBar1 = new javax.swing.JMenuBar();
+        mnMenu = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
+        jMenuItem3 = new javax.swing.JMenuItem();
+        jMenuItem4 = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
 
         javax.swing.GroupLayout jLayeredPane1Layout = new javax.swing.GroupLayout(jLayeredPane1);
         jLayeredPane1.setLayout(jLayeredPane1Layout);
@@ -48,9 +50,9 @@ public class MenuGUI extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jMenu1.setText("Questão");
+        jMenu1.setText("Arquivo");
 
-        jMenuItem1.setText("Adicionar");
+        jMenuItem1.setText("Cadastro de Usuários");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem1ActionPerformed(evt);
@@ -58,20 +60,30 @@ public class MenuGUI extends javax.swing.JFrame {
         });
         jMenu1.add(jMenuItem1);
 
-        jMenuItem2.setText("Editar");
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem2ActionPerformed(evt);
-            }
-        });
+        jMenuItem2.setText("Sobre");
         jMenu1.add(jMenuItem2);
 
-        jMenuBar1.add(jMenu1);
+        mnMenu.add(jMenu1);
 
-        jMenu2.setText("Edit");
-        jMenuBar1.add(jMenu2);
+        jMenu2.setText("Cadastro");
 
-        setJMenuBar(jMenuBar1);
+        jMenuItem3.setText("Dicisplinas");
+        jMenu2.add(jMenuItem3);
+
+        jMenuItem4.setText("Conteúdos");
+        jMenu2.add(jMenuItem4);
+
+        jMenuItem5.setText("Questões");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem5);
+
+        mnMenu.add(jMenu2);
+
+        setJMenuBar(mnMenu);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -89,17 +101,19 @@ public class MenuGUI extends javax.swing.JFrame {
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         // TODO add your handling code here:
-        EditorDeQuestoes escolha = new EditorDeQuestoes();
-        escolha.setVisible(true);
-        dispose();
+        CadastroUsuarioGUI cad = new CadastroUsuarioGUI();
+        cad.setVisible(true);
+        cad.setLocationRelativeTo(null);
+        mnMenu.setEnabled(false);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
         // TODO add your handling code here:
-        TelaDeQuestoes tela = new TelaDeQuestoes();
-        tela.setVisible(true);
-        dispose();
-    }//GEN-LAST:event_jMenuItem2ActionPerformed
+        //EscolhaQuestao escolha = new EscolhaQuestao();
+        //escolha.setVisible(true);
+        //escolha.setLocationRelativeTo(null);        
+        mnMenu.setEnabled(false);
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -140,8 +154,11 @@ public class MenuGUI extends javax.swing.JFrame {
     private javax.swing.JLayeredPane jLayeredPane1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuBar mnMenu;
     // End of variables declaration//GEN-END:variables
 }
