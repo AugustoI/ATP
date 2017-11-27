@@ -181,6 +181,13 @@ public class EditorQuestaoAberta extends javax.swing.JDialog {
         jcbConteudo = new javax.swing.JComboBox<String>();
         jbImagem = new javax.swing.JButton();
         jbVoltar = new javax.swing.JButton();
+        jbNegrito = new javax.swing.JButton();
+        jbItalico = new javax.swing.JButton();
+        jbSublinhado = new javax.swing.JButton();
+        jbCor = new javax.swing.JButton();
+        jbFonte = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
+        jlImagem = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jmArquivo = new javax.swing.JMenu();
         jmiImagem = new javax.swing.JMenuItem();
@@ -230,6 +237,22 @@ public class EditorQuestaoAberta extends javax.swing.JDialog {
             }
         });
 
+        jbNegrito.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jbNegrito.setText("N");
+
+        jbItalico.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
+        jbItalico.setText("I");
+
+        jbSublinhado.setText("S");
+
+        jbCor.setText("Cor do texto");
+
+        jbFonte.setText("Fonte");
+
+        jLabel5.setText("Imagem:");
+
+        jlImagem.setText("jlImagem");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -237,30 +260,44 @@ public class EditorQuestaoAberta extends javax.swing.JDialog {
             .addComponent(jScrollPane2)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 4, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel1))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jcbDisciplina, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel4)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jcbConteudo, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jcbDificuldade, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jbVoltar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jbImagem)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jbSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jbNegrito)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jbItalico)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jbSublinhado)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jbCor)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jbFonte))
+                            .addComponent(jLabel1))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jlImagem))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jbVoltar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jbImagem)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jbSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -278,10 +315,19 @@ public class EditorQuestaoAberta extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jbImagem)
                     .addComponent(jbSalvar)
-                    .addComponent(jLabel1)
-                    .addComponent(jbVoltar))
+                    .addComponent(jbVoltar)
+                    .addComponent(jbNegrito)
+                    .addComponent(jbItalico)
+                    .addComponent(jbSublinhado)
+                    .addComponent(jbCor)
+                    .addComponent(jbFonte))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel5)
+                    .addComponent(jlImagem))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         jmArquivo.setText("Arquivo");
@@ -791,15 +837,22 @@ public class EditorQuestaoAberta extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JButton jbCor;
+    private javax.swing.JButton jbFonte;
     private javax.swing.JButton jbImagem;
+    private javax.swing.JButton jbItalico;
+    private javax.swing.JButton jbNegrito;
     private javax.swing.JButton jbSalvar;
+    private javax.swing.JButton jbSublinhado;
     private javax.swing.JButton jbVoltar;
     private javax.swing.JComboBox<String> jcbConteudo;
     private javax.swing.JComboBox<String> jcbDificuldade;
     private javax.swing.JComboBox<String> jcbDisciplina;
+    private javax.swing.JLabel jlImagem;
     private javax.swing.JMenu jmArquivo;
     private javax.swing.JMenu jmTexto;
     private javax.swing.JMenuItem jmiImagem;

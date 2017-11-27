@@ -63,7 +63,7 @@ public class EditorDeQuestoes extends javax.swing.JFrame {
         jTabbedPane1.setTitleAt(0, "Questão ABERTA");
         jTabbedPane1.setTitleAt(1, "Questão FECHADA");        
         this.setResizable(false);
-        this.setSize(new Dimension(this.getSize().width, 380)); 
+        this.setSize(new Dimension(this.getSize().width, 385)); 
         this.setLocationRelativeTo(null);
         this.setTitle("Editor de Questões");
         
@@ -125,6 +125,13 @@ public class EditorDeQuestoes extends javax.swing.JFrame {
         jcbConteudo = new javax.swing.JComboBox<String>();
         jbImagem = new javax.swing.JButton();
         jbVoltar = new javax.swing.JButton();
+        jbNegrito1 = new javax.swing.JButton();
+        jbItalico1 = new javax.swing.JButton();
+        jbSublinhado1 = new javax.swing.JButton();
+        jbCor1 = new javax.swing.JButton();
+        jbFonte1 = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
+        jlImagem1 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
@@ -160,6 +167,13 @@ public class EditorDeQuestoes extends javax.swing.JFrame {
         jrbNãoE1 = new javax.swing.JRadioButton();
         jrbSimF1 = new javax.swing.JRadioButton();
         jrbNãoF1 = new javax.swing.JRadioButton();
+        jbNegrito2 = new javax.swing.JButton();
+        jbItalico2 = new javax.swing.JButton();
+        jbSublinhado2 = new javax.swing.JButton();
+        jbCor2 = new javax.swing.JButton();
+        jbFonte2 = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
+        jlImagem2 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jmArquivo = new javax.swing.JMenu();
         jmiImagem = new javax.swing.JMenuItem();
@@ -216,6 +230,27 @@ public class EditorDeQuestoes extends javax.swing.JFrame {
             }
         });
 
+        jbNegrito1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jbNegrito1.setText("N");
+        jbNegrito1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbNegrito1ActionPerformed(evt);
+            }
+        });
+
+        jbItalico1.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
+        jbItalico1.setText("I");
+
+        jbSublinhado1.setText("S");
+
+        jbCor1.setText("Cor do texto");
+
+        jbFonte1.setText("Fonte");
+
+        jLabel5.setText("Imagem:");
+
+        jlImagem1.setText("jlImagem");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -223,30 +258,44 @@ public class EditorDeQuestoes extends javax.swing.JFrame {
             .addComponent(jScrollPane2)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 4, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel1))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jcbDisciplina, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel4)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jcbConteudo, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jcbDificuldade, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jbVoltar, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jbImagem)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jbSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jbNegrito1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jbItalico1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jbSublinhado1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jbCor1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jbFonte1))
+                            .addComponent(jLabel1))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jbVoltar, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jbImagem)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jbSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jlImagem1)))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -264,10 +313,19 @@ public class EditorDeQuestoes extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jbImagem)
                     .addComponent(jbSalvar)
-                    .addComponent(jLabel1)
-                    .addComponent(jbVoltar))
+                    .addComponent(jbVoltar)
+                    .addComponent(jbNegrito1)
+                    .addComponent(jbItalico1)
+                    .addComponent(jbSublinhado1)
+                    .addComponent(jbCor1)
+                    .addComponent(jbFonte1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel5)
+                    .addComponent(jlImagem1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(321, Short.MAX_VALUE))
         );
 
@@ -369,6 +427,22 @@ public class EditorDeQuestoes extends javax.swing.JFrame {
             }
         });
 
+        jbNegrito2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jbNegrito2.setText("N");
+
+        jbItalico2.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
+        jbItalico2.setText("I");
+
+        jbSublinhado2.setText("S");
+
+        jbCor2.setText("Cor do texto");
+
+        jbFonte2.setText("Fonte");
+
+        jLabel6.setText("Imagem:");
+
+        jlImagem2.setText("jlImagem");
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -405,30 +479,44 @@ public class EditorDeQuestoes extends javax.swing.JFrame {
                                 .addComponent(jScrollPane14, javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jScrollPane13, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 4, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel15))
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addComponent(jLabel14)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jcbDisciplina3, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel16)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(jLabel16)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jcbConteudo3, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jLabel17)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jcbDificuldade3, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jbVoltar1, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel3Layout.createSequentialGroup()
+                                        .addComponent(jbNegrito2)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jbItalico2)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jbSublinhado2)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jbCor2))
+                                    .addComponent(jLabel15))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jbImagem3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jbSalvar3, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(jbFonte2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel3Layout.createSequentialGroup()
+                                        .addComponent(jbVoltar1, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jbImagem3)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jbSalvar3, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel3Layout.createSequentialGroup()
+                                        .addComponent(jLabel6)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jlImagem2)))))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -447,10 +535,19 @@ public class EditorDeQuestoes extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jbImagem3)
                     .addComponent(jbSalvar3)
-                    .addComponent(jLabel15)
-                    .addComponent(jbVoltar1))
+                    .addComponent(jbVoltar1)
+                    .addComponent(jbNegrito2)
+                    .addComponent(jbItalico2)
+                    .addComponent(jbSublinhado2)
+                    .addComponent(jbCor2)
+                    .addComponent(jbFonte2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel15)
+                    .addComponent(jLabel6)
+                    .addComponent(jlImagem2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelA1)
@@ -677,7 +774,7 @@ public class EditorDeQuestoes extends javax.swing.JFrame {
     private void jTabbedPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPane1MouseClicked
         // TODO add your handling code here:
         if (jTabbedPane1.getSelectedIndex() == 0) {
-            this.setSize(new Dimension(this.getSize().width, 380)); 
+            this.setSize(new Dimension(this.getSize().width, 385)); 
             this.setLocationRelativeTo(null);
         }
         if (jTabbedPane1.getSelectedIndex() == 1) {
@@ -860,6 +957,10 @@ public class EditorDeQuestoes extends javax.swing.JFrame {
             dispose();
         }                
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jbNegrito1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbNegrito1ActionPerformed
+        // TODO add your handling code here:        
+    }//GEN-LAST:event_jbNegrito1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1243,6 +1344,8 @@ public class EditorDeQuestoes extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JLabel jLabelA1;
     private javax.swing.JLabel jLabelC1;
@@ -1261,10 +1364,20 @@ public class EditorDeQuestoes extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JButton jbCor1;
+    private javax.swing.JButton jbCor2;
+    private javax.swing.JButton jbFonte1;
+    private javax.swing.JButton jbFonte2;
     private javax.swing.JButton jbImagem;
     private javax.swing.JButton jbImagem3;
+    private javax.swing.JButton jbItalico1;
+    private javax.swing.JButton jbItalico2;
+    private javax.swing.JButton jbNegrito1;
+    private javax.swing.JButton jbNegrito2;
     private javax.swing.JButton jbSalvar;
     private javax.swing.JButton jbSalvar3;
+    private javax.swing.JButton jbSublinhado1;
+    private javax.swing.JButton jbSublinhado2;
     private javax.swing.JButton jbVoltar;
     private javax.swing.JButton jbVoltar1;
     private javax.swing.JComboBox<String> jcbConteudo;
@@ -1273,6 +1386,8 @@ public class EditorDeQuestoes extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> jcbDificuldade3;
     private javax.swing.JComboBox<String> jcbDisciplina;
     private javax.swing.JComboBox<String> jcbDisciplina3;
+    private javax.swing.JLabel jlImagem1;
+    private javax.swing.JLabel jlImagem2;
     private javax.swing.JMenu jmArquivo;
     private javax.swing.JMenu jmTexto;
     private javax.swing.JMenuItem jmiImagem;
