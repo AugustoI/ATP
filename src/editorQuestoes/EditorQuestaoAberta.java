@@ -71,26 +71,31 @@ public class EditorQuestaoAberta extends javax.swing.JDialog {
         Action boldAction = new EditorQuestaoAberta.BoldAction();
         boldAction.putValue(Action.NAME, "Negrito");
         jmTexto.add(boldAction);  
+        jbNegrito.addActionListener(boldAction);
         
         //MenuItem Itálico
         Action italicAction = new EditorQuestaoAberta.ItalicAction();
         italicAction.putValue(Action.NAME, "Itálico");
         jmTexto.add(italicAction);
+        jbItalico.addActionListener(italicAction);
 
         //MenuItem Sublinhado
         Action underlineAction = new EditorQuestaoAberta.UnderlineAction();
         underlineAction.putValue(Action.NAME, "Sublinhado");
         jmTexto.add(underlineAction);
+        jbSublinhado.addActionListener(underlineAction);
 
         //MenuItem Cor
         Action foregroundAction = new EditorQuestaoAberta.ForegroundAction();
         foregroundAction.putValue(Action.NAME, "Cor do texto");
         jmTexto.add(foregroundAction);
+        jbCor.addActionListener(foregroundAction);
 
         //MenuItem Fonte
         Action formatTextAction = new EditorQuestaoAberta.FontAndSizeAction();
         formatTextAction.putValue(Action.NAME, "Fonte");
         jmTexto.add(formatTextAction);
+        jbFonte.addActionListener(formatTextAction);
         
         jtpEnunciado.requestFocus();
     }
@@ -239,15 +244,40 @@ public class EditorQuestaoAberta extends javax.swing.JDialog {
 
         jbNegrito.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jbNegrito.setText("N");
+        jbNegrito.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbNegritoActionPerformed(evt);
+            }
+        });
 
         jbItalico.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
         jbItalico.setText("I");
+        jbItalico.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbItalicoActionPerformed(evt);
+            }
+        });
 
         jbSublinhado.setText("S");
+        jbSublinhado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbSublinhadoActionPerformed(evt);
+            }
+        });
 
         jbCor.setText("Cor do texto");
+        jbCor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbCorActionPerformed(evt);
+            }
+        });
 
         jbFonte.setText("Fonte");
+        jbFonte.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbFonteActionPerformed(evt);
+            }
+        });
 
         jLabel5.setText("Imagem:");
 
@@ -460,6 +490,31 @@ public class EditorQuestaoAberta extends javax.swing.JDialog {
             dispose();
         }
     }//GEN-LAST:event_jmiSairActionPerformed
+
+    private void jbNegritoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbNegritoActionPerformed
+        // TODO add your handling code here:
+        jtpEnunciado.requestFocus();
+    }//GEN-LAST:event_jbNegritoActionPerformed
+
+    private void jbItalicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbItalicoActionPerformed
+        // TODO add your handling code here:
+        jtpEnunciado.requestFocus();
+    }//GEN-LAST:event_jbItalicoActionPerformed
+
+    private void jbSublinhadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSublinhadoActionPerformed
+        // TODO add your handling code here:
+        jtpEnunciado.requestFocus();
+    }//GEN-LAST:event_jbSublinhadoActionPerformed
+
+    private void jbCorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCorActionPerformed
+        // TODO add your handling code here:
+        jtpEnunciado.requestFocus();
+    }//GEN-LAST:event_jbCorActionPerformed
+
+    private void jbFonteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbFonteActionPerformed
+        // TODO add your handling code here:
+        jtpEnunciado.requestFocus();
+    }//GEN-LAST:event_jbFonteActionPerformed
 
     /**
      * @param args the command line arguments

@@ -72,30 +72,40 @@ public class EditorDeQuestoes extends javax.swing.JFrame {
         //Carregar os dois combobox (disciplinas e conteúdos)
         CarregarComboBox();
         
-        //MenuItem Negrito
+        //MenuItem e Botão Negrito
         Action boldAction = new EditorDeQuestoes.BoldAction();
         boldAction.putValue(Action.NAME, "Negrito");
         jmTexto.add(boldAction);  
+        jbNegrito1.addActionListener(boldAction);        
+        jbNegrito2.addActionListener(boldAction); 
         
-        //MenuItem Itálico
+        //MenuItem e Botão Itálico
         Action italicAction = new EditorDeQuestoes.ItalicAction();
         italicAction.putValue(Action.NAME, "Itálico");
         jmTexto.add(italicAction);
+        jbItalico1.addActionListener(italicAction);   
+        jbItalico2.addActionListener(italicAction); 
 
-        //MenuItem Sublinhado
+        //MenuItem e Botão Sublinhado
         Action underlineAction = new EditorDeQuestoes.UnderlineAction();
         underlineAction.putValue(Action.NAME, "Sublinhado");
         jmTexto.add(underlineAction);
+        jbSublinhado1.addActionListener(underlineAction);   
+        jbSublinhado2.addActionListener(underlineAction); 
 
-        //MenuItem Cor
+        //MenuItem e Botão Cor
         Action foregroundAction = new EditorDeQuestoes.ForegroundAction();
         foregroundAction.putValue(Action.NAME, "Cor do texto");
         jmTexto.add(foregroundAction);
+        jbCor1.addActionListener(foregroundAction);   
+        jbCor2.addActionListener(foregroundAction);  
 
-        //MenuItem Fonte
+        //MenuItem e Botão Fonte
         Action formatTextAction = new EditorDeQuestoes.FontAndSizeAction();
         formatTextAction.putValue(Action.NAME, "Fonte");
         jmTexto.add(formatTextAction);
+        jbFonte1.addActionListener(formatTextAction);   
+        jbFonte2.addActionListener(formatTextAction); 
         
         jtpEnunciado.requestFocus();
     }
@@ -240,12 +250,32 @@ public class EditorDeQuestoes extends javax.swing.JFrame {
 
         jbItalico1.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
         jbItalico1.setText("I");
+        jbItalico1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbItalico1ActionPerformed(evt);
+            }
+        });
 
         jbSublinhado1.setText("S");
+        jbSublinhado1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbSublinhado1ActionPerformed(evt);
+            }
+        });
 
         jbCor1.setText("Cor do texto");
+        jbCor1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbCor1ActionPerformed(evt);
+            }
+        });
 
         jbFonte1.setText("Fonte");
+        jbFonte1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbFonte1ActionPerformed(evt);
+            }
+        });
 
         jLabel5.setText("Imagem:");
 
@@ -429,11 +459,26 @@ public class EditorDeQuestoes extends javax.swing.JFrame {
 
         jbNegrito2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jbNegrito2.setText("N");
+        jbNegrito2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbNegrito2ActionPerformed(evt);
+            }
+        });
 
         jbItalico2.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
         jbItalico2.setText("I");
+        jbItalico2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbItalico2ActionPerformed(evt);
+            }
+        });
 
         jbSublinhado2.setText("S");
+        jbSublinhado2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbSublinhado2ActionPerformed(evt);
+            }
+        });
 
         jbCor2.setText("Cor do texto");
 
@@ -959,8 +1004,42 @@ public class EditorDeQuestoes extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jbNegrito1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbNegrito1ActionPerformed
-        // TODO add your handling code here:        
+        // TODO add your handling code here: 
+        jtpEnunciado.requestFocus();
     }//GEN-LAST:event_jbNegrito1ActionPerformed
+
+    private void jbItalico1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbItalico1ActionPerformed
+        // TODO add your handling code here:
+        jtpEnunciado.requestFocus();
+    }//GEN-LAST:event_jbItalico1ActionPerformed
+
+    private void jbSublinhado1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSublinhado1ActionPerformed
+        // TODO add your handling code here:
+        jtpEnunciado.requestFocus();
+    }//GEN-LAST:event_jbSublinhado1ActionPerformed
+
+    private void jbCor1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCor1ActionPerformed
+        // TODO add your handling code here:
+        jtpEnunciado.requestFocus();
+    }//GEN-LAST:event_jbCor1ActionPerformed
+
+    private void jbFonte1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbFonte1ActionPerformed
+        // TODO add your handling code here:
+        jtpEnunciado.requestFocus();
+    }//GEN-LAST:event_jbFonte1ActionPerformed
+
+    private void jbNegrito2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbNegrito2ActionPerformed
+        // TODO add your handling code here:
+        //AQUI VOU TER QUE CHAMAR O QUE JÁ ESTAVA SELECIONADO
+    }//GEN-LAST:event_jbNegrito2ActionPerformed
+
+    private void jbItalico2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbItalico2ActionPerformed
+        // TODO add your handling code here:       
+    }//GEN-LAST:event_jbItalico2ActionPerformed
+
+    private void jbSublinhado2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSublinhado2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jbSublinhado2ActionPerformed
 
     /**
      * @param args the command line arguments

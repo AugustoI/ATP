@@ -71,26 +71,31 @@ public class EditorQuestaoFechada extends javax.swing.JDialog {
         Action boldAction = new EditorQuestaoFechada.BoldAction();
         boldAction.putValue(Action.NAME, "Negrito");
         jmTexto.add(boldAction);  
+        jbNegrito.addActionListener(boldAction);
         
         //MenuItem Itálico
         Action italicAction = new EditorQuestaoFechada.ItalicAction();
         italicAction.putValue(Action.NAME, "Itálico");
         jmTexto.add(italicAction);
+        jbItalico.addActionListener(italicAction);
 
         //MenuItem Sublinhado
         Action underlineAction = new EditorQuestaoFechada.UnderlineAction();
         underlineAction.putValue(Action.NAME, "Sublinhado");
         jmTexto.add(underlineAction);
+        jbSublinhado.addActionListener(underlineAction);
 
         //MenuItem Cor
         Action foregroundAction = new EditorQuestaoFechada.ForegroundAction();
         foregroundAction.putValue(Action.NAME, "Cor do texto");
         jmTexto.add(foregroundAction);
+        jbCor.addActionListener(foregroundAction);
 
         //MenuItem Fonte
         Action formatTextAction = new EditorQuestaoFechada.FontAndSizeAction();
         formatTextAction.putValue(Action.NAME, "Fonte");
         jmTexto.add(formatTextAction);
+        jbFonte.addActionListener(formatTextAction);
         
         jtpEnunciado2.requestFocus();
     }
@@ -343,6 +348,11 @@ public class EditorQuestaoFechada extends javax.swing.JDialog {
 
         jbNegrito.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jbNegrito.setText("N");
+        jbNegrito.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbNegritoActionPerformed(evt);
+            }
+        });
 
         jbItalico.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
         jbItalico.setText("I");
@@ -710,6 +720,10 @@ public class EditorQuestaoFechada extends javax.swing.JDialog {
             dispose();
         }
     }//GEN-LAST:event_jmiSairActionPerformed
+
+    private void jbNegritoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbNegritoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jbNegritoActionPerformed
 
     /**
      * @param args the command line arguments

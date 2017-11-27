@@ -288,6 +288,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="N"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbNegritoActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="jbItalico">
           <Properties>
@@ -296,21 +299,33 @@
             </Property>
             <Property name="text" type="java.lang.String" value="I"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbItalicoActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="jbSublinhado">
           <Properties>
             <Property name="text" type="java.lang.String" value="S"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbSublinhadoActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="jbCor">
           <Properties>
             <Property name="text" type="java.lang.String" value="Cor do texto"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbCorActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="jbFonte">
           <Properties>
             <Property name="text" type="java.lang.String" value="Fonte"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbFonteActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel5">
           <Properties>

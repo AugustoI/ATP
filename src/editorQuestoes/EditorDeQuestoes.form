@@ -323,21 +323,33 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="I"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbItalico1ActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="jbSublinhado1">
               <Properties>
                 <Property name="text" type="java.lang.String" value="S"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbSublinhado1ActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="jbCor1">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Cor do texto"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbCor1ActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="jbFonte1">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Fonte"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbFonte1ActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel5">
               <Properties>
@@ -780,6 +792,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="N"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbNegrito2ActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="jbItalico2">
               <Properties>
@@ -788,11 +803,17 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="I"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbItalico2ActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="jbSublinhado2">
               <Properties>
                 <Property name="text" type="java.lang.String" value="S"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbSublinhado2ActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="jbCor2">
               <Properties>
