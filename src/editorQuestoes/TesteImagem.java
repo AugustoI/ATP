@@ -27,9 +27,9 @@ public class TesteImagem extends javax.swing.JDialog {
     Questoes questoesBanco = new Questoes();
     ResultSet rs;
     int posicao;
-    FileInputStream input;
-    boolean certo = false;
-    String fileName;
+    public FileInputStream input;
+    public boolean certo = false;
+    public String fileName;
     
     public TesteImagem(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
