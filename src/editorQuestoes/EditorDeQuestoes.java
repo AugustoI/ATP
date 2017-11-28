@@ -78,6 +78,9 @@ public class EditorDeQuestoes extends javax.swing.JFrame {
         t6 = false;
         t7 = false;
         
+        jlImagem1.setMaximumSize(new Dimension(14, 225));
+        jlImagem2.setMaximumSize(new Dimension(14, 225));
+        
         //Carregar os dois combobox (disciplinas e conteúdos)
         CarregarComboBox();
         
@@ -746,7 +749,7 @@ public class EditorDeQuestoes extends javax.swing.JFrame {
                     int x = JOptionPane.showConfirmDialog(this.getContentPane(), "Tem certeza que deseja salvar esta questão?", "Salvar questão",
                     JOptionPane.YES_NO_CANCEL_OPTION);
                     if (x==0) {
-                        String enunciado = jtpEnunciado.getText();
+                        String enunciado = jtpEnunciado.getText();                        
                         int dificuldade = Integer.parseInt(jcbDificuldade.getSelectedItem().toString());
                         String multipla = "N";
                         resultSet = questoesBanco.pegarConteudosID(jcbConteudo.getSelectedItem().toString());
@@ -777,7 +780,7 @@ public class EditorDeQuestoes extends javax.swing.JFrame {
             }
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(this, "Ocorreu um erro. Tente novamente");
-        }                       
+        }                      
     }//GEN-LAST:event_jbSalvarActionPerformed
 
     private void jbImagemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbImagemActionPerformed
