@@ -58,6 +58,8 @@ public class EditorDeQuestoes extends javax.swing.JFrame {
     List<String> strList = new ArrayList<String>();  
     boolean img;
     FileInputStream input;
+    String fileName;
+    
     public EditorDeQuestoes() {
         initComponents();
         jTabbedPane1.setTitleAt(0, "Questão ABERTA");
@@ -739,6 +741,7 @@ public class EditorDeQuestoes extends javax.swing.JFrame {
         img = a.certo;
         posicaoImagem = a.posicao;
         input = a.input;
+        fileName = a.fileName;
     }//GEN-LAST:event_jbImagemActionPerformed
 
     private void jmiSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiSalvarActionPerformed
@@ -1080,6 +1083,7 @@ public class EditorDeQuestoes extends javax.swing.JFrame {
     public void AddImagem(int idDestaQuestao) {        
         if (img) {
             try {
+                //PASSAR FILENAME
                 questoesBanco.inserirImagem(idDestaQuestao, input, posicaoImagem);              
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(this, "Ocorreu um erro, tente novamente!");

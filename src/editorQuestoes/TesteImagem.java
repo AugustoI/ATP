@@ -29,6 +29,7 @@ public class TesteImagem extends javax.swing.JDialog {
     int posicao;
     FileInputStream input;
     boolean certo = false;
+    String fileName;
     
     public TesteImagem(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -234,9 +235,11 @@ public class TesteImagem extends javax.swing.JDialog {
         int resposta = chooser.showOpenDialog(null);
         if (resposta == JFileChooser.APPROVE_OPTION) {
             try {
-                File file = new File(chooser.getSelectedFile().getAbsolutePath());            
+                File file = new File(chooser.getSelectedFile().getAbsolutePath());      
+                fileName = file.getName();
                 input = new FileInputStream(file);  
                 adicionou = true;
+                JOptionPane.showMessageDialog(this, "Name: "+fileName);
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(this, "Error: "+e);
             }

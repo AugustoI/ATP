@@ -54,9 +54,9 @@ public class EditorQuestaoAberta extends javax.swing.JDialog {
     ResultSet rs;
     DefaultComboBoxModel modelComboBox;  
     FileInputStream input;
-    String enunciado, disciplina, conteudo;
+    String enunciado, disciplina, conteudo, fileName;
     int idQuestao, dificuldade, idConteudo, posicaoImagem;      
-    boolean img;    
+    boolean img;        
     
     public EditorQuestaoAberta(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -457,6 +457,7 @@ public class EditorQuestaoAberta extends javax.swing.JDialog {
         img = a.certo;
         posicaoImagem = a.posicao;
         input = a.input;
+        fileName = a.fileName;
     }//GEN-LAST:event_jbImagemActionPerformed
 
     private void jbVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbVoltarActionPerformed
@@ -575,8 +576,10 @@ public class EditorQuestaoAberta extends javax.swing.JDialog {
             try {
                 rs = questoesBanco.confereSeTemImagem(idDestaQuestao);
                 if (rs!=null) {
+                    //PASSAR FILENAME
                     questoesBanco.inserirImagemEditada(input, posicaoImagem, idDestaQuestao);              
                 } else {
+                    //PASSAR FILENAME
                     questoesBanco.inserirImagem(idDestaQuestao, input, posicaoImagem);              
                 }
             } catch (SQLException ex) {
