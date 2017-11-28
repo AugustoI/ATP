@@ -54,11 +54,11 @@ public class LoginDAO extends Banco{
         Inserir.executeUpdate();
     }
     
-     public void EditarLogin(String NovoLogin, String NovaSenha) throws SQLException{
+     public void EditarLogin() throws SQLException{
         String SQLInsere = " UPDATE Usuarios SET Login = ?, Senha = ? WHERE Login = ? ";
         PreparedStatement Editar = conectar().prepareStatement(SQLInsere);
-        Editar.setString(1, NovoLogin);
-        Editar.setString(2, NovaSenha);        
+        Editar.setString(1, this.getLogin());
+        Editar.setString(2, this.getSenha());        
         Editar.setString(3, this.getLogin());        
         Editar.executeUpdate();
     }

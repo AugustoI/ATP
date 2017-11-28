@@ -32,16 +32,13 @@ public class CadastroUsuarioGUI extends javax.swing.JFrame {
         txtLogin = new javax.swing.JTextField();
         txtSenha = new javax.swing.JPasswordField();
         btSalvar = new javax.swing.JButton();
-        btBuscar = new javax.swing.JButton();
-        btEditar = new javax.swing.JButton();
-        btExcluir = new javax.swing.JButton();
-        btUltimo = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
-        btIncluir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                formComponentShown(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         jLabel1.setText("Usuário");
@@ -52,50 +49,9 @@ public class CadastroUsuarioGUI extends javax.swing.JFrame {
         txtLogin.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
 
         btSalvar.setText("Salvar");
-
-        btBuscar.setText("Buscar");
-        btBuscar.addActionListener(new java.awt.event.ActionListener() {
+        btSalvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btBuscarActionPerformed(evt);
-            }
-        });
-
-        btEditar.setText("Editar");
-
-        btExcluir.setText("Excluir");
-
-        btUltimo.setText("|<");
-        btUltimo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btUltimoActionPerformed(evt);
-            }
-        });
-
-        jButton3.setText("<");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
-
-        jButton4.setText(">");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
-            }
-        });
-
-        jButton5.setText(">|");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
-            }
-        });
-
-        btIncluir.setText("Incluir");
-        btIncluir.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btIncluirActionPerformed(evt);
+                btSalvarActionPerformed(evt);
             }
         });
 
@@ -104,172 +60,61 @@ public class CadastroUsuarioGUI extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel1)
-                    .addComponent(txtLogin)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(btUltimo)
-                            .addComponent(btBuscar))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(btIncluir, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton3))))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton4))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton5)
-                                .addGap(30, 30, 30))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(txtLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel2)
-                            .addComponent(txtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap())))
+                            .addComponent(txtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(42, 42, 42)
+                        .addComponent(btSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 14, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2))
+                .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtLogin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(txtLogin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btBuscar)
-                    .addComponent(btIncluir)
-                    .addComponent(btEditar)
-                    .addComponent(btExcluir)
-                    .addComponent(btSalvar))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton3)
-                    .addComponent(jButton4)
-                    .addComponent(jButton5)
-                    .addComponent(btUltimo))
-                .addGap(18, 18, 18))
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btSalvar)
+                .addContainerGap(26, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    ResultSet Usuarios;
-    private void btBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btBuscarActionPerformed
-        LoginDAO Busca = new LoginDAO();
-        Busca.setLogin(txtLogin.getText().toString());
-        try{
-            Usuarios = Busca.BuscaUsuario();
-        }catch (SQLException exSQL){
-            JOptionPane.showMessageDialog(null,exSQL.getMessage());
-        }catch (RuntimeException ex){
+    private ResultSet Usuarios;
+    
+    private void btSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSalvarActionPerformed
+        LoginDAO Trab = new LoginDAO();
+        try {
+            Trab.setLogin(txtLogin.getText().toString());
+            Trab.setSenha(new String(txtSenha.getPassword()).trim());
+        } catch (RuntimeException exRun) {
+            JOptionPane.showMessageDialog(null,exRun.getMessage());
+        }
+        try {
+            Trab.InserirLogin();       
+            JOptionPane.showMessageDialog(null,"Salvo com sucesso!");
+        } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null,ex.getMessage());
         }
-        try {           
-            txtLogin.setText(Usuarios.getString("Login"));
-            txtSenha.setText("senha");
-        } catch (Exception exSQL) {
-            JOptionPane.showMessageDialog(null,exSQL.getMessage());
-        }
-    }//GEN-LAST:event_btBuscarActionPerformed
-
-    private void btIncluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btIncluirActionPerformed
         txtLogin.setText("");
         txtSenha.setText("");
         txtLogin.requestFocus();
-        LoginDAO Inserir = new LoginDAO();
-        Inserir.setLogin(txtLogin.getText().toString());
-        Inserir.setSenha(new String(txtSenha.getPassword()).trim());
-        try {
-            Inserir.InserirLogin();
-            JOptionPane.showMessageDialog(null,"Usuário incluso com sucesso!");
-        } catch (SQLException exSQL) {
-            JOptionPane.showMessageDialog(null,"Erro ao inserir o usuário" + exSQL.getMessage());
-        }
-        txtLogin.setText("");
-        txtSenha.setText("");
-        txtLogin.requestFocus();
-    }//GEN-LAST:event_btIncluirActionPerformed
+    }//GEN-LAST:event_btSalvarActionPerformed
 
-    private void btUltimoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btUltimoActionPerformed
-        try{
-            Usuarios.first();
-            try {
-                txtLogin.setText(Usuarios.getString("Login"));
-                txtSenha.setText(Usuarios.getString("Senha"));
-            } catch (SQLException ex1) {
-                Logger.getLogger(CadastroUsuarioGUI.class.getName()).log(Level.SEVERE, null, ex1);
-            }
-        }catch(Exception ex){
-            
-        }                
-    }//GEN-LAST:event_btUltimoActionPerformed
+    private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        try{
-            Usuarios.last();
-            try {
-                txtLogin.setText(Usuarios.getString("Login"));
-                txtSenha.setText(Usuarios.getString("Senha"));
-            } catch (SQLException ex1) {
-                Logger.getLogger(CadastroUsuarioGUI.class.getName()).log(Level.SEVERE, null, ex1);
-            }
-        }catch(Exception ex){
-            
-        }
-    }//GEN-LAST:event_jButton5ActionPerformed
-
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        try{
-            Usuarios.next();
-            if (Usuarios.isAfterLast()){
-                Usuarios.previous();
-                JOptionPane.showMessageDialog(null,"Último registro.");
-            }else {
-                try {
-                    txtLogin.setText(Usuarios.getString("Login"));
-                    txtSenha.setText(Usuarios.getString("Senha"));
-                } catch (SQLException ex1) {
-                    Logger.getLogger(CadastroUsuarioGUI.class.getName()).log(Level.SEVERE, null, ex1);
-                }                
-            }            
-        }catch(Exception ex){
-            
-        }
-    }//GEN-LAST:event_jButton4ActionPerformed
-
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        try{
-            Usuarios.previous();
-            if (Usuarios.isBeforeFirst()){
-                Usuarios.next();
-                JOptionPane.showMessageDialog(null,"Primeiro registro.");
-            }else{
-                try {
-                    txtLogin.setText(Usuarios.getString("Login"));
-                    txtSenha.setText(Usuarios.getString("Senha"));
-                } catch (SQLException ex1) {
-                    Logger.getLogger(CadastroUsuarioGUI.class.getName()).log(Level.SEVERE, null, ex1);
-                }                  
-            }
-        }catch(Exception ex){
-            
-        }
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_formComponentShown
 
     /**
      * @param args the command line arguments
@@ -307,15 +152,7 @@ public class CadastroUsuarioGUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btBuscar;
-    private javax.swing.JButton btEditar;
-    private javax.swing.JButton btExcluir;
-    private javax.swing.JButton btIncluir;
     private javax.swing.JButton btSalvar;
-    private javax.swing.JButton btUltimo;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JTextField txtLogin;
