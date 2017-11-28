@@ -57,13 +57,21 @@ public class EditorQuestaoFechada extends javax.swing.JDialog {
     FileInputStream input;
     String fileName, enunciado, disciplina, conteudo, alternativaA, alternativaB, alternativaC, alternativaD, alternativaE, alternativaF;
     int idQuestao, dificuldade, idConteudo, posicaoImagem;      
-    boolean img;    
+    boolean img, t1, t2, t3, t4, t5, t6, t7;    
     
     public EditorQuestaoFechada(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         this.setLocationRelativeTo(this);
         this.setTitle("Editor de Questão FECHADA");
+        
+        t1 = false;
+        t2 = false;
+        t3 = false;
+        t4 = false;
+        t5 = false;
+        t6 = false;
+        t7 = false;
         
         //Carregar os dois combobox (disciplinas e conteúdos)
         CarregarComboBox();
@@ -107,6 +115,14 @@ public class EditorQuestaoFechada extends javax.swing.JDialog {
         this.setLocationRelativeTo(this);
         this.setTitle("Editor de Questão FECHADA");
         jlImagem.setMaximumSize(new Dimension(14, 225));
+        
+        t1 = false;
+        t2 = false;
+        t3 = false;
+        t4 = false;
+        t5 = false;
+        t6 = false;
+        t7 = false;
         
         //Carregar os dois combobox (disciplinas e conteúdos)
         CarregarComboBox();
@@ -290,34 +306,69 @@ public class EditorQuestaoFechada extends javax.swing.JDialog {
             }
         });
 
+        jtpEnunciado2.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jtpEnunciado2FocusGained(evt);
+            }
+        });
         jScrollPane9.setViewportView(jtpEnunciado2);
 
         jLabelA1.setText("Alternativa A:");
 
+        jtpLetraA1.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jtpLetraA1FocusGained(evt);
+            }
+        });
         jScrollPane10.setViewportView(jtpLetraA1);
 
         jLabelC1.setText("Alternativa C:");
 
+        jtpLetraC1.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jtpLetraC1FocusGained(evt);
+            }
+        });
         jScrollPane11.setViewportView(jtpLetraC1);
 
         jLabelE1.setText("Alternativa E:");
         jLabelE1.setEnabled(false);
 
         jtpLetraE1.setEnabled(false);
+        jtpLetraE1.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jtpLetraE1FocusGained(evt);
+            }
+        });
         jScrollPane12.setViewportView(jtpLetraE1);
 
         jLabel9.setText("Alternativa B:");
 
+        jtpLetraB1.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jtpLetraB1FocusGained(evt);
+            }
+        });
         jScrollPane13.setViewportView(jtpLetraB1);
 
         letraD1.setText("AlternativaD:");
 
+        jtpLetraD1.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jtpLetraD1FocusGained(evt);
+            }
+        });
         jScrollPane14.setViewportView(jtpLetraD1);
 
         jLabelF1.setText("AlternativaF:");
         jLabelF1.setEnabled(false);
 
         jtpLetraF1.setEnabled(false);
+        jtpLetraF1.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jtpLetraF1FocusGained(evt);
+            }
+        });
         jScrollPane15.setViewportView(jtpLetraF1);
 
         letraE.add(jrbSimE1);
@@ -364,12 +415,32 @@ public class EditorQuestaoFechada extends javax.swing.JDialog {
 
         jbItalico.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
         jbItalico.setText("I");
+        jbItalico.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbItalicoActionPerformed(evt);
+            }
+        });
 
         jbSublinhado.setText("S");
+        jbSublinhado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbSublinhadoActionPerformed(evt);
+            }
+        });
 
         jbCor.setText("Cor do texto");
+        jbCor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbCorActionPerformed(evt);
+            }
+        });
 
         jbFonte.setText("Fonte");
+        jbFonte.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbFonteActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("Imagem:");
 
@@ -733,7 +804,205 @@ public class EditorQuestaoFechada extends javax.swing.JDialog {
 
     private void jbNegritoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbNegritoActionPerformed
         // TODO add your handling code here:
+        if (t1) {
+            jtpEnunciado2.requestFocus();
+        }
+        if (t2) {
+            jtpLetraA1.requestFocus();
+        }
+        if (t3) {
+            jtpLetraB1.requestFocus();
+        }
+        if (t4) {
+            jtpLetraC1.requestFocus();
+        }
+        if (t5) {
+            jtpLetraD1.requestFocus();
+        }
+        if (t6) {
+            jtpLetraE1.requestFocus();
+        }
+        if (t7) {
+            jtpLetraF1.requestFocus();
+        }
     }//GEN-LAST:event_jbNegritoActionPerformed
+
+    private void jbItalicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbItalicoActionPerformed
+        // TODO add your handling code here:
+        if (t1) {
+            jtpEnunciado2.requestFocus();
+        }
+        if (t2) {
+            jtpLetraA1.requestFocus();
+        }
+        if (t3) {
+            jtpLetraB1.requestFocus();
+        }
+        if (t4) {
+            jtpLetraC1.requestFocus();
+        }
+        if (t5) {
+            jtpLetraD1.requestFocus();
+        }
+        if (t6) {
+            jtpLetraE1.requestFocus();
+        }
+        if (t7) {
+            jtpLetraF1.requestFocus();
+        }
+    }//GEN-LAST:event_jbItalicoActionPerformed
+
+    private void jbSublinhadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSublinhadoActionPerformed
+        // TODO add your handling code here:
+        if (t1) {
+            jtpEnunciado2.requestFocus();
+        }
+        if (t2) {
+            jtpLetraA1.requestFocus();
+        }
+        if (t3) {
+            jtpLetraB1.requestFocus();
+        }
+        if (t4) {
+            jtpLetraC1.requestFocus();
+        }
+        if (t5) {
+            jtpLetraD1.requestFocus();
+        }
+        if (t6) {
+            jtpLetraE1.requestFocus();
+        }
+        if (t7) {
+            jtpLetraF1.requestFocus();
+        }
+    }//GEN-LAST:event_jbSublinhadoActionPerformed
+
+    private void jbCorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCorActionPerformed
+        // TODO add your handling code here:
+        if (t1) {
+            jtpEnunciado2.requestFocus();
+        }
+        if (t2) {
+            jtpLetraA1.requestFocus();
+        }
+        if (t3) {
+            jtpLetraB1.requestFocus();
+        }
+        if (t4) {
+            jtpLetraC1.requestFocus();
+        }
+        if (t5) {
+            jtpLetraD1.requestFocus();
+        }
+        if (t6) {
+            jtpLetraE1.requestFocus();
+        }
+        if (t7) {
+            jtpLetraF1.requestFocus();
+        }
+    }//GEN-LAST:event_jbCorActionPerformed
+
+    private void jbFonteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbFonteActionPerformed
+        // TODO add your handling code here:
+        if (t1) {
+            jtpEnunciado2.requestFocus();
+        }
+        if (t2) {
+            jtpLetraA1.requestFocus();
+        }
+        if (t3) {
+            jtpLetraB1.requestFocus();
+        }
+        if (t4) {
+            jtpLetraC1.requestFocus();
+        }
+        if (t5) {
+            jtpLetraD1.requestFocus();
+        }
+        if (t6) {
+            jtpLetraE1.requestFocus();
+        }
+        if (t7) {
+            jtpLetraF1.requestFocus();
+        }
+    }//GEN-LAST:event_jbFonteActionPerformed
+
+    private void jtpEnunciado2FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtpEnunciado2FocusGained
+        // TODO add your handling code here:
+        t1 = true;
+        t2 = false;
+        t3 = false;
+        t4 = false;
+        t5 = false;
+        t6 = false;
+        t7 = false;
+    }//GEN-LAST:event_jtpEnunciado2FocusGained
+
+    private void jtpLetraA1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtpLetraA1FocusGained
+        // TODO add your handling code here:
+        t1 = false;
+        t2 = true;
+        t3 = false;
+        t4 = false;
+        t5 = false;
+        t6 = false;
+        t7 = false;
+    }//GEN-LAST:event_jtpLetraA1FocusGained
+
+    private void jtpLetraB1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtpLetraB1FocusGained
+        // TODO add your handling code here:
+        t1 = false;
+        t2 = false;
+        t3 = true;
+        t4 = false;
+        t5 = false;
+        t6 = false;
+        t7 = false;
+    }//GEN-LAST:event_jtpLetraB1FocusGained
+
+    private void jtpLetraC1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtpLetraC1FocusGained
+        // TODO add your handling code here:
+        t1 = false;
+        t2 = false;
+        t3 = false;
+        t4 = true;
+        t5 = false;
+        t6 = false;
+        t7 = false;
+    }//GEN-LAST:event_jtpLetraC1FocusGained
+
+    private void jtpLetraD1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtpLetraD1FocusGained
+        // TODO add your handling code here:
+        t1 = false;
+        t2 = false;
+        t3 = false;
+        t4 = false;
+        t5 = true;
+        t6 = false;
+        t7 = false;
+    }//GEN-LAST:event_jtpLetraD1FocusGained
+
+    private void jtpLetraE1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtpLetraE1FocusGained
+        // TODO add your handling code here:
+        t1 = false;
+        t2 = false;
+        t3 = false;
+        t4 = false;
+        t5 = false;
+        t6 = true;
+        t7 = false;
+    }//GEN-LAST:event_jtpLetraE1FocusGained
+
+    private void jtpLetraF1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtpLetraF1FocusGained
+        // TODO add your handling code here:
+        t1 = false;
+        t2 = false;
+        t3 = false;
+        t4 = false;
+        t5 = false;
+        t6 = false;
+        t7 = true;
+    }//GEN-LAST:event_jtpLetraF1FocusGained
 
     /**
      * @param args the command line arguments

@@ -632,6 +632,9 @@
               <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
               <SubComponents>
                 <Component class="javax.swing.JTextPane" name="jtpEnunciado2">
+                  <Events>
+                    <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jtpEnunciado2FocusGained"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
@@ -648,6 +651,9 @@
               <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
               <SubComponents>
                 <Component class="javax.swing.JTextPane" name="jtpLetraA1">
+                  <Events>
+                    <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jtpLetraA1FocusGained"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
@@ -664,6 +670,9 @@
               <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
               <SubComponents>
                 <Component class="javax.swing.JTextPane" name="jtpLetraC1">
+                  <Events>
+                    <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jtpLetraC1FocusGained"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
@@ -684,6 +693,9 @@
                   <Properties>
                     <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jtpLetraE1FocusGained"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
@@ -700,6 +712,9 @@
               <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
               <SubComponents>
                 <Component class="javax.swing.JTextPane" name="jtpLetraB1">
+                  <Events>
+                    <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jtpLetraB1FocusGained"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
@@ -716,6 +731,9 @@
               <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
               <SubComponents>
                 <Component class="javax.swing.JTextPane" name="jtpLetraD1">
+                  <Events>
+                    <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jtpLetraD1FocusGained"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
@@ -736,6 +754,9 @@
                   <Properties>
                     <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jtpLetraF1FocusGained"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
@@ -819,11 +840,17 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Cor do texto"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbCor2ActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="jbFonte2">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Fonte"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbFonte2ActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel6">
               <Properties>

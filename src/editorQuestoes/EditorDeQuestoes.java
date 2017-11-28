@@ -56,9 +56,9 @@ public class EditorDeQuestoes extends javax.swing.JFrame {
     DefaultComboBoxModel modelComboBox;
     int idConteudo, idQuestao, posicaoImagem;
     List<String> strList = new ArrayList<String>();  
-    boolean img;
+    boolean img, t1, t2, t3, t4, t5, t6, t7;
     FileInputStream input;
-    String fileName;
+    String fileName;    
     
     public EditorDeQuestoes() {
         initComponents();
@@ -70,6 +70,13 @@ public class EditorDeQuestoes extends javax.swing.JFrame {
         this.setTitle("Editor de Questões");
         
         img = false;
+        t1 = false;
+        t2 = false;
+        t3 = false;
+        t4 = false;
+        t5 = false;
+        t6 = false;
+        t7 = false;
         
         //Carregar os dois combobox (disciplinas e conteúdos)
         CarregarComboBox();
@@ -395,34 +402,69 @@ public class EditorDeQuestoes extends javax.swing.JFrame {
             }
         });
 
+        jtpEnunciado2.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jtpEnunciado2FocusGained(evt);
+            }
+        });
         jScrollPane9.setViewportView(jtpEnunciado2);
 
         jLabelA1.setText("Alternativa A:");
 
+        jtpLetraA1.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jtpLetraA1FocusGained(evt);
+            }
+        });
         jScrollPane10.setViewportView(jtpLetraA1);
 
         jLabelC1.setText("Alternativa C:");
 
+        jtpLetraC1.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jtpLetraC1FocusGained(evt);
+            }
+        });
         jScrollPane11.setViewportView(jtpLetraC1);
 
         jLabelE1.setText("Alternativa E:");
         jLabelE1.setEnabled(false);
 
         jtpLetraE1.setEnabled(false);
+        jtpLetraE1.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jtpLetraE1FocusGained(evt);
+            }
+        });
         jScrollPane12.setViewportView(jtpLetraE1);
 
         jLabel9.setText("Alternativa B:");
 
+        jtpLetraB1.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jtpLetraB1FocusGained(evt);
+            }
+        });
         jScrollPane13.setViewportView(jtpLetraB1);
 
         letraD1.setText("AlternativaD:");
 
+        jtpLetraD1.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jtpLetraD1FocusGained(evt);
+            }
+        });
         jScrollPane14.setViewportView(jtpLetraD1);
 
         jLabelF1.setText("AlternativaF:");
         jLabelF1.setEnabled(false);
 
         jtpLetraF1.setEnabled(false);
+        jtpLetraF1.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jtpLetraF1FocusGained(evt);
+            }
+        });
         jScrollPane15.setViewportView(jtpLetraF1);
 
         letraE.add(jrbSimE1);
@@ -483,8 +525,18 @@ public class EditorDeQuestoes extends javax.swing.JFrame {
         });
 
         jbCor2.setText("Cor do texto");
+        jbCor2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbCor2ActionPerformed(evt);
+            }
+        });
 
         jbFonte2.setText("Fonte");
+        jbFonte2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbFonte2ActionPerformed(evt);
+            }
+        });
 
         jLabel6.setText("Imagem:");
 
@@ -1040,15 +1092,205 @@ public class EditorDeQuestoes extends javax.swing.JFrame {
     private void jbNegrito2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbNegrito2ActionPerformed
         // TODO add your handling code here:
         //AQUI VOU TER QUE CHAMAR O QUE JÁ ESTAVA SELECIONADO
+        if (t1) {
+            jtpEnunciado2.requestFocus();
+        }
+        if (t2) {
+            jtpLetraA1.requestFocus();
+        }
+        if (t3) {
+            jtpLetraB1.requestFocus();
+        }
+        if (t4) {
+            jtpLetraC1.requestFocus();
+        }
+        if (t5) {
+            jtpLetraD1.requestFocus();
+        }
+        if (t6) {
+            jtpLetraE1.requestFocus();
+        }
+        if (t7) {
+            jtpLetraF1.requestFocus();
+        }
     }//GEN-LAST:event_jbNegrito2ActionPerformed
 
     private void jbItalico2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbItalico2ActionPerformed
         // TODO add your handling code here:       
+        if (t1) {
+            jtpEnunciado2.requestFocus();
+        }
+        if (t2) {
+            jtpLetraA1.requestFocus();
+        }
+        if (t3) {
+            jtpLetraB1.requestFocus();
+        }
+        if (t4) {
+            jtpLetraC1.requestFocus();
+        }
+        if (t5) {
+            jtpLetraD1.requestFocus();
+        }
+        if (t6) {
+            jtpLetraE1.requestFocus();
+        }
+        if (t7) {
+            jtpLetraF1.requestFocus();
+        }
     }//GEN-LAST:event_jbItalico2ActionPerformed
 
     private void jbSublinhado2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSublinhado2ActionPerformed
         // TODO add your handling code here:
+        if (t1) {
+            jtpEnunciado2.requestFocus();
+        }
+        if (t2) {
+            jtpLetraA1.requestFocus();
+        }
+        if (t3) {
+            jtpLetraB1.requestFocus();
+        }
+        if (t4) {
+            jtpLetraC1.requestFocus();
+        }
+        if (t5) {
+            jtpLetraD1.requestFocus();
+        }
+        if (t6) {
+            jtpLetraE1.requestFocus();
+        }
+        if (t7) {
+            jtpLetraF1.requestFocus();
+        }
     }//GEN-LAST:event_jbSublinhado2ActionPerformed
+
+    private void jtpEnunciado2FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtpEnunciado2FocusGained
+        // TODO add your handling code here:
+        t1 = true;
+        t2 = false;
+        t3 = false;
+        t4 = false;
+        t5 = false;
+        t6 = false;
+        t7 = false;
+    }//GEN-LAST:event_jtpEnunciado2FocusGained
+
+    private void jtpLetraA1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtpLetraA1FocusGained
+        // TODO add your handling code here:
+        t1 = false;
+        t2 = true;
+        t3 = false;
+        t4 = false;
+        t5 = false;
+        t6 = false;
+        t7 = false;
+    }//GEN-LAST:event_jtpLetraA1FocusGained
+
+    private void jtpLetraB1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtpLetraB1FocusGained
+        // TODO add your handling code here:
+        t1 = false;
+        t2 = false;
+        t3 = true;
+        t4 = false;
+        t5 = false;
+        t6 = false;
+        t7 = false;
+    }//GEN-LAST:event_jtpLetraB1FocusGained
+
+    private void jtpLetraC1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtpLetraC1FocusGained
+        // TODO add your handling code here:
+        t1 = false;
+        t2 = false;
+        t3 = false;
+        t4 = true;
+        t5 = false;
+        t6 = false;
+        t7 = false;
+    }//GEN-LAST:event_jtpLetraC1FocusGained
+
+    private void jtpLetraD1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtpLetraD1FocusGained
+        // TODO add your handling code here:
+        t1 = false;
+        t2 = false;
+        t3 = false;
+        t4 = false;
+        t5 = true;
+        t6 = false;
+        t7 = false;
+    }//GEN-LAST:event_jtpLetraD1FocusGained
+
+    private void jtpLetraE1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtpLetraE1FocusGained
+        // TODO add your handling code here:
+        t1 = false;
+        t2 = false;
+        t3 = false;
+        t4 = false;
+        t5 = false;
+        t6 = true;
+        t7 = false;
+    }//GEN-LAST:event_jtpLetraE1FocusGained
+
+    private void jtpLetraF1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtpLetraF1FocusGained
+        // TODO add your handling code here:
+        t1 = false;
+        t2 = false;
+        t3 = false;
+        t4 = false;
+        t5 = false;
+        t6 = false;
+        t7 = true;
+    }//GEN-LAST:event_jtpLetraF1FocusGained
+
+    private void jbCor2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCor2ActionPerformed
+        // TODO add your handling code here:
+        if (t1) {
+            jtpEnunciado2.requestFocus();
+        }
+        if (t2) {
+            jtpLetraA1.requestFocus();
+        }
+        if (t3) {
+            jtpLetraB1.requestFocus();
+        }
+        if (t4) {
+            jtpLetraC1.requestFocus();
+        }
+        if (t5) {
+            jtpLetraD1.requestFocus();
+        }
+        if (t6) {
+            jtpLetraE1.requestFocus();
+        }
+        if (t7) {
+            jtpLetraF1.requestFocus();
+        }
+    }//GEN-LAST:event_jbCor2ActionPerformed
+
+    private void jbFonte2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbFonte2ActionPerformed
+        // TODO add your handling code here:
+        if (t1) {
+            jtpEnunciado2.requestFocus();
+        }
+        if (t2) {
+            jtpLetraA1.requestFocus();
+        }
+        if (t3) {
+            jtpLetraB1.requestFocus();
+        }
+        if (t4) {
+            jtpLetraC1.requestFocus();
+        }
+        if (t5) {
+            jtpLetraD1.requestFocus();
+        }
+        if (t6) {
+            jtpLetraE1.requestFocus();
+        }
+        if (t7) {
+            jtpLetraF1.requestFocus();
+        }
+    }//GEN-LAST:event_jbFonte2ActionPerformed
 
     /**
      * @param args the command line arguments

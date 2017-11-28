@@ -120,11 +120,11 @@ public class CabecalhoGUI extends javax.swing.JFrame {
                 .addContainerGap(193, Short.MAX_VALUE))
         );
 
-        jMenu1.setText("File");
+        jMenu1.setText("Arquivo");
         jMenu1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jMenuBar1.add(jMenu1);
 
-        jMenu2.setText("Edit");
+        jMenu2.setText("Texto");
         jMenu2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jMenuBar1.add(jMenu2);
 
