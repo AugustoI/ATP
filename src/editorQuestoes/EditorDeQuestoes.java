@@ -281,7 +281,7 @@ public class EditorDeQuestoes extends javax.swing.JFrame {
 
         jLabel5.setText("Imagem:");
 
-        jlImagem1.setText("jlImagem");
+        jlImagem1.setText("Nenhuma imagem selecionada");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -488,7 +488,7 @@ public class EditorDeQuestoes extends javax.swing.JFrame {
 
         jLabel6.setText("Imagem:");
 
-        jlImagem2.setText("jlImagem");
+        jlImagem2.setText("Nenhuma imagem selecionada");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -741,7 +741,13 @@ public class EditorDeQuestoes extends javax.swing.JFrame {
         img = a.certo;
         posicaoImagem = a.posicao;
         input = a.input;
-        //fileName = a.fileName;
+        fileName = a.fileName;
+        if (jTabbedPane1.getSelectedIndex()==0) {
+            jlImagem1.setText(fileName);
+        }
+        if (jTabbedPane1.getSelectedIndex()==1) {
+            jlImagem2.setText(fileName);
+        }
     }//GEN-LAST:event_jbImagemActionPerformed
 
     private void jmiSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiSalvarActionPerformed
@@ -1084,7 +1090,7 @@ public class EditorDeQuestoes extends javax.swing.JFrame {
         if (img) {
             try {
                 //PASSAR FILENAME
-                questoesBanco.inserirImagem(idDestaQuestao, input, posicaoImagem);              
+                questoesBanco.inserirImagem(idDestaQuestao, input, posicaoImagem, fileName);              
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(this, "Ocorreu um erro, tente novamente!");
             }

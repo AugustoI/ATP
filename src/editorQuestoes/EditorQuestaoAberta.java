@@ -9,6 +9,7 @@ package editorQuestoes;
 import banco.Questoes;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GraphicsEnvironment;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -105,6 +106,7 @@ public class EditorQuestaoAberta extends javax.swing.JDialog {
         initComponents();
         this.setLocationRelativeTo(this);        
         this.setTitle("Editor de Questão ABERTA");
+        jlImagem.setMaximumSize(new Dimension(14, 225));
         
         //Carregar os dois combobox (disciplinas e conteúdos)
         CarregarComboBox();
@@ -142,7 +144,7 @@ public class EditorQuestaoAberta extends javax.swing.JDialog {
                 idQuestao = rs.getInt("Questoes_ID");
                 enunciado = rs.getString("Enunciado");
                 dificuldade = rs.getInt("Dificuldade");
-                idConteudo = rs.getInt("ID_Conteudos");
+                idConteudo = rs.getInt("ID_Conteudos");                
                 
                 jtpEnunciado.setText(enunciado);
                 jcbDificuldade.setSelectedIndex(dificuldade);
@@ -158,6 +160,12 @@ public class EditorQuestaoAberta extends javax.swing.JDialog {
             if (rs!=null) {                                
                 conteudo = rs.getString("NomeConteudos");                
                 jcbConteudo.setSelectedItem(conteudo);
+            }
+                                    
+            rs = questoesBanco.pegarNomeImagem(idQuestao);
+            if (rs!=null) {                                
+                fileName = rs.getString("NomeImagem");
+                jlImagem.setText(fileName);
             }
         } catch (SQLException sqlEx) {
             JOptionPane.showMessageDialog(this, "Error SQL: "+sqlEx);
@@ -281,7 +289,7 @@ public class EditorQuestaoAberta extends javax.swing.JDialog {
 
         jLabel5.setText("Imagem:");
 
-        jlImagem.setText("jlImagem");
+        jlImagem.setText("Não há imagem cadastrada");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -321,7 +329,7 @@ public class EditorQuestaoAberta extends javax.swing.JDialog {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel5)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jlImagem))
+                                .addComponent(jlImagem, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jbVoltar)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -355,7 +363,7 @@ public class EditorQuestaoAberta extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jLabel5)
-                    .addComponent(jlImagem))
+                    .addComponent(jlImagem, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -458,6 +466,7 @@ public class EditorQuestaoAberta extends javax.swing.JDialog {
         posicaoImagem = a.posicao;
         input = a.input;
         fileName = a.fileName;
+        jlImagem.setText(fileName);
     }//GEN-LAST:event_jbImagemActionPerformed
 
     private void jbVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbVoltarActionPerformed
@@ -577,10 +586,10 @@ public class EditorQuestaoAberta extends javax.swing.JDialog {
                 rs = questoesBanco.confereSeTemImagem(idDestaQuestao);
                 if (rs!=null) {
                     //PASSAR FILENAME
-                    questoesBanco.inserirImagemEditada(input, posicaoImagem, idDestaQuestao);              
+                    questoesBanco.inserirImagemEditada(input, posicaoImagem, idDestaQuestao, fileName);              
                 } else {
                     //PASSAR FILENAME
-                    questoesBanco.inserirImagem(idDestaQuestao, input, posicaoImagem);              
+                    questoesBanco.inserirImagem(idDestaQuestao, input, posicaoImagem, fileName);              
                 }
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(this, "Ocorreu um erro, tente novamente!");

@@ -175,8 +175,11 @@ public class TesteImagem extends javax.swing.JDialog {
     private void jbCarregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCarregarActionPerformed
         // TODO add your handling code here:
         buscar();
-        if (adicionou)
+        if (adicionou) {
             jbSalvar.setEnabled(true);
+            this.getRootPane().setDefaultButton(jbSalvar);
+            jbSalvar.requestFocus();
+        }
     }//GEN-LAST:event_jbCarregarActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -239,7 +242,6 @@ public class TesteImagem extends javax.swing.JDialog {
                 fileName = file.getName();
                 input = new FileInputStream(file);  
                 adicionou = true;
-                JOptionPane.showMessageDialog(this, "Name: "+fileName);
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(this, "Error: "+e);
             }

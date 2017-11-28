@@ -128,7 +128,7 @@
                               <Group type="102" attributes="0">
                                   <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="jlImagem" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jlImagem" min="-2" pref="225" max="-2" attributes="0"/>
                               </Group>
                               <Group type="102" attributes="0">
                                   <Component id="jbVoltar" min="-2" max="-2" attributes="0"/>
@@ -171,7 +171,7 @@
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jlImagem" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jlImagem" alignment="1" min="-2" pref="14" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jScrollPane2" min="-2" pref="207" max="-2" attributes="0"/>
@@ -334,7 +334,7 @@
         </Component>
         <Component class="javax.swing.JLabel" name="jlImagem">
           <Properties>
-            <Property name="text" type="java.lang.String" value="jlImagem"/>
+            <Property name="text" type="java.lang.String" value="N&#xe3;o h&#xe1; imagem cadastrada"/>
           </Properties>
         </Component>
       </SubComponents>

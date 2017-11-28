@@ -9,6 +9,7 @@ package editorQuestoes;
 import banco.Questoes;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GraphicsEnvironment;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -105,6 +106,7 @@ public class EditorQuestaoFechada extends javax.swing.JDialog {
         initComponents();
         this.setLocationRelativeTo(this);
         this.setTitle("Editor de Questão FECHADA");
+        jlImagem.setMaximumSize(new Dimension(14, 225));
         
         //Carregar os dois combobox (disciplinas e conteúdos)
         CarregarComboBox();
@@ -182,6 +184,12 @@ public class EditorQuestaoFechada extends javax.swing.JDialog {
             if (rs!=null) {                                
                 conteudo = rs.getString("NomeConteudos");                
                 jcbConteudo3.setSelectedItem(conteudo);
+            }
+            
+            rs = questoesBanco.pegarNomeImagem(idQuestao);
+            if (rs!=null) {                                
+                fileName = rs.getString("NomeImagem");
+                jlImagem.setText(fileName);
             }
         } catch (SQLException sqlEx) {
             JOptionPane.showMessageDialog(this, "Error SQL: "+sqlEx);
@@ -365,7 +373,7 @@ public class EditorQuestaoFechada extends javax.swing.JDialog {
 
         jLabel1.setText("Imagem:");
 
-        jlImagem.setText("jlImagem");
+        jlImagem.setText("Não há imagem cadastrada");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -579,6 +587,7 @@ public class EditorQuestaoFechada extends javax.swing.JDialog {
         posicaoImagem = a.posicao;
         input = a.input;
         fileName = a.fileName;
+        jlImagem.setText(fileName);
     }//GEN-LAST:event_jbImagem3jbImagem2ActionPerformed
 
     private void jbSalvar3jbSalvar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSalvar3jbSalvar2ActionPerformed
@@ -788,10 +797,10 @@ public class EditorQuestaoFechada extends javax.swing.JDialog {
                 rs = questoesBanco.confereSeTemImagem(idDestaQuestao);
                 if (rs!=null) {
                     //PASSAR FILENAME
-                    questoesBanco.inserirImagemEditada(input, posicaoImagem, idDestaQuestao);              
+                    questoesBanco.inserirImagemEditada(input, posicaoImagem, idDestaQuestao, fileName);              
                 } else {
                     //PASSAR FILENAME
-                    questoesBanco.inserirImagem(idDestaQuestao, input, posicaoImagem);              
+                    questoesBanco.inserirImagem(idDestaQuestao, input, posicaoImagem, fileName);              
                 }
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(this, "Ocorreu um erro, tente novamente!");

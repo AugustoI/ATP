@@ -358,7 +358,7 @@
             </Component>
             <Component class="javax.swing.JLabel" name="jlImagem1">
               <Properties>
-                <Property name="text" type="java.lang.String" value="jlImagem"/>
+                <Property name="text" type="java.lang.String" value="Nenhuma imagem selecionada"/>
               </Properties>
             </Component>
           </SubComponents>
@@ -832,7 +832,7 @@
             </Component>
             <Component class="javax.swing.JLabel" name="jlImagem2">
               <Properties>
-                <Property name="text" type="java.lang.String" value="jlImagem"/>
+                <Property name="text" type="java.lang.String" value="Nenhuma imagem selecionada"/>
               </Properties>
             </Component>
           </SubComponents>

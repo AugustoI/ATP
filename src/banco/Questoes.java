@@ -53,14 +53,15 @@ public class Questoes {
         p.executeUpdate();
     }
     
-    public void inserirImagem(int id, InputStream img, int pos) throws SQLException{
-        String inserir = "insert into imagemquest values(?,?,?,?)";
+    public void inserirImagem(int id, InputStream img, int pos, String fileName) throws SQLException{
+        String inserir = "insert into imagemquest values(?,?,?,?,?)";
         Connection con = new ConexaoDAO().conectar();
         PreparedStatement p = con.prepareStatement(inserir);
         p.setInt(1, 0);
         p.setInt(2, id);
         p.setBinaryStream(3, img);
         p.setInt(4, pos);
+        p.setString(5, fileName);
         p.executeUpdate();
     }
     
@@ -223,13 +224,14 @@ public class Questoes {
         p.executeUpdate();
     }
     
-    public void inserirImagemEditada(InputStream img, int pos, int idQuestao) throws SQLException{
-        String atualizar = "update imagemquest set Imagem=?, POSICAO=? where ID_Questao=?";
+    public void inserirImagemEditada(InputStream img, int pos, int idQuestao, String fileName) throws SQLException{
+        String atualizar = "update imagemquest set Imagem=?, POSICAO=?, NomeImagem=? where ID_Questao=?";
         Connection con = new ConexaoDAO().conectar();
         PreparedStatement p = con.prepareStatement(atualizar);
         p.setBinaryStream(1, img);
         p.setInt(2, pos);
-        p.setInt(3, idQuestao);                
+        p.setString(3, fileName);
+        p.setInt(4, idQuestao);                   
         p.executeUpdate();
     }
     
@@ -257,5 +259,18 @@ public class Questoes {
         p = con.prepareStatement(excluir);
         p.setInt(1, id);            
         p.executeUpdate();
+    }
+    
+    public ResultSet pegarNomeImagem(int idQuestao) throws SQLException {
+        String pesquisar = "select NomeImagem from imagemquest where ID_Questao=?";        
+        Connection con = new ConexaoDAO().conectar();        
+        PreparedStatement p = con.prepareStatement(pesquisar);
+        p.setInt(1, idQuestao);
+        ResultSet rs = p.executeQuery();
+        if (rs.next()) {
+            return rs;
+        } else {
+            return null;
+        }
     }
 }
