@@ -741,7 +741,7 @@ public class EditorDeQuestoes extends javax.swing.JFrame {
         img = a.certo;
         posicaoImagem = a.posicao;
         input = a.input;
-        fileName = a.fileName;
+        //fileName = a.fileName;
     }//GEN-LAST:event_jbImagemActionPerformed
 
     private void jmiSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiSalvarActionPerformed

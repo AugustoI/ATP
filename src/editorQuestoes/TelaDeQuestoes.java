@@ -463,6 +463,7 @@ public class TelaDeQuestoes extends javax.swing.JFrame {
                 try {
                     int id = Integer.parseInt(tabelaQuestoes.getModel().getValueAt(row[i], 0).toString());
                     questoes.excluirQuestaoPeloId(id);
+                    JOptionPane.showMessageDialog(this, "Questão excluida com sucesso!");
                 } catch (SQLException ex) {
                     JOptionPane.showMessageDialog(this, "Ocorreu um erro ao excluir.\nErro: "+ex);
                 }
