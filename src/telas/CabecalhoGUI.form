@@ -11,8 +11,34 @@
               <Font name="Segoe UI" size="12" style="1"/>
             </Property>
           </Properties>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="jmiImagem">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Carregar imagem"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jmiImagemActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jmiSalvar">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Salvar"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jmiSalvarActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jmiSair">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Menu principal"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jmiSairActionPerformed"/>
+              </Events>
+            </MenuItem>
+          </SubComponents>
         </Menu>
-        <Menu class="javax.swing.JMenu" name="jMenu2">
+        <Menu class="javax.swing.JMenu" name="jmTexto">
           <Properties>
             <Property name="text" type="java.lang.String" value="Texto"/>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -111,7 +137,7 @@
                           <EmptySpace max="32767" attributes="0"/>
                           <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jLabel5" min="-2" pref="225" max="-2" attributes="0"/>
+                          <Component id="jlImagem" min="-2" pref="225" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
@@ -151,7 +177,7 @@
                       <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jtValor" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Group type="103" alignment="3" groupAlignment="3" attributes="0">
-                          <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jlImagem" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -170,6 +196,9 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="jtNome">
+          <Events>
+            <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jtNomeFocusGained"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel2">
           <Properties>
@@ -188,6 +217,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="N"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbNegritoActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="jbItalico">
           <Properties>
@@ -196,21 +228,33 @@
             </Property>
             <Property name="text" type="java.lang.String" value="I"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbItalicoActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="jbSublinhado">
           <Properties>
             <Property name="text" type="java.lang.String" value="S"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbSublinhadoActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="jbCor">
           <Properties>
             <Property name="text" type="java.lang.String" value="Cor do texto"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbCorActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="jbFonte">
           <Properties>
             <Property name="text" type="java.lang.String" value="Fonte"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbFonteActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="jbImagem">
           <Properties>
@@ -232,13 +276,16 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Voltar ao menu"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbVoltarActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel4">
           <Properties>
             <Property name="text" type="java.lang.String" value="Imagem:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel5">
+        <Component class="javax.swing.JLabel" name="jlImagem">
           <Properties>
             <Property name="text" type="java.lang.String" value="N&#xe3;o h&#xe1; imagem selecionada"/>
           </Properties>
@@ -249,6 +296,9 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="jtTitulo">
+          <Events>
+            <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jtTituloFocusGained"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel7">
           <Properties>
@@ -256,6 +306,9 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="jtSubtitulo">
+          <Events>
+            <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jtSubtituloFocusGained"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel8">
           <Properties>
@@ -270,12 +323,21 @@
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
           <SubComponents>
             <Component class="javax.swing.JTextPane" name="jtpInstrucoes">
+              <Events>
+                <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jtpInstrucoesFocusGained"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
         <Component class="javax.swing.JTextField" name="jtSerie">
+          <Events>
+            <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jtSerieFocusGained"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="jtValor">
+          <Events>
+            <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jtValorFocusGained"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

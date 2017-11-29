@@ -33,8 +33,9 @@ public class MenuGUI extends javax.swing.JFrame {
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
-        jMenuItem3 = new javax.swing.JMenuItem();
+        jmiCabecalho = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         jMenuItem6 = new javax.swing.JMenuItem();
         jMenuItem7 = new javax.swing.JMenuItem();
@@ -69,11 +70,19 @@ public class MenuGUI extends javax.swing.JFrame {
 
         jMenu2.setText("Cadastro");
 
-        jMenuItem3.setText("Dicisplinas");
-        jMenu2.add(jMenuItem3);
+        jmiCabecalho.setText("Cabecalho");
+        jmiCabecalho.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiCabecalhoActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jmiCabecalho);
 
         jMenuItem4.setText("Conteúdos");
         jMenu2.add(jMenuItem4);
+
+        jMenuItem3.setText("Dicisplinas");
+        jMenu2.add(jMenuItem3);
 
         jMenu4.setText("Questões");
 
@@ -135,6 +144,13 @@ public class MenuGUI extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
+    private void jmiCabecalhoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiCabecalhoActionPerformed
+        // TODO add your handling code here:
+        CabecalhoGUI cabecalho = new CabecalhoGUI();
+        cabecalho.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_jmiCabecalhoActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -181,6 +197,7 @@ public class MenuGUI extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
+    private javax.swing.JMenuItem jmiCabecalho;
     private javax.swing.JMenuBar mnMenu;
     // End of variables declaration//GEN-END:variables
 }

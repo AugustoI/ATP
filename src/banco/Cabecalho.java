@@ -18,7 +18,7 @@ import java.sql.SQLException;
 public class Cabecalho {
     public void inserirCabecalho(String n, String i, String t, String subt, String serie, String valor,
             InputStream file, String fileName) throws SQLException {
-        String inserir = "insert into cabecalho values(?,?,?,?,?,?,?,?)";
+        String inserir = "insert into cabecalho values(?,?,?,?,?,?,?,?,?)";
         Connection con = new ConexaoDAO().conectar();
         PreparedStatement p = con.prepareStatement(inserir);
         p.setInt(1, 0);
