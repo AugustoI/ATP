@@ -33,7 +33,9 @@ public class MenuGUI extends javax.swing.JFrame {
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
+        jMenu3 = new javax.swing.JMenu();
         jmiCabecalho = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
@@ -70,13 +72,25 @@ public class MenuGUI extends javax.swing.JFrame {
 
         jMenu2.setText("Cadastro");
 
-        jmiCabecalho.setText("Cabecalho");
+        jMenu3.setText("Cabeçalho");
+
+        jmiCabecalho.setText("Adicionar");
         jmiCabecalho.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jmiCabecalhoActionPerformed(evt);
             }
         });
-        jMenu2.add(jmiCabecalho);
+        jMenu3.add(jmiCabecalho);
+
+        jMenuItem5.setText("Editar");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem5);
+
+        jMenu2.add(jMenu3);
 
         jMenuItem4.setText("Conteúdos");
         jMenu2.add(jMenuItem4);
@@ -151,6 +165,13 @@ public class MenuGUI extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_jmiCabecalhoActionPerformed
 
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        // TODO add your handling code here:
+        TelaDeCabecalhosGUI tela = new TelaDeCabecalhosGUI();
+        tela.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -190,11 +211,13 @@ public class MenuGUI extends javax.swing.JFrame {
     private javax.swing.JLayeredPane jLayeredPane1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JMenuItem jmiCabecalho;

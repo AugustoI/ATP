@@ -9,6 +9,7 @@ package banco;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
@@ -30,6 +31,39 @@ public class Cabecalho {
         p.setString(7, valor);
         p.setBinaryStream(8, file);
         p.setString(9, fileName);
+        p.executeUpdate();
+    }
+    
+    public ResultSet pegarCabecalho() throws SQLException {
+        String pesquisa = "select * from cabecalho";
+        Connection con = new ConexaoDAO().conectar();
+        PreparedStatement p = con.prepareStatement(pesquisa);
+        ResultSet rs = p.executeQuery();
+        if (rs.next()) {
+            return rs;
+        } else {
+            return null;
+        }
+    }
+    
+    public ResultSet pesquisarCabecalho(String nome) throws SQLException {
+        String pesquisa = "select * from cabecalho where NomeInstituicao like ?";
+        Connection con = new ConexaoDAO().conectar();        
+        PreparedStatement p = con.prepareStatement(pesquisa);
+        p.setString(1, nome+"%");
+        ResultSet rs = p.executeQuery();
+        if (rs.next()) {
+            return rs;
+        } else {
+            return null;
+        }
+    }
+    
+    public void excluirCabecalhoPeloId(int id) throws SQLException {
+        String excluir = "delete from cabecalho where Cabecalho_ID=?";
+        Connection con = new ConexaoDAO().conectar();
+        PreparedStatement p = con.prepareStatement(excluir);
+        p.setInt(1, id);            
         p.executeUpdate();
     }
 }

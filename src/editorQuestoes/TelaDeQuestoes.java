@@ -264,10 +264,20 @@ public class TelaDeQuestoes extends javax.swing.JFrame {
 
         jmiEditar.setText("Editar");
         jmiEditar.setEnabled(false);
+        jmiEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiEditarActionPerformed(evt);
+            }
+        });
         jMenu2.add(jmiEditar);
 
         jmiExcluir.setText("Excluir");
         jmiExcluir.setEnabled(false);
+        jmiExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiExcluirActionPerformed(evt);
+            }
+        });
         jMenu2.add(jmiExcluir);
 
         jmiPesquisar.setText("Pesquisar");
@@ -463,7 +473,11 @@ public class TelaDeQuestoes extends javax.swing.JFrame {
                 try {
                     int id = Integer.parseInt(tabelaQuestoes.getModel().getValueAt(row[i], 0).toString());
                     questoes.excluirQuestaoPeloId(id);
-                    JOptionPane.showMessageDialog(this, "Questão excluida com sucesso!");
+                    if ((i==0)&&((i+1)==numero)) {
+                        JOptionPane.showMessageDialog(this, "Questão excluida com sucesso!");
+                    } else if ((i+1)==numero) {
+                        JOptionPane.showMessageDialog(this, "Questões excluidas com sucesso!");
+                    }
                 } catch (SQLException ex) {
                     JOptionPane.showMessageDialog(this, "Ocorreu um erro ao excluir.\nErro: "+ex);
                 }
@@ -520,6 +534,16 @@ public class TelaDeQuestoes extends javax.swing.JFrame {
         editor.setVisible(true);
         dispose();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jmiEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiEditarActionPerformed
+        // TODO add your handling code here:
+        jbEditarActionPerformed(evt);
+    }//GEN-LAST:event_jmiEditarActionPerformed
+
+    private void jmiExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiExcluirActionPerformed
+        // TODO add your handling code here:
+        jbExcluirActionPerformed(evt);
+    }//GEN-LAST:event_jmiExcluirActionPerformed
 
     /**
      * @param args the command line arguments
