@@ -337,32 +337,25 @@ public class TelaDeCabecalhosGUI extends javax.swing.JFrame {
         int row = tabelaCabecalhos.getSelectedRow();
         int numero = tabelaCabecalhos.getSelectedRowCount();
         if (numero == 1) {
-            String multipla = tabelaCabecalhos.getModel().getValueAt(row, 3).toString();
             int id = Integer.parseInt(tabelaCabecalhos.getModel().getValueAt(row, 0).toString());
-/*
-            if (multipla.equals("Aberta")) {
-                EditorQuestaoAberta editor = new EditorQuestaoAberta(this, true, id);
-                editor.setVisible(true);
-            }
-
-            if (multipla.equals("Fechada")) {
-                EditorQuestaoFechada editor = new EditorQuestaoFechada(this, true, id);
-                editor.setVisible(true);
-            }
-
+            
+            EditorCabecalhoGUI editor = new EditorCabecalhoGUI(this, true, id);
+            editor.setVisible(true);
+            
             for (int i=(modelTabela.getRowCount()-1); i>=0; i--) {
                 modelTabela.removeRow(i);
             }
-
+            
             try {
-                rs = questoes.pegarQuestao();
+                rs = cabecalho.pegarCabecalho();
                 if (rs!=null) {
                     do {
                         modelTabela.addRow(new Object[]{
-                            rs.getString("Questoes_ID"),
-                            rs.getString("Enunciado"),
-                            rs.getString("Dificuldade"),
-                            rs.getString("MultiplaEscolha"),
+                            rs.getString("Cabecalho_ID"),
+                            rs.getString("NomeInstituicao"),
+                            rs.getString("Titulo"),
+                            rs.getString("Serie"),
+                            rs.getString("Valor"),
                         });
                     } while (rs.next());
                 }
@@ -370,16 +363,6 @@ public class TelaDeCabecalhosGUI extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Erro: "+e.getMessage());
             }
 
-            for (int i=0; i<=(tabelaCabecalhos.getRowCount()-1); i++) {
-                multipla = tabelaCabecalhos.getModel().getValueAt(i, 3).toString();
-                if (multipla.equals("N")) {
-                    tabelaCabecalhos.getModel().setValueAt("Aberta", i, 3);
-                }
-                if (multipla.equals("S")) {
-                    tabelaCabecalhos.getModel().setValueAt("Fechada", i, 3);
-                }
-            }
-*/
             jbEditar.setEnabled(false);
             jbExcluir.setEnabled(false);
             jmiEditar.setEnabled(false);

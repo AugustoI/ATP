@@ -360,10 +360,11 @@ public class EditorQuestaoAberta extends javax.swing.JDialog {
                     .addComponent(jbCor)
                     .addComponent(jbFonte))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel5)
-                    .addComponent(jlImagem, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jlImagem, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel1)
+                        .addComponent(jLabel5)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -387,7 +388,7 @@ public class EditorQuestaoAberta extends javax.swing.JDialog {
         });
         jmArquivo.add(jmiSalvar);
 
-        jmiSair.setText("Menu principal");
+        jmiSair.setText("Sair");
         jmiSair.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jmiSairActionPerformed(evt);
@@ -574,8 +575,6 @@ public class EditorQuestaoAberta extends javax.swing.JDialog {
             questoesBanco.inserirQuestaoAbertaEditada(e, d, idConteudo, idQuestao);
         } catch (SQLException sqlEx) {
             JOptionPane.showMessageDialog(this, "Error SQL: "+sqlEx);
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Error: "+ex);
         }
     }
     
@@ -585,10 +584,8 @@ public class EditorQuestaoAberta extends javax.swing.JDialog {
             try {
                 rs = questoesBanco.confereSeTemImagem(idDestaQuestao);
                 if (rs!=null) {
-                    //PASSAR FILENAME
                     questoesBanco.inserirImagemEditada(input, posicaoImagem, idDestaQuestao, fileName);              
                 } else {
-                    //PASSAR FILENAME
                     questoesBanco.inserirImagem(idDestaQuestao, input, posicaoImagem, fileName);              
                 }
             } catch (SQLException ex) {

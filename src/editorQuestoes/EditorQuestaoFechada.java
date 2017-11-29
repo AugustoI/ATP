@@ -604,7 +604,7 @@ public class EditorQuestaoFechada extends javax.swing.JDialog {
         });
         jmArquivo.add(jmiSalvar);
 
-        jmiSair.setText("Menu principal");
+        jmiSair.setText("Sair");
         jmiSair.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jmiSairActionPerformed(evt);

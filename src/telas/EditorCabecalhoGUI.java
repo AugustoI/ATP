@@ -7,7 +7,6 @@
 package telas;
 
 import banco.Cabecalho;
-import editorQuestoes.TesteImagem;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -17,6 +16,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.Action;
 import javax.swing.JButton;
@@ -43,21 +44,33 @@ import javax.swing.text.StyledEditorKit;
  *
  * @author Couth
  */
-public class CabecalhoGUI extends javax.swing.JFrame {
+public class EditorCabecalhoGUI extends javax.swing.JDialog {
 
     /**
-     * Creates new form CabecalhoGUI
+     * Creates new form EditorCabecalhoGUI
      */
-    JFrame frame = new JFrame();
+    JDialog dialog = new JDialog();
     Cabecalho cabecalho = new Cabecalho();
     
+    ResultSet rs;
     FileInputStream input;
-    String fileName;
-    boolean t1, t2, t3, t4, t5, t6;
-    public CabecalhoGUI() {
+    String fileName, nome, instrucoes, titulo, subtitulo, serie, valor;
+    int idCabecalho;
+    boolean t1, t2, t3, t4, t5, t6, img;
+        
+    //int idQuestao, dificuldade, idConteudo, posicaoImagem;      
+    //boolean img;   
+    public EditorCabecalhoGUI(java.awt.Frame parent, boolean modal) {
+        super(parent, modal);
         initComponents();
-        this.setTitle("Cadastro de Cabeçalho");
-        this.setLocationRelativeTo(null);
+    }
+    
+    public EditorCabecalhoGUI(java.awt.Frame parent, boolean modal, int id) {
+        super(parent, modal);
+        initComponents();
+        this.setLocationRelativeTo(this);        
+        this.setTitle("Editor de Cabeçalho");
+        jlImagem.setMaximumSize(new Dimension(14, 254));
         
         t1 = false;
         t2 = false;
@@ -66,39 +79,62 @@ public class CabecalhoGUI extends javax.swing.JFrame {
         t5 = false;
         t6 = false;
         
-        jlImagem.setMaximumSize(new Dimension(14, 254));
-        
         //MenuItem Negrito
-        Action boldAction = new CabecalhoGUI.BoldAction();
+        Action boldAction = new EditorCabecalhoGUI.BoldAction();
         boldAction.putValue(Action.NAME, "Negrito");
         jmTexto.add(boldAction);  
         jbNegrito.addActionListener(boldAction);
         
         //MenuItem Itálico
-        Action italicAction = new CabecalhoGUI.ItalicAction();
+        Action italicAction = new EditorCabecalhoGUI.ItalicAction();
         italicAction.putValue(Action.NAME, "Itálico");
         jmTexto.add(italicAction);
         jbItalico.addActionListener(italicAction);
 
         //MenuItem Sublinhado
-        Action underlineAction = new CabecalhoGUI.UnderlineAction();
+        Action underlineAction = new EditorCabecalhoGUI.UnderlineAction();
         underlineAction.putValue(Action.NAME, "Sublinhado");
         jmTexto.add(underlineAction);
         jbSublinhado.addActionListener(underlineAction);
 
         //MenuItem Cor
-        Action foregroundAction = new CabecalhoGUI.ForegroundAction();
+        Action foregroundAction = new EditorCabecalhoGUI.ForegroundAction();
         foregroundAction.putValue(Action.NAME, "Cor do texto");
         jmTexto.add(foregroundAction);
         jbCor.addActionListener(foregroundAction);
 
         //MenuItem Fonte
-        Action formatTextAction = new CabecalhoGUI.FontAndSizeAction();
+        Action formatTextAction = new EditorCabecalhoGUI.FontAndSizeAction();
         formatTextAction.putValue(Action.NAME, "Fonte");
         jmTexto.add(formatTextAction);
         jbFonte.addActionListener(formatTextAction);
         
         jtNome.requestFocus();
+        
+        try {          
+            rs = cabecalho.pegarCabecalhoPeloId(id);
+            if (rs!=null) {                                
+                idCabecalho = rs.getInt("Cabecalho_ID");
+                nome = rs.getString("NomeInstituicao");
+                instrucoes = rs.getString("Instrucoes");
+                titulo = rs.getString("Titulo");
+                subtitulo = rs.getString("SubTitulo");
+                serie = rs.getString("Serie");
+                valor = rs.getString("Valor");
+                fileName = rs.getString("NomeImagem");
+                
+                jtNome.setText(nome);
+                jtpInstrucoes.setText(instrucoes);
+                jtTitulo.setText(titulo);
+                jtSubtitulo.setText(subtitulo);
+                jtSerie.setText(serie);
+                jtValor.setText(valor);
+                if (fileName!=null)
+                    jlImagem.setText(fileName);                
+            }
+        } catch (SQLException sqlEx) {
+            JOptionPane.showMessageDialog(this, "Error SQL: "+sqlEx);
+        }        
     }
 
     /**
@@ -141,7 +177,7 @@ public class CabecalhoGUI extends javax.swing.JFrame {
         jmiSair = new javax.swing.JMenuItem();
         jmTexto = new javax.swing.JMenu();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setText("Nome da instituição:");
 
@@ -215,7 +251,7 @@ public class CabecalhoGUI extends javax.swing.JFrame {
 
         jLabel4.setText("Imagem:");
 
-        jlImagem.setText("Não há imagem selecionada");
+        jlImagem.setText("Não há imagem cadastrada");
 
         jLabel6.setText("Título:");
 
@@ -272,7 +308,7 @@ public class CabecalhoGUI extends javax.swing.JFrame {
                         .addComponent(jbCor)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jbFonte)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jbVoltar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jbSalvar))
@@ -369,7 +405,7 @@ public class CabecalhoGUI extends javax.swing.JFrame {
         });
         jMenu1.add(jmiSalvar);
 
-        jmiSair.setText("Menu principal");
+        jmiSair.setText("Sair");
         jmiSair.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jmiSairActionPerformed(evt);
@@ -399,117 +435,6 @@ public class CabecalhoGUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jbSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSalvarActionPerformed
-        // TODO add your handling code here:
-        try {
-            String nome = jtNome.getText();
-            String instrucoes = jtpInstrucoes.getText();
-            String titulo = jtTitulo.getText();
-            String subtitulo = jtSubtitulo.getText();
-            String serie = jtSerie.getText();
-            String valor = jtSerie.getText();
-            if ((!nome.isEmpty())&&(!instrucoes.isEmpty())) {
-                int x = JOptionPane.showConfirmDialog(this.getContentPane(), "Os dados estão corretos? Salvar agora?", "Salvar cabeçalho",
-                    JOptionPane.YES_NO_CANCEL_OPTION);
-                if (x==0) {
-                    cabecalho.inserirCabecalho(nome, instrucoes, titulo, subtitulo, serie, valor, input, fileName);
-                    JOptionPane.showMessageDialog(this, "Cabeçalho cadastrado com sucesso!");
-                    MenuGUI menu = new MenuGUI();
-                    menu.setVisible(true);
-                    menu.setLocationRelativeTo(null);
-                    dispose();
-                }
-            } else {
-                if ((nome.isEmpty())&&(instrucoes.isEmpty())) {
-                    JOptionPane.showMessageDialog(this, "Nome da instituição e a instrução não podem ser vazias!");
-                } else if (nome.isEmpty()) {
-                    JOptionPane.showMessageDialog(this, "Nome da instituição não pode ser vazio!");
-                } else if (instrucoes.isEmpty()) {
-                    JOptionPane.showMessageDialog(this, "A instrução não pode ser vazia!");
-                }
-            }
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this, "Error: "+ex);
-        }
-    }//GEN-LAST:event_jbSalvarActionPerformed
-
-    private void jbImagemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbImagemActionPerformed
-        // TODO add your handling code here:
-        FileNameExtensionFilter fileNameExtensionFilter = new FileNameExtensionFilter(
-                "Imagens", "png", "jpg");
-        JFileChooser chooser = new JFileChooser();
-        chooser.setFileFilter(fileNameExtensionFilter);
-        chooser.setDialogTitle("Selecione a imagem");
-        int resposta = chooser.showOpenDialog(null);
-        if (resposta == JFileChooser.APPROVE_OPTION) {
-            try {
-                File file = new File(chooser.getSelectedFile().getAbsolutePath());      
-                fileName = file.getName();
-                input = new FileInputStream(file);  
-                jlImagem.setText(fileName);
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "Error: "+e);
-            }
-        }
-    }//GEN-LAST:event_jbImagemActionPerformed
-
-    private void jbVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbVoltarActionPerformed
-        // TODO add your handling code here:
-        jmiSairActionPerformed(evt);
-    }//GEN-LAST:event_jbVoltarActionPerformed
-
-    private void jmiImagemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiImagemActionPerformed
-        // TODO add your handling code here:
-        jbImagemActionPerformed(evt);
-    }//GEN-LAST:event_jmiImagemActionPerformed
-
-    private void jmiSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiSalvarActionPerformed
-        // TODO add your handling code here:
-        jbSalvarActionPerformed(evt);
-    }//GEN-LAST:event_jmiSalvarActionPerformed
-
-    private void jmiSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiSairActionPerformed
-        // TODO add your handling code here:        
-        int x = JOptionPane.showConfirmDialog(this.getContentPane(), "Deseja salvar antes de sair?", "Encerrar",
-            JOptionPane.YES_NO_CANCEL_OPTION);
-        if (x==0) {
-            jbSalvarActionPerformed(evt);
-            if (!jtNome.getText().isEmpty()) {
-                if (!jtpInstrucoes.getText().isEmpty()) {
-                    dispose();
-                }
-            }
-        }
-        if (x==1) {
-            dispose();
-        }
-    }//GEN-LAST:event_jmiSairActionPerformed
-
-    private void jbFonteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbFonteActionPerformed
-        // TODO add your handling code here:
-        jtpInstrucoes.requestFocus();
-    }//GEN-LAST:event_jbFonteActionPerformed
-
-    private void jbCorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCorActionPerformed
-        // TODO add your handling code here:
-        jtpInstrucoes.requestFocus();
-    }//GEN-LAST:event_jbCorActionPerformed
-
-    private void jbSublinhadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSublinhadoActionPerformed
-        // TODO add your handling code here:
-        jtpInstrucoes.requestFocus();
-    }//GEN-LAST:event_jbSublinhadoActionPerformed
-
-    private void jbItalicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbItalicoActionPerformed
-        // TODO add your handling code here:
-        jtpInstrucoes.requestFocus();
-    }//GEN-LAST:event_jbItalicoActionPerformed
-
-    private void jbNegritoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbNegritoActionPerformed
-        // TODO add your handling code here:
-        jtpInstrucoes.requestFocus();
-    }//GEN-LAST:event_jbNegritoActionPerformed
-
     private void jtNomeFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtNomeFocusGained
         // TODO add your handling code here:
         t1 = true;
@@ -519,6 +444,85 @@ public class CabecalhoGUI extends javax.swing.JFrame {
         t5 = false;
         t6 = false;
     }//GEN-LAST:event_jtNomeFocusGained
+
+    private void jbNegritoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbNegritoActionPerformed
+        // TODO add your handling code here:
+        jtpInstrucoes.requestFocus();
+    }//GEN-LAST:event_jbNegritoActionPerformed
+
+    private void jbItalicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbItalicoActionPerformed
+        // TODO add your handling code here:
+        jtpInstrucoes.requestFocus();
+    }//GEN-LAST:event_jbItalicoActionPerformed
+
+    private void jbSublinhadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSublinhadoActionPerformed
+        // TODO add your handling code here:
+        jtpInstrucoes.requestFocus();
+    }//GEN-LAST:event_jbSublinhadoActionPerformed
+
+    private void jbCorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCorActionPerformed
+        // TODO add your handling code here:
+        jtpInstrucoes.requestFocus();
+    }//GEN-LAST:event_jbCorActionPerformed
+
+    private void jbFonteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbFonteActionPerformed
+        // TODO add your handling code here:
+        jtpInstrucoes.requestFocus();
+    }//GEN-LAST:event_jbFonteActionPerformed
+
+    private void jbImagemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbImagemActionPerformed
+        // TODO add your handling code here:
+        FileNameExtensionFilter fileNameExtensionFilter = new FileNameExtensionFilter(
+            "Imagens", "png", "jpg");
+        JFileChooser chooser = new JFileChooser();
+        chooser.setFileFilter(fileNameExtensionFilter);
+        chooser.setDialogTitle("Selecione a imagem");
+        int resposta = chooser.showOpenDialog(null);
+        if (resposta == JFileChooser.APPROVE_OPTION) {
+            try {
+                File file = new File(chooser.getSelectedFile().getAbsolutePath());
+                fileName = file.getName();
+                input = new FileInputStream(file);
+                jlImagem.setText(fileName);
+                img = true;
+            } catch (FileNotFoundException e) {
+                JOptionPane.showMessageDialog(this, "Error: "+e);
+            }
+        }
+    }//GEN-LAST:event_jbImagemActionPerformed
+
+    private void jbSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSalvarActionPerformed
+        // TODO add your handling code here:
+        nome = jtNome.getText();
+        instrucoes = jtpInstrucoes.getText();
+        titulo = jtTitulo.getText();
+        subtitulo = jtSubtitulo.getText();
+        serie = jtSerie.getText();
+        valor = jtSerie.getText();
+        if ((!nome.isEmpty())&&(!instrucoes.isEmpty())) {
+            int x = JOptionPane.showConfirmDialog(this.getContentPane(), "Os dados estão corretos? Salvar agora?", "Salvar cabeçalho",
+                JOptionPane.YES_NO_CANCEL_OPTION);
+            if (x==0) {                    
+                SalvarCabecalho(nome, instrucoes, titulo, subtitulo, serie, valor, idCabecalho);
+                AddImagem(idCabecalho);
+                JOptionPane.showMessageDialog(this, "Cabeçalho atualizado com sucesso!");
+                dispose();
+            }
+        } else {
+            if ((nome.isEmpty())&&(instrucoes.isEmpty())) {
+                JOptionPane.showMessageDialog(this, "Nome da instituição e a instrução não podem ser vazias!");
+            } else if (nome.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Nome da instituição não pode ser vazio!");
+            } else if (instrucoes.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "A instrução não pode ser vazia!");
+            }
+        }
+    }//GEN-LAST:event_jbSalvarActionPerformed
+
+    private void jbVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbVoltarActionPerformed
+        // TODO add your handling code here:
+        jmiSairActionPerformed(evt);
+    }//GEN-LAST:event_jbVoltarActionPerformed
 
     private void jtTituloFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtTituloFocusGained
         // TODO add your handling code here:
@@ -540,6 +544,16 @@ public class CabecalhoGUI extends javax.swing.JFrame {
         t6 = false;
     }//GEN-LAST:event_jtSubtituloFocusGained
 
+    private void jtpInstrucoesFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtpInstrucoesFocusGained
+        // TODO add your handling code here:
+        t1 = false;
+        t2 = false;
+        t3 = false;
+        t4 = false;
+        t5 = false;
+        t6 = true;
+    }//GEN-LAST:event_jtpInstrucoesFocusGained
+
     private void jtSerieFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtSerieFocusGained
         // TODO add your handling code here:
         t1 = false;
@@ -560,15 +574,32 @@ public class CabecalhoGUI extends javax.swing.JFrame {
         t6 = false;
     }//GEN-LAST:event_jtValorFocusGained
 
-    private void jtpInstrucoesFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtpInstrucoesFocusGained
+    private void jmiImagemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiImagemActionPerformed
         // TODO add your handling code here:
-        t1 = false;
-        t2 = false;
-        t3 = false;
-        t4 = false;
-        t5 = false;
-        t6 = true;
-    }//GEN-LAST:event_jtpInstrucoesFocusGained
+        jbImagemActionPerformed(evt);
+    }//GEN-LAST:event_jmiImagemActionPerformed
+
+    private void jmiSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiSalvarActionPerformed
+        // TODO add your handling code here:
+        jbSalvarActionPerformed(evt);
+    }//GEN-LAST:event_jmiSalvarActionPerformed
+
+    private void jmiSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiSairActionPerformed
+        // TODO add your handling code here:
+        int x = JOptionPane.showConfirmDialog(this.getContentPane(), "Deseja salvar antes de sair?", "Encerrar",
+            JOptionPane.YES_NO_CANCEL_OPTION);
+        if (x==0) {
+            jbSalvarActionPerformed(evt);
+            if (!jtNome.getText().isEmpty()) {
+                if (!jtpInstrucoes.getText().isEmpty()) {
+                    dispose();
+                }
+            }
+        }
+        if (x==1) {
+            dispose();
+        }
+    }//GEN-LAST:event_jmiSairActionPerformed
 
     /**
      * @param args the command line arguments
@@ -587,23 +618,51 @@ public class CabecalhoGUI extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CabecalhoGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EditorCabecalhoGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CabecalhoGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EditorCabecalhoGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CabecalhoGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EditorCabecalhoGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CabecalhoGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EditorCabecalhoGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
-        /* Create and display the form */
+        /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new CabecalhoGUI().setVisible(true);
+                EditorCabecalhoGUI dialog = new EditorCabecalhoGUI(new javax.swing.JFrame(), true);
+                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent e) {
+                        System.exit(0);
+                    }
+                });
+                dialog.setVisible(true);
             }
         });
-    }    
+    }
+
+    //SALVAR CABECALHO
+    public void SalvarCabecalho(String nome, String instrucoes, String titulo, String subtitulo, 
+            String serie, String valor, int id) {        
+        try {
+            cabecalho.inserirCabecalhoEditado(nome, instrucoes, titulo, subtitulo, serie, valor, idCabecalho);
+        } catch (SQLException sqlEx) {
+            JOptionPane.showMessageDialog(this, "Error SQL: "+sqlEx);
+        }
+    }
+    
+    //SALVAR IMAGEM
+    public void AddImagem(int idDestaQuestao) {        
+        if (img) {
+            try {
+                cabecalho.inserirImagemCabecalhoEditada(input, fileName, idDestaQuestao);                              
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(this, "Ocorreu um erro, tente novamente!");
+            }
+        }
+    }
     
     //NEGRITO
     class BoldAction extends StyledEditorKit.StyledTextAction {
@@ -805,7 +864,7 @@ public class CabecalhoGUI extends javax.swing.JFrame {
 
             formatText = new JDialog(new JFrame(), "Font and Size", true);
             formatText.getContentPane().setLayout(new BorderLayout());
-            formatText.setLocationRelativeTo(frame.getContentPane());
+            formatText.setLocationRelativeTo(dialog.getContentPane());
             //format aq de centralizar a tela
 
             JPanel choosers = new JPanel();
