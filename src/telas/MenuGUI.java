@@ -2,6 +2,7 @@ package telas;
 
 
 import banco.LoginDAO;
+import editorDisciplinasConteudos.EditorDeDiscConteudos;
 import editorQuestoes.*;
 /**
  *
@@ -36,8 +37,9 @@ public class MenuGUI extends javax.swing.JFrame {
         jMenu3 = new javax.swing.JMenu();
         jmiCabecalho = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
+        jMenu5 = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
-        jMenuItem3 = new javax.swing.JMenuItem();
+        jMenuItem8 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         jMenuItem6 = new javax.swing.JMenuItem();
         jMenuItem7 = new javax.swing.JMenuItem();
@@ -92,11 +94,20 @@ public class MenuGUI extends javax.swing.JFrame {
 
         jMenu2.add(jMenu3);
 
-        jMenuItem4.setText("Conteúdos");
-        jMenu2.add(jMenuItem4);
+        jMenu5.setText("Dicisplinas e Conteúdos");
 
-        jMenuItem3.setText("Dicisplinas");
-        jMenu2.add(jMenuItem3);
+        jMenuItem4.setText("Adicionar");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
+        jMenu5.add(jMenuItem4);
+
+        jMenuItem8.setText("Editar");
+        jMenu5.add(jMenuItem8);
+
+        jMenu2.add(jMenu5);
 
         jMenu4.setText("Questões");
 
@@ -172,6 +183,13 @@ public class MenuGUI extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        // TODO add your handling code here:
+        EditorDeDiscConteudos tela = new EditorDeDiscConteudos();
+        tela.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -213,13 +231,14 @@ public class MenuGUI extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
+    private javax.swing.JMenu jMenu5;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
+    private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JMenuItem jmiCabecalho;
     private javax.swing.JMenuBar mnMenu;
     // End of variables declaration//GEN-END:variables
