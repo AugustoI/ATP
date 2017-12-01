@@ -1155,8 +1155,6 @@ public class EditorDeDiscConteudos extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuBar jMenuBar2;
     private javax.swing.JMenuBar jMenuBar3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
@@ -1175,13 +1173,9 @@ public class EditorDeDiscConteudos extends javax.swing.JFrame {
     private javax.swing.JButton jbVoltar;
     private javax.swing.JButton jbVoltar1;
     private javax.swing.JComboBox<String> jcbDisciplina;
-    private javax.swing.JMenu jmArquivo;
-    private javax.swing.JMenu jmArquivo1;
     private javax.swing.JMenu jmArquivo2;
     private javax.swing.JMenuItem jmiEditar;
     private javax.swing.JMenuItem jmiExcluir;
-    private javax.swing.JMenuItem jmiImagem;
-    private javax.swing.JMenuItem jmiImagem1;
     private javax.swing.JMenuItem jmiSair;
     private javax.swing.JMenuItem jmiSalvar;
     private javax.swing.JTextField jtConteudo;
