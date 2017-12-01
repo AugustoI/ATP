@@ -131,7 +131,7 @@
                                   <Component id="jlImagem" min="-2" pref="225" max="-2" attributes="0"/>
                               </Group>
                               <Group type="102" attributes="0">
-                                  <Component id="jbVoltar" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jbRemover" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="jbImagem" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
@@ -160,7 +160,7 @@
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jbImagem" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jbSalvar" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jbVoltar" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jbRemover" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jbNegrito" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jbItalico" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jbSublinhado" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -275,12 +275,13 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbImagemActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="jbVoltar">
+        <Component class="javax.swing.JButton" name="jbRemover">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Cancelar"/>
+            <Property name="text" type="java.lang.String" value="Remover imagem"/>
+            <Property name="enabled" type="boolean" value="false"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbVoltarActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbRemoverActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JButton" name="jbNegrito">

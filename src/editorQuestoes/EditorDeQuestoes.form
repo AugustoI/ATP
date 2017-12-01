@@ -117,22 +117,16 @@
                   <Component id="jScrollPane2" alignment="0" max="32767" attributes="0"/>
                   <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jcbDisciplina" min="-2" pref="186" max="-2" attributes="0"/>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jcbConteudo" min="-2" pref="200" max="-2" attributes="0"/>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jcbDificuldade" min="-2" pref="65" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="1" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="jcbDisciplina" min="-2" pref="186" max="-2" attributes="0"/>
+                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                      <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
+                                  </Group>
                                   <Group type="102" alignment="0" attributes="0">
                                       <Component id="jbNegrito1" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
@@ -144,24 +138,36 @@
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Component id="jbFonte1" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <Component id="jLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace max="32767" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" attributes="0">
-                                      <Component id="jbVoltar" min="-2" pref="114" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="jcbConteudo" min="-2" pref="200" max="-2" attributes="0"/>
+                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                      <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="jbImagem" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="jbSalvar" min="-2" pref="84" max="-2" attributes="0"/>
+                                      <Component id="jcbDificuldade" min="-2" pref="65" max="-2" attributes="0"/>
                                   </Group>
-                                  <Group type="102" attributes="0">
-                                      <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="jlImagem1" min="-2" max="-2" attributes="0"/>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Group type="102" attributes="0">
+                                              <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
+                                              <EmptySpace max="-2" attributes="0"/>
+                                              <Component id="jlImagem1" min="-2" max="-2" attributes="0"/>
+                                          </Group>
+                                          <Group type="102" attributes="0">
+                                              <Component id="jbRemoverImagem1" min="-2" max="-2" attributes="0"/>
+                                              <EmptySpace max="32767" attributes="0"/>
+                                              <Component id="jbImagem" min="-2" max="-2" attributes="0"/>
+                                              <EmptySpace max="-2" attributes="0"/>
+                                              <Component id="jbSalvar" min="-2" pref="84" max="-2" attributes="0"/>
+                                          </Group>
+                                      </Group>
                                   </Group>
                               </Group>
                           </Group>
+                          <Component id="jLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
@@ -183,7 +189,7 @@
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jbImagem" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jbSalvar" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jbVoltar" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jbRemoverImagem1" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jbNegrito1" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jbItalico1" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jbSublinhado1" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -297,12 +303,13 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbImagemActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="jbVoltar">
+            <Component class="javax.swing.JButton" name="jbRemoverImagem1">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Voltar ao menu"/>
+                <Property name="text" type="java.lang.String" value="Remover imagem"/>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbVoltarActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbRemoverImagem1ActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JButton" name="jbNegrito1">
@@ -445,8 +452,8 @@
                                       <EmptySpace max="32767" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
                                           <Group type="102" attributes="0">
-                                              <Component id="jbVoltar1" min="-2" pref="114" max="-2" attributes="0"/>
-                                              <EmptySpace max="-2" attributes="0"/>
+                                              <Component id="jbRemoverImagem2" min="-2" max="-2" attributes="0"/>
+                                              <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
                                               <Component id="jbImagem3" min="-2" max="-2" attributes="0"/>
                                               <EmptySpace max="-2" attributes="0"/>
                                               <Component id="jbSalvar3" min="-2" pref="84" max="-2" attributes="0"/>
@@ -482,7 +489,7 @@
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jbImagem3" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jbSalvar3" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jbVoltar1" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jbRemoverImagem2" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jbNegrito2" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jbItalico2" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jbSublinhado2" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -572,12 +579,13 @@
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
               </AuxValues>
             </Component>
-            <Component class="javax.swing.JButton" name="jbVoltar1">
+            <Component class="javax.swing.JButton" name="jbRemoverImagem2">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Voltar ao menu"/>
+                <Property name="text" type="java.lang.String" value="Remover imagem"/>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbVoltar1ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbRemoverImagem2ActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JButton" name="jbImagem3">

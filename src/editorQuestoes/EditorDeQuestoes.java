@@ -146,7 +146,7 @@ public class EditorDeQuestoes extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jcbConteudo = new javax.swing.JComboBox<String>();
         jbImagem = new javax.swing.JButton();
-        jbVoltar = new javax.swing.JButton();
+        jbRemoverImagem1 = new javax.swing.JButton();
         jbNegrito1 = new javax.swing.JButton();
         jbItalico1 = new javax.swing.JButton();
         jbSublinhado1 = new javax.swing.JButton();
@@ -160,7 +160,7 @@ public class EditorDeQuestoes extends javax.swing.JFrame {
         jcbDisciplina3 = new javax.swing.JComboBox<String>();
         jLabel16 = new javax.swing.JLabel();
         jcbConteudo3 = new javax.swing.JComboBox<String>();
-        jbVoltar1 = new javax.swing.JButton();
+        jbRemoverImagem2 = new javax.swing.JButton();
         jbImagem3 = new javax.swing.JButton();
         jLabel17 = new javax.swing.JLabel();
         jcbDificuldade3 = new javax.swing.JComboBox<String>();
@@ -245,10 +245,11 @@ public class EditorDeQuestoes extends javax.swing.JFrame {
             }
         });
 
-        jbVoltar.setText("Voltar ao menu");
-        jbVoltar.addActionListener(new java.awt.event.ActionListener() {
+        jbRemoverImagem1.setText("Remover imagem");
+        jbRemoverImagem1.setEnabled(false);
+        jbRemoverImagem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbVoltarActionPerformed(evt);
+                jbRemoverImagem1ActionPerformed(evt);
             }
         });
 
@@ -300,21 +301,15 @@ public class EditorDeQuestoes extends javax.swing.JFrame {
             .addComponent(jScrollPane2)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jcbDisciplina, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jcbConteudo, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jcbDificuldade, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jcbDisciplina, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel4))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jbNegrito1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -324,20 +319,29 @@ public class EditorDeQuestoes extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jbCor1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jbFonte1))
-                            .addComponent(jLabel1))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jbFonte1)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jbVoltar, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jcbConteudo, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jbImagem)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jbSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jcbDificuldade, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel5)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jlImagem1)))))
+                                .addGap(9, 9, 9)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel5)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jlImagem1))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jbRemoverImagem1)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jbImagem)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jbSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                    .addComponent(jLabel1))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -355,7 +359,7 @@ public class EditorDeQuestoes extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jbImagem)
                     .addComponent(jbSalvar)
-                    .addComponent(jbVoltar)
+                    .addComponent(jbRemoverImagem1)
                     .addComponent(jbNegrito1)
                     .addComponent(jbItalico1)
                     .addComponent(jbSublinhado1)
@@ -379,10 +383,11 @@ public class EditorDeQuestoes extends javax.swing.JFrame {
 
         jLabel16.setText("Conteúdo:");
 
-        jbVoltar1.setText("Voltar ao menu");
-        jbVoltar1.addActionListener(new java.awt.event.ActionListener() {
+        jbRemoverImagem2.setText("Remover imagem");
+        jbRemoverImagem2.setEnabled(false);
+        jbRemoverImagem2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbVoltar1ActionPerformed(evt);
+                jbRemoverImagem2ActionPerformed(evt);
             }
         });
 
@@ -610,8 +615,8 @@ public class EditorDeQuestoes extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel3Layout.createSequentialGroup()
-                                        .addComponent(jbVoltar1, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jbRemoverImagem2)
+                                        .addGap(5, 5, 5)
                                         .addComponent(jbImagem3)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(jbSalvar3, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -637,7 +642,7 @@ public class EditorDeQuestoes extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jbImagem3)
                     .addComponent(jbSalvar3)
-                    .addComponent(jbVoltar1)
+                    .addComponent(jbRemoverImagem2)
                     .addComponent(jbNegrito2)
                     .addComponent(jbItalico2)
                     .addComponent(jbSublinhado2)
@@ -785,12 +790,6 @@ public class EditorDeQuestoes extends javax.swing.JFrame {
 
     private void jbImagemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbImagemActionPerformed
         // TODO add your handling code here:
-        //String nome = "";
-        //nome = jcbDisciplina.getSelectedItem().toString();
-        //AdicionarImagem adc = new AdicionarImagem(nome);
-        //adc.setVisible(true);
-        //adc.setLocationRelativeTo(null);
-        
         TesteImagem a = new TesteImagem(this, true);
         a.setVisible(true); 
         img = a.certo;
@@ -799,10 +798,12 @@ public class EditorDeQuestoes extends javax.swing.JFrame {
         fileName = a.fileName;
         if (jTabbedPane1.getSelectedIndex()==0) {
             jlImagem1.setText(fileName);
+            jbRemoverImagem1.setEnabled(true);
         }
         if (jTabbedPane1.getSelectedIndex()==1) {
             jlImagem2.setText(fileName);
-        }
+            jbRemoverImagem2.setEnabled(true);
+        }        
     }//GEN-LAST:event_jbImagemActionPerformed
 
     private void jmiSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiSalvarActionPerformed
@@ -984,15 +985,24 @@ public class EditorDeQuestoes extends javax.swing.JFrame {
         jbImagemActionPerformed(evt);
     }//GEN-LAST:event_jbImagem2ActionPerformed
 
-    private void jbVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbVoltarActionPerformed
+    private void jbRemoverImagem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbRemoverImagem1ActionPerformed
         // TODO add your handling code here:
-        jmiSairActionPerformed(evt);
-    }//GEN-LAST:event_jbVoltarActionPerformed
+        img = false;
+        fileName = "Nenhuma imagem selecionada";
+        if (jTabbedPane1.getSelectedIndex()==0) {
+            jlImagem1.setText(fileName);
+            jbRemoverImagem1.setEnabled(false);
+        }
+        if (jTabbedPane1.getSelectedIndex()==1) {
+            jlImagem2.setText(fileName);
+            jbRemoverImagem2.setEnabled(false);
+        } 
+    }//GEN-LAST:event_jbRemoverImagem1ActionPerformed
 
-    private void jbVoltar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbVoltar1ActionPerformed
+    private void jbRemoverImagem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbRemoverImagem2ActionPerformed
         // TODO add your handling code here:
-        jmiSairActionPerformed(evt);
-    }//GEN-LAST:event_jbVoltar1ActionPerformed
+        jbRemoverImagem1ActionPerformed(evt);
+    }//GEN-LAST:event_jbRemoverImagem2ActionPerformed
 
     private void jrbSimE1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jrbSimE1ActionPerformed
         // TODO add your handling code here:
@@ -1708,12 +1718,12 @@ public class EditorDeQuestoes extends javax.swing.JFrame {
     private javax.swing.JButton jbItalico2;
     private javax.swing.JButton jbNegrito1;
     private javax.swing.JButton jbNegrito2;
+    private javax.swing.JButton jbRemoverImagem1;
+    private javax.swing.JButton jbRemoverImagem2;
     private javax.swing.JButton jbSalvar;
     private javax.swing.JButton jbSalvar3;
     private javax.swing.JButton jbSublinhado1;
     private javax.swing.JButton jbSublinhado2;
-    private javax.swing.JButton jbVoltar;
-    private javax.swing.JButton jbVoltar1;
     private javax.swing.JComboBox<String> jcbConteudo;
     private javax.swing.JComboBox<String> jcbConteudo3;
     private javax.swing.JComboBox<String> jcbDificuldade;

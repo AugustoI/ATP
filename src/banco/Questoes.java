@@ -273,4 +273,12 @@ public class Questoes {
             return null;
         }
     }
+    
+    public void removerImagem(int idQuestao) throws SQLException {
+        String excluir = "delete from imagemquest where ID_Questao=?";
+        Connection con = new ConexaoDAO().conectar();
+        PreparedStatement p = con.prepareStatement(excluir);
+        p.setInt(1, idQuestao);            
+        p.executeUpdate();
+    }
 }

@@ -55,9 +55,9 @@ public class EditorQuestaoAberta extends javax.swing.JDialog {
     ResultSet rs;
     DefaultComboBoxModel modelComboBox;  
     FileInputStream input;
-    String enunciado, disciplina, conteudo, fileName;
+    String enunciado, disciplina, conteudo, fileName, fileNameAntigo;
     int idQuestao, dificuldade, idConteudo, posicaoImagem;      
-    boolean img;        
+    boolean img, img2, remover;        
     
     public EditorQuestaoAberta(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -107,6 +107,8 @@ public class EditorQuestaoAberta extends javax.swing.JDialog {
         this.setLocationRelativeTo(this);        
         this.setTitle("Editor de Questão ABERTA");
         jlImagem.setMaximumSize(new Dimension(14, 225));
+        jbRemover.setEnabled(false);
+        remover = false;
         
         //Carregar os dois combobox (disciplinas e conteúdos)
         CarregarComboBox();
@@ -164,8 +166,12 @@ public class EditorQuestaoAberta extends javax.swing.JDialog {
                                     
             rs = questoesBanco.pegarNomeImagem(idQuestao);
             if (rs!=null) {                                
-                fileName = rs.getString("NomeImagem");
+                fileNameAntigo = fileName = rs.getString("NomeImagem");
                 jlImagem.setText(fileName);
+                jbRemover.setEnabled(true);
+                img2 = true;
+            } else {
+                img2 = false;
             }
         } catch (SQLException sqlEx) {
             JOptionPane.showMessageDialog(this, "Error SQL: "+sqlEx);
@@ -193,7 +199,7 @@ public class EditorQuestaoAberta extends javax.swing.JDialog {
         jLabel4 = new javax.swing.JLabel();
         jcbConteudo = new javax.swing.JComboBox<String>();
         jbImagem = new javax.swing.JButton();
-        jbVoltar = new javax.swing.JButton();
+        jbRemover = new javax.swing.JButton();
         jbNegrito = new javax.swing.JButton();
         jbItalico = new javax.swing.JButton();
         jbSublinhado = new javax.swing.JButton();
@@ -243,10 +249,11 @@ public class EditorQuestaoAberta extends javax.swing.JDialog {
             }
         });
 
-        jbVoltar.setText("Cancelar");
-        jbVoltar.addActionListener(new java.awt.event.ActionListener() {
+        jbRemover.setText("Remover imagem");
+        jbRemover.setEnabled(false);
+        jbRemover.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbVoltarActionPerformed(evt);
+                jbRemoverActionPerformed(evt);
             }
         });
 
@@ -331,7 +338,7 @@ public class EditorQuestaoAberta extends javax.swing.JDialog {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jlImagem, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jbVoltar)
+                                .addComponent(jbRemover)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jbImagem)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -353,7 +360,7 @@ public class EditorQuestaoAberta extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jbImagem)
                     .addComponent(jbSalvar)
-                    .addComponent(jbVoltar)
+                    .addComponent(jbRemover)
                     .addComponent(jbNegrito)
                     .addComponent(jbItalico)
                     .addComponent(jbSublinhado)
@@ -442,10 +449,13 @@ public class EditorQuestaoAberta extends javax.swing.JDialog {
                             } while (rs.next());
                             SalvarQuestao(enunciado, dificuldade, idConteudo, idQuestao); 
                             AddImagem(idQuestao);
+                            RemoverImagem(idQuestao);
                         }
                         
                         jtpEnunciado.setText("");
                         JOptionPane.showMessageDialog(this, "Questão atualizada com sucesso!");
+                        dispose();
+                    } else if (x==1) {
                         dispose();
                     }
                 } else {
@@ -468,12 +478,33 @@ public class EditorQuestaoAberta extends javax.swing.JDialog {
         input = a.input;
         fileName = a.fileName;
         jlImagem.setText(fileName);
+        jbRemover.setEnabled(true);
     }//GEN-LAST:event_jbImagemActionPerformed
 
-    private void jbVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbVoltarActionPerformed
+    private void jbRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbRemoverActionPerformed
         // TODO add your handling code here:
-        dispose();
-    }//GEN-LAST:event_jbVoltarActionPerformed
+        int x = JOptionPane.showConfirmDialog(this.getContentPane(), "Tem certeza que deseja remover a imagem?", "Remover imagem",
+        JOptionPane.YES_NO_CANCEL_OPTION);
+        if (x==0) {
+            if (img) {
+                img = false;
+                if (!img2) {
+                    fileName = "Não há imagem cadastrada";
+                    jlImagem.setText(fileName);            
+                } else {
+                    jlImagem.setText(fileNameAntigo);     
+                }
+            } else if (img2) {
+                img2 = false;
+                fileName = "Não há imagem cadastrada";
+                jlImagem.setText(fileName);   
+                remover = true;
+            } 
+            if ((!img)&&(!img2)) {
+                jbRemover.setEnabled(false);
+            }
+        }
+    }//GEN-LAST:event_jbRemoverActionPerformed
 
     private void jmiSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiSalvarActionPerformed
         // TODO add your handling code here: 
@@ -593,6 +624,17 @@ public class EditorQuestaoAberta extends javax.swing.JDialog {
             }
         }
     }
+    
+    //REMOVER IMAGEM
+    public void RemoverImagem(int idDestaQuestao) {        
+        if (remover) {            
+            try {
+                questoesBanco.removerImagem(idDestaQuestao);
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(this, "Erro ao remover imagem.\nErro:"+e);
+            }
+        }
+    }    
     
     //CARREGAR COMBOBOXES
     public void CarregarComboBox() {     
@@ -910,9 +952,9 @@ public class EditorQuestaoAberta extends javax.swing.JDialog {
     private javax.swing.JButton jbImagem;
     private javax.swing.JButton jbItalico;
     private javax.swing.JButton jbNegrito;
+    private javax.swing.JButton jbRemover;
     private javax.swing.JButton jbSalvar;
     private javax.swing.JButton jbSublinhado;
-    private javax.swing.JButton jbVoltar;
     private javax.swing.JComboBox<String> jcbConteudo;
     private javax.swing.JComboBox<String> jcbDificuldade;
     private javax.swing.JComboBox<String> jcbDisciplina;

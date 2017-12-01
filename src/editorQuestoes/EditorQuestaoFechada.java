@@ -55,9 +55,9 @@ public class EditorQuestaoFechada extends javax.swing.JDialog {
     ResultSet rs;
     DefaultComboBoxModel modelComboBox;  
     FileInputStream input;
-    String fileName, enunciado, disciplina, conteudo, alternativaA, alternativaB, alternativaC, alternativaD, alternativaE, alternativaF;
+    String fileName, fileNameAntigo, enunciado, disciplina, conteudo, alternativaA, alternativaB, alternativaC, alternativaD, alternativaE, alternativaF;
     int idQuestao, dificuldade, idConteudo, posicaoImagem;      
-    boolean img, t1, t2, t3, t4, t5, t6, t7;    
+    boolean img, img2, remover, t1, t2, t3, t4, t5, t6, t7;    
     
     public EditorQuestaoFechada(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -115,6 +115,7 @@ public class EditorQuestaoFechada extends javax.swing.JDialog {
         this.setLocationRelativeTo(this);
         this.setTitle("Editor de Questão FECHADA");
         jlImagem.setMaximumSize(new Dimension(14, 225));
+        jbRemover.setEnabled(false);
         
         t1 = false;
         t2 = false;
@@ -123,6 +124,7 @@ public class EditorQuestaoFechada extends javax.swing.JDialog {
         t5 = false;
         t6 = false;
         t7 = false;
+        remover = false;
         
         //Carregar os dois combobox (disciplinas e conteúdos)
         CarregarComboBox();
@@ -204,8 +206,12 @@ public class EditorQuestaoFechada extends javax.swing.JDialog {
             
             rs = questoesBanco.pegarNomeImagem(idQuestao);
             if (rs!=null) {                                
-                fileName = rs.getString("NomeImagem");
+                fileNameAntigo = fileName = rs.getString("NomeImagem");
                 jlImagem.setText(fileName);
+                jbRemover.setEnabled(true);
+                img2 = true;
+            } else {
+                img2 = false;
             }
         } catch (SQLException sqlEx) {
             JOptionPane.showMessageDialog(this, "Error SQL: "+sqlEx);
@@ -229,7 +235,7 @@ public class EditorQuestaoFechada extends javax.swing.JDialog {
         jcbDisciplina3 = new javax.swing.JComboBox<String>();
         jLabel16 = new javax.swing.JLabel();
         jcbConteudo3 = new javax.swing.JComboBox<String>();
-        jbVoltar1 = new javax.swing.JButton();
+        jbRemover = new javax.swing.JButton();
         jbImagem3 = new javax.swing.JButton();
         jLabel17 = new javax.swing.JLabel();
         jcbDificuldade3 = new javax.swing.JComboBox<String>();
@@ -280,10 +286,10 @@ public class EditorQuestaoFechada extends javax.swing.JDialog {
 
         jLabel16.setText("Conteúdo:");
 
-        jbVoltar1.setText("Cancelar");
-        jbVoltar1.addActionListener(new java.awt.event.ActionListener() {
+        jbRemover.setText("Remover imagem");
+        jbRemover.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbVoltar1ActionPerformed(evt);
+                jbRemoverActionPerformed(evt);
             }
         });
 
@@ -494,7 +500,7 @@ public class EditorQuestaoFechada extends javax.swing.JDialog {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jbFonte)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jbVoltar1)
+                                .addComponent(jbRemover)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jbImagem3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -519,10 +525,10 @@ public class EditorQuestaoFechada extends javax.swing.JDialog {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(jcbDificuldade3, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(jPanel3Layout.createSequentialGroup()
-                                        .addGap(49, 49, 49)
+                                        .addGap(9, 9, 9)
                                         .addComponent(jLabel1)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jlImagem)))))
+                                        .addComponent(jlImagem, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -541,7 +547,7 @@ public class EditorQuestaoFechada extends javax.swing.JDialog {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jbImagem3)
                     .addComponent(jbSalvar3)
-                    .addComponent(jbVoltar1)
+                    .addComponent(jbRemover)
                     .addComponent(jbNegrito)
                     .addComponent(jbItalico)
                     .addComponent(jbSublinhado)
@@ -645,10 +651,30 @@ public class EditorQuestaoFechada extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jbVoltar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbVoltar1ActionPerformed
+    private void jbRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbRemoverActionPerformed
         // TODO add your handling code here:
-        dispose();
-    }//GEN-LAST:event_jbVoltar1ActionPerformed
+        int x = JOptionPane.showConfirmDialog(this.getContentPane(), "Tem certeza que deseja remover a imagem?", "Remover imagem",
+        JOptionPane.YES_NO_CANCEL_OPTION);
+        if (x==0) {
+            if (img) {
+                img = false;
+                if (!img2) {
+                    fileName = "Não há imagem cadastrada";
+                    jlImagem.setText(fileName);            
+                } else {
+                    jlImagem.setText(fileNameAntigo);     
+                }
+            } else if (img2) {
+                img2 = false;
+                fileName = "Não há imagem cadastrada";
+                jlImagem.setText(fileName);   
+                remover = true;
+            } 
+            if ((!img)&&(!img2)) {
+                jbRemover.setEnabled(false);
+            }
+        }
+    }//GEN-LAST:event_jbRemoverActionPerformed
 
     private void jbImagem3jbImagem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbImagem3jbImagem2ActionPerformed
         // TODO add your handling code here:
@@ -659,6 +685,7 @@ public class EditorQuestaoFechada extends javax.swing.JDialog {
         input = a.input;
         fileName = a.fileName;
         jlImagem.setText(fileName);
+        jbRemover.setEnabled(true);
     }//GEN-LAST:event_jbImagem3jbImagem2ActionPerformed
 
     private void jbSalvar3jbSalvar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSalvar3jbSalvar2ActionPerformed
@@ -695,6 +722,7 @@ public class EditorQuestaoFechada extends javax.swing.JDialog {
                                     SalvarQuestao(enunciado, dificuldade, alternativaA, alternativaB, alternativaC, 
                                             alternativaD, alternativaE, alternativaF, idConteudo, idQuestao);
                                     AddImagem(idQuestao);
+                                    RemoverImagem(idQuestao);
                                 }                            
 
                                 jtpEnunciado2.setText("");
@@ -1077,6 +1105,17 @@ public class EditorQuestaoFechada extends javax.swing.JDialog {
         }
     }
     
+    //REMOVER IMAGEM
+    public void RemoverImagem(int idDestaQuestao) {        
+        if (remover) {            
+            try {
+                questoesBanco.removerImagem(idDestaQuestao);
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(this, "Erro ao remover imagem.\nErro:"+e);
+            }
+        }
+    } 
+    
     //CARREGAR COMBOBOXES
     public void CarregarComboBox() {     
         try {
@@ -1404,9 +1443,9 @@ public class EditorQuestaoFechada extends javax.swing.JDialog {
     private javax.swing.JButton jbImagem3;
     private javax.swing.JButton jbItalico;
     private javax.swing.JButton jbNegrito;
+    private javax.swing.JButton jbRemover;
     private javax.swing.JButton jbSalvar3;
     private javax.swing.JButton jbSublinhado;
-    private javax.swing.JButton jbVoltar1;
     private javax.swing.JComboBox<String> jcbConteudo3;
     private javax.swing.JComboBox<String> jcbDificuldade3;
     private javax.swing.JComboBox<String> jcbDisciplina3;
