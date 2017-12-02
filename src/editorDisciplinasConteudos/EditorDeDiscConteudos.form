@@ -251,7 +251,6 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="jbSalvar2" min="-2" pref="84" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="jSeparator3" alignment="1" max="32767" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
@@ -311,8 +310,6 @@
                           <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jSeparator3" min="-2" pref="10" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jtPesqConteudo" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -320,7 +317,7 @@
                           <Component id="jbEditar2" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jScrollPane2" min="-2" pref="194" max="-2" attributes="0"/>
+                      <Component id="jScrollPane2" min="-2" pref="210" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
@@ -408,6 +405,7 @@
             <Component class="javax.swing.JButton" name="jbExcluir2">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Excluir"/>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbExcluir2ActionPerformed"/>
@@ -416,12 +414,11 @@
             <Component class="javax.swing.JButton" name="jbEditar2">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Editar"/>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbEditar2ActionPerformed"/>
               </Events>
-            </Component>
-            <Component class="javax.swing.JSeparator" name="jSeparator3">
             </Component>
             <Component class="javax.swing.JSeparator" name="jSeparator4">
             </Component>

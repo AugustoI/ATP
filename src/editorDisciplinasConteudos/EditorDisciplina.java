@@ -6,6 +6,10 @@
 
 package editorDisciplinasConteudos;
 
+import banco.DisciConteudos;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Couth
@@ -15,9 +19,23 @@ public class EditorDisciplina extends javax.swing.JDialog {
     /**
      * Creates new form EditorDisciplina
      */
+    String disc;
+    int idDisc;
+    DisciConteudos disciConteudos = new DisciConteudos();
     public EditorDisciplina(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+    }
+    
+    public EditorDisciplina(java.awt.Frame parent, boolean modal, int id, String disciplina) {
+        super(parent, modal);
+        initComponents();
+        this.setLocationRelativeTo(null);
+        this.setTitle("Atualizar disciplina");
+        this.getRootPane().setDefaultButton(jbSalvar);
+        disc = disciplina;
+        idDisc = id;
+        jtDisciplina.setText(disc);
     }
 
     /**
@@ -39,8 +57,18 @@ public class EditorDisciplina extends javax.swing.JDialog {
         jLabel1.setText("Disciplina:");
 
         jbSalvar.setText("Salvar");
+        jbSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbSalvarActionPerformed(evt);
+            }
+        });
 
         jbCancelar.setText("Cancelar");
+        jbCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbCancelarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -75,6 +103,31 @@ public class EditorDisciplina extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jbSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSalvarActionPerformed
+        // TODO add your handling code here:
+        if (!jtDisciplina.getText().isEmpty()) {
+            int x = JOptionPane.showConfirmDialog(this.getContentPane(), "Tem certeza que deseja alterar o nome desta disciplina?", "Alterar disciplina",
+                JOptionPane.YES_NO_CANCEL_OPTION);
+            if (x==0) {
+                try {
+                    String novaDisc = jtDisciplina.getText();
+                    disciConteudos.alterarDisciplina(novaDisc, idDisc);
+                    JOptionPane.showMessageDialog(this, "Disciplina atualizada com sucesso!");
+                    dispose();
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(this, "Erro ao atualizar disciplina.\nErro:"+ex);
+                }
+            } else if (x==1) {
+                dispose();
+            }
+        }
+    }//GEN-LAST:event_jbSalvarActionPerformed
+
+    private void jbCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCancelarActionPerformed
+        // TODO add your handling code here:
+        dispose();
+    }//GEN-LAST:event_jbCancelarActionPerformed
 
     /**
      * @param args the command line arguments

@@ -6,6 +6,16 @@
 
 package editorDisciplinasConteudos;
 
+import banco.DisciConteudos;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+
 /**
  *
  * @author Couth
@@ -15,9 +25,73 @@ public class EditorConteudo extends javax.swing.JDialog {
     /**
      * Creates new form EditorConteudo
      */
+    DisciConteudos disciConteudos = new DisciConteudos();
+    List<String> strList = new ArrayList<String>();  
+    DefaultComboBoxModel modelComboBox;
+    ResultSet rs;
+    String nomeConteudo, serie, disciplina;
+    int idDisc, idCont;
     public EditorConteudo(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+    }
+    
+    public EditorConteudo(java.awt.Frame parent, boolean modal, int id) {
+        super(parent, modal);
+        initComponents();
+        this.setLocationRelativeTo(null);
+        this.setTitle("Atualizar conteúdo");
+        
+        idCont = id;
+        
+        CarregarComboBox();
+        
+        try {
+            rs = disciConteudos.pegarConteudoPeloConteudosID(id);
+            if (rs!=null) {
+                nomeConteudo = rs.getString("NomeConteudos");
+                serie = rs.getString("CodSerie");
+                idDisc = rs.getInt("ID_Disciplinas");
+                
+                jtConteudo.setText(nomeConteudo);
+                jtSerie.setText(serie);
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Erro: "+e.getMessage());
+        }
+        
+        try {
+            rs = disciConteudos.pegarNomeDisciplinaPeloId(idDisc);
+            if (rs!=null) {
+                disciplina = rs.getString("NomeDisciplinas");                
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Erro: "+e.getMessage());
+        }
+        
+        modelComboBox.setSelectedItem(disciplina);
+        
+        
+        jtPesquisar.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                PesquisarDisciplina();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                if (jtPesquisar.getText().isEmpty()) {
+                    MostrarDisciplinas();
+                } else {
+                    PesquisarDisciplina();
+                }
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                //
+            }
+        });
     }
 
     /**
@@ -47,8 +121,18 @@ public class EditorConteudo extends javax.swing.JDialog {
         jLabel2.setText("Conteúdo:");
 
         jbSalvar.setText("Salvar");
+        jbSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbSalvarActionPerformed(evt);
+            }
+        });
 
         jbCancelar.setText("Cancelar");
+        jbCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbCancelarActionPerformed(evt);
+            }
+        });
 
         jLabel3.setText("Série:");
 
@@ -100,17 +184,60 @@ public class EditorConteudo extends javax.swing.JDialog {
                     .addComponent(jcbDisciplina, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jbCancelar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jtConteudo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel3)
-                        .addComponent(jtSerie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jtSerie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel2)
+                        .addComponent(jtConteudo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jbSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSalvarActionPerformed
+        // TODO add your handling code here:
+        if ((!jtConteudo.getText().isEmpty())&&(!jtSerie.getText().isEmpty())) {
+            if (jcbDisciplina.getItemCount() != 0) {
+                int x = JOptionPane.showConfirmDialog(this.getContentPane(), "Tem certeza que deseja alterar este conteúdo?", "Alterar conteúdo",
+                    JOptionPane.YES_NO_CANCEL_OPTION);
+                if (x==0) {
+                    try {
+                        String conteudo = jtConteudo.getText();
+                        String serie = jtSerie.getText();
+                        rs = disciConteudos.pegarIdDisciplina(jcbDisciplina.getSelectedItem().toString());
+                        if (rs!=null) {
+                            int idDisciplina = rs.getInt("Disciplinas_ID");
+                            disciConteudos.alterarConteudo(conteudo, serie, idDisciplina, idCont);   
+                        }
+                        JOptionPane.showMessageDialog(this, "Conteúdo atualizado com sucesso!");
+                        dispose();
+                    } catch (SQLException e) {
+                        JOptionPane.showMessageDialog(this, "Erro: "+e.getMessage());
+                    }
+                } else if (x==1) {
+                    dispose();
+                }           
+            } else {
+                JOptionPane.showMessageDialog(this, "Disciplina inválida!");
+            }
+        } else {
+            if ((jtConteudo.getText().isEmpty())&&(jtSerie.getText().isEmpty())) {
+                JOptionPane.showMessageDialog(this, "O conteúdo e a série não podem ser vazios!");
+            } else if (jtConteudo.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "O conteúdo não pode ser vazio!");
+            } else {
+                JOptionPane.showMessageDialog(this, "A série não pode ser vazia!");
+            }
+        }
+    }//GEN-LAST:event_jbSalvarActionPerformed
+
+    private void jbCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCancelarActionPerformed
+        // TODO add your handling code here:
+        dispose();
+    }//GEN-LAST:event_jbCancelarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -154,6 +281,57 @@ public class EditorConteudo extends javax.swing.JDialog {
         });
     }
 
+    //CARREGAR COMBOBOX
+    public void CarregarComboBox() {     
+        try {
+            //Disciplinas   
+            strList.removeAll(strList);
+            rs = disciConteudos.pegarDisciplinas();
+            if (rs!=null) {
+                do {
+                    strList.add(
+                            rs.getString("NomeDisciplinas"));
+                } while (rs.next());
+            }
+            modelComboBox = new DefaultComboBoxModel(strList.toArray());
+            jcbDisciplina.setModel(modelComboBox);         
+        } catch (SQLException sqlEx) {
+            JOptionPane.showMessageDialog(this, "Error SQL: "+sqlEx);
+        }  
+    }
+    
+    public void CarregarComboBox(String disciplina) {     
+        CarregarComboBox();
+        modelComboBox.setSelectedItem(disciplina);        
+    }
+    
+    //PESQUISAR DISCIPLINA
+    public void PesquisarDisciplina() {        
+        String enunciado = jtPesquisar.getText();
+        if (!enunciado.isEmpty()) {
+            try {                    
+                strList.removeAll(strList);
+                rs = disciConteudos.pesquisarDisciplina(enunciado);
+                if (rs!=null) {
+                    do {
+                        strList.add(
+                                rs.getString("NomeDisciplinas"));
+                    } while (rs.next());
+                }
+                modelComboBox = new DefaultComboBoxModel(strList.toArray());
+                jcbDisciplina.setModel(modelComboBox);
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(this, "Erro: "+e.getMessage());
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Você não digitou nada no campo de pesquisa!");
+        }         
+    }  
+    
+    //MOSTRAR TODAS DISCIPLINAS
+    public void MostrarDisciplinas() {        
+        CarregarComboBox(disciplina);
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

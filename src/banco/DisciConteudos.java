@@ -25,6 +25,15 @@ public class DisciConteudos {
         p.executeUpdate();
     }
     
+    public void alterarDisciplina(String disciplina, int id) throws SQLException{
+        String alterar = "update disciplinas set NomeDisciplinas=? where Disciplinas_ID=?";
+        Connection con = new ConexaoDAO().conectar();
+        PreparedStatement p = con.prepareStatement(alterar);
+        p.setString(1, disciplina);
+        p.setInt(2, id);
+        p.executeUpdate();
+    }
+    
     public ResultSet pegarDisciplinas() throws SQLException { 
         String pesquisar = "select * from disciplinas";
         Connection con = new ConexaoDAO().conectar();        
@@ -41,6 +50,19 @@ public class DisciConteudos {
         String pesquisar = "select NomeDisciplinas from disciplinas inner join conteudos on Disciplinas_ID = ID_Disciplinas";
         Connection con = new ConexaoDAO().conectar();        
         PreparedStatement p = con.prepareStatement(pesquisar);
+        ResultSet rs = p.executeQuery();        
+        if (rs.next()) {
+            return rs;
+        } else {
+            return null;
+        }
+    }
+    
+    public ResultSet pegarNomeDisciplinaPeloId(int id) throws SQLException { 
+        String pesquisar = "select NomeDisciplinas from disciplinas where Disciplinas_ID=?";
+        Connection con = new ConexaoDAO().conectar();        
+        PreparedStatement p = con.prepareStatement(pesquisar);
+        p.setInt(1, id);
         ResultSet rs = p.executeQuery();        
         if (rs.next()) {
             return rs;
@@ -76,9 +98,14 @@ public class DisciConteudos {
     }
     
     public void excluirDisciplinaPeloId(int id) throws SQLException {
-        String excluir = "delete from disciplinas where Disciplinas_ID=?";
+        String excluir = "delete from conteudos where ID_Disciplinas=?";
         Connection con = new ConexaoDAO().conectar();
         PreparedStatement p = con.prepareStatement(excluir);
+        p.setInt(1, id);            
+        p.executeUpdate();
+        
+        excluir = "delete from disciplinas where Disciplinas_ID=?";
+        p = con.prepareStatement(excluir);
         p.setInt(1, id);            
         p.executeUpdate();
     }
@@ -92,6 +119,17 @@ public class DisciConteudos {
         p.setInt(1, 0);
         p.setString(2, conteudo);
         p.setString(3, serie);
+        p.setInt(4, id);
+        p.executeUpdate();
+    }
+    
+    public void alterarConteudo(String conteudo, String serie, int idDisc, int id) throws SQLException{
+        String alterar = "update conteudos set NomeConteudos=?, CodSerie=?, ID_Disciplinas=? where Conteudos_ID=?";
+        Connection con = new ConexaoDAO().conectar();
+        PreparedStatement p = con.prepareStatement(alterar);
+        p.setString(1, conteudo);
+        p.setString(2, serie);
+        p.setInt(3, idDisc);
         p.setInt(4, id);
         p.executeUpdate();
     }
@@ -159,5 +197,31 @@ public class DisciConteudos {
         } else {
             return null;
         }
+    }
+    
+    public ResultSet pegarConteudoPeloConteudosID(int id) throws SQLException {
+        String pesquisar = "select * from conteudos where Conteudos_ID=?;";        
+        Connection con = new ConexaoDAO().conectar();        
+        PreparedStatement p = con.prepareStatement(pesquisar);
+        p.setInt(1, id);
+        ResultSet rs = p.executeQuery();
+        if (rs.next()) {
+            return rs;
+        } else {
+            return null;
+        }
+    }
+    
+    public void excluirConteudoPeloId(int id) throws SQLException {
+        String excluir = "delete from questoes where ID_Conteudos=?";
+        Connection con = new ConexaoDAO().conectar();
+        PreparedStatement p = con.prepareStatement(excluir);
+        p.setInt(1, id);            
+        p.executeUpdate();
+        
+        excluir = "delete from conteudos where Conteudos_ID=?";        
+        p = con.prepareStatement(excluir);
+        p.setInt(1, id);            
+        p.executeUpdate();
     }
 }

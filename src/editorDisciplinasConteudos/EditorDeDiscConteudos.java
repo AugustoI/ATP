@@ -46,7 +46,7 @@ public class EditorDeDiscConteudos extends javax.swing.JFrame {
         this.getRootPane().setDefaultButton(jbSalvar);
         jtDisciplina.requestFocus();
         
-        //Carregar os dois combobox (disciplinas e conteúdos)
+        //Carregar combobox conteúdos
         CarregarComboBox();
         
         //TABELA DISCIPLINAS
@@ -187,6 +187,12 @@ public class EditorDeDiscConteudos extends javax.swing.JFrame {
                 //
             }
         }); 
+        
+        if (jcbDisciplina.getSelectedIndex()!=0) {
+            jbSalvar2.setEnabled(true);
+        } else {
+            jbSalvar2.setEnabled(false);
+        }
     }
 
     /**
@@ -228,7 +234,6 @@ public class EditorDeDiscConteudos extends javax.swing.JFrame {
         tabelaConteudo = new javax.swing.JTable();
         jbExcluir2 = new javax.swing.JButton();
         jbEditar2 = new javax.swing.JButton();
-        jSeparator3 = new javax.swing.JSeparator();
         jSeparator4 = new javax.swing.JSeparator();
         jMenuBar3 = new javax.swing.JMenuBar();
         jmArquivo2 = new javax.swing.JMenu();
@@ -387,6 +392,7 @@ public class EditorDeDiscConteudos extends javax.swing.JFrame {
         jScrollPane2.setViewportView(tabelaConteudo);
 
         jbExcluir2.setText("Excluir");
+        jbExcluir2.setEnabled(false);
         jbExcluir2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbExcluir2ActionPerformed(evt);
@@ -394,6 +400,7 @@ public class EditorDeDiscConteudos extends javax.swing.JFrame {
         });
 
         jbEditar2.setText("Editar");
+        jbEditar2.setEnabled(false);
         jbEditar2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbEditar2ActionPerformed(evt);
@@ -416,7 +423,6 @@ public class EditorDeDiscConteudos extends javax.swing.JFrame {
                         .addComponent(jbVoltar1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jbSalvar2, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jSeparator3, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -465,15 +471,13 @@ public class EditorDeDiscConteudos extends javax.swing.JFrame {
                     .addComponent(jtPesqDisc2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jtPesqConteudo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5)
                     .addComponent(jbExcluir2)
                     .addComponent(jbEditar2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -663,7 +667,7 @@ public class EditorDeDiscConteudos extends javax.swing.JFrame {
             jmiExcluir.setEnabled(false);
         }
         if (jTabbedPane1.getSelectedIndex() == 1) {
-            jtPesqDisc2.requestFocus();
+            jtConteudo.requestFocus();
             getRootPane().setDefaultButton(jbSalvar2);
             jmiEditar.setText("Editar Conteúdo");
             jbEditarDisc.setEnabled(false);
@@ -677,45 +681,12 @@ public class EditorDeDiscConteudos extends javax.swing.JFrame {
 
     private void jmiEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiEditarActionPerformed
         // TODO add your handling code here:
-        /*
-        int x = JOptionPane.showConfirmDialog(this.getContentPane(), "Deseja salvar antes de sair?", "Encerrar",
-            JOptionPane.YES_NO_CANCEL_OPTION);
-        if (x==0) {
-            if (jTabbedPane1.getSelectedIndex() == 0) {
-                jbSalvarActionPerformed(evt);
-                if (!jtpEnunciado.getText().isEmpty()) {
-                    if (jcbConteudo.getItemCount() != 0) {
-                        TelaDeQuestoes editor = new TelaDeQuestoes();
-                        editor.setVisible(true);
-                        editor.setLocationRelativeTo(null);
-                        dispose();
-                    }
-                }
-            }
-            if (jTabbedPane1.getSelectedIndex() == 1) {
-                jbSalvar2ActionPerformed(evt);
-                if ((!jtpEnunciado2.getText().isEmpty())&&(!jtpLetraA1.getText().isEmpty())&&(!jtpLetraB1.getText().isEmpty())
-                    &&(!jtpLetraC1.getText().isEmpty())&&(!jtpLetraD1.getText().isEmpty())) {
-                    if (((!jtpLetraE1.getText().isEmpty())&&(jrbSimE1.isSelected()))||(jrbNãoE1.isSelected())) {
-                        if (((!jtpLetraF1.getText().isEmpty())&&(jrbSimF1.isSelected()))||(jrbNãoF1.isSelected())) {
-                            if (jcbConteudo.getItemCount() != 0) {
-                                TelaDeQuestoes editor = new TelaDeQuestoes();
-                                editor.setVisible(true);
-                                editor.setLocationRelativeTo(null);
-                                dispose();
-                            }
-                        }
-                    }
-                }
-            }
+        if (jTabbedPane1.getSelectedIndex() == 0) {
+            jbEditarDiscActionPerformed(evt);
         }
-        if (x==1) {
-            TelaDeQuestoes editor = new TelaDeQuestoes();
-            editor.setVisible(true);
-            editor.setLocationRelativeTo(null);
-            dispose();
+        if (jTabbedPane1.getSelectedIndex() == 1) {
+            jbEditar2ActionPerformed(evt);
         }
-        */
     }//GEN-LAST:event_jmiEditarActionPerformed
 
     private void jmiSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiSairActionPerformed
@@ -737,12 +708,21 @@ public class EditorDeDiscConteudos extends javax.swing.JFrame {
                     menu.setLocationRelativeTo(null);
                     dispose();
                 }
+            } else {
+                int x = JOptionPane.showConfirmDialog(this.getContentPane(), "Deseja realmente voltar ao menu?", "Voltar ao MENU",
+                    JOptionPane.YES_NO_CANCEL_OPTION);
+                if (x==0) {
+                    MenuGUI menu = new MenuGUI();
+                    menu.setVisible(true);
+                    menu.setLocationRelativeTo(null);
+                    dispose();
+                }
             }
         }
         if (jTabbedPane1.getSelectedIndex() == 1) {
             if ((!jtConteudo.getText().isEmpty())&&(!jtSerie.getText().isEmpty())) {
                 if (jcbDisciplina.getItemCount() != 0) {
-                    int x = JOptionPane.showConfirmDialog(this.getContentPane(), "Tem certeza que deseja salvar este conteúdo?", "Salvar conteúdo",
+                    int x = JOptionPane.showConfirmDialog(this.getContentPane(), "Deseja salvar antes de sair?", "Encerrar",
                         JOptionPane.YES_NO_CANCEL_OPTION);
                     if (x==0) {
                         jbSalvar2jbSalvar2ActionPerformed(evt);
@@ -757,6 +737,15 @@ public class EditorDeDiscConteudos extends javax.swing.JFrame {
                         menu.setLocationRelativeTo(null);
                         dispose();
                     }
+                }
+            } else {
+                int x = JOptionPane.showConfirmDialog(this.getContentPane(), "Deseja realmente voltar ao menu?", "Voltar ao MENU",
+                    JOptionPane.YES_NO_CANCEL_OPTION);
+                if (x==0) {
+                    MenuGUI menu = new MenuGUI();
+                    menu.setVisible(true);
+                    menu.setLocationRelativeTo(null);
+                    dispose();
                 }
             }
         }            
@@ -773,15 +762,15 @@ public class EditorDeDiscConteudos extends javax.swing.JFrame {
     }//GEN-LAST:event_jmiSalvarActionPerformed
 
     private void jbEditarDiscActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbEditarDiscActionPerformed
-        // TODO add your handling code here:
-        /*
+        // TODO add your handling code here:        
         int row = tabelaDisciplina.getSelectedRow();
         int numero = tabelaDisciplina.getSelectedRowCount();
         if (numero == 1) {              
             int id = Integer.parseInt(tabelaDisciplina.getModel().getValueAt(row, 0).toString());            
+            String disciplina = tabelaDisciplina.getModel().getValueAt(row, 1).toString();
             
-            //EditorDisciplina editor = new EditorDisciplina(this, true, id);
-            //editor.setVisible(true);   
+            EditorDisciplina editor = new EditorDisciplina(this, true, id, disciplina);
+            editor.setVisible(true);   
             
             for (int i=(modelTabelaDisciplina.getRowCount()-1); i>=0; i--) {
                 modelTabelaDisciplina.removeRow(i);
@@ -806,12 +795,10 @@ public class EditorDeDiscConteudos extends javax.swing.JFrame {
             jmiEditar.setEnabled(false);
             jmiExcluir.setEnabled(false);
         }
-        */
     }//GEN-LAST:event_jbEditarDiscActionPerformed
 
     private void jbExcluirDiscActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbExcluirDiscActionPerformed
         // TODO add your handling code here:
-        /*
         int numero = tabelaDisciplina.getSelectedRowCount();
         String mensagem;               
         if (numero == 1) {
@@ -856,16 +843,48 @@ public class EditorDeDiscConteudos extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Erro: "+e.getMessage());
             }
             
+            for (int i=(modelTabelaConteudo.getRowCount()-1); i>=0; i--) {
+                modelTabelaConteudo.removeRow(i);
+            }   
+            
+            try {
+                if (jcbDisciplina.getSelectedIndex()==0) {
+                    rs = disciConteudos.pegarTUDO();
+                } else {
+                    rs = disciConteudos.pegarConteudos(jcbDisciplina.getSelectedItem().toString());  
+                }
+                if (rs!=null) {
+                    do {
+                        modelTabelaConteudo.addRow(new Object[]{                        
+                            rs.getString("Conteudos_ID"), //jcbDisciplina.getSelectedItem().toString(),
+                            rs.getString("NomeDisciplinas"),
+                            rs.getString("NomeConteudos"),
+                            rs.getString("CodSerie"),
+                        });
+                    } while (rs.next());
+                }
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(this, "Erro: "+e.getMessage());
+            }
+            
+            CarregarComboBox();
+            
             jbEditarDisc.setEnabled(false);
             jbExcluirDisc.setEnabled(false);
-            //jmiEditar.setEnabled(false);
-            //jmiExcluir.setEnabled(false);
+            jmiEditar.setEnabled(false);
+            jmiExcluir.setEnabled(false);
         }
-        */
     }//GEN-LAST:event_jbExcluirDiscActionPerformed
 
     private void jcbDisciplinaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbDisciplinaActionPerformed
         // TODO add your handling code here:
+        if (jcbDisciplina.getSelectedIndex()!=0) {
+            jbSalvar2.setEnabled(true);
+        } else {
+            jbSalvar2.setEnabled(false);
+        }
+        jtConteudo.requestFocus();
+        
         for (int i=(modelTabelaConteudo.getRowCount()-1); i>=0; i--) {
             modelTabelaConteudo.removeRow(i);
         }        
@@ -902,14 +921,112 @@ public class EditorDeDiscConteudos extends javax.swing.JFrame {
 
     private void jbEditar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbEditar2ActionPerformed
         // TODO add your handling code here:
+        int row = tabelaConteudo.getSelectedRow();
+        int numero = tabelaConteudo.getSelectedRowCount();
+        if (numero == 1) {              
+            int id = Integer.parseInt(tabelaConteudo.getModel().getValueAt(row, 0).toString());   
+            
+            EditorConteudo editor = new EditorConteudo(this, true, id);
+            editor.setVisible(true);   
+                
+            for (int i=(modelTabelaConteudo.getRowCount()-1); i>=0; i--) {
+                modelTabelaConteudo.removeRow(i);
+            }   
+
+            try {
+                if (jcbDisciplina.getSelectedIndex()==0) {
+                    rs = disciConteudos.pegarTUDO();
+                } else {
+                    rs = disciConteudos.pegarConteudos(jcbDisciplina.getSelectedItem().toString());  
+                }
+                if (rs!=null) {
+                    do {
+                        modelTabelaConteudo.addRow(new Object[]{                        
+                            rs.getString("Conteudos_ID"), //jcbDisciplina.getSelectedItem().toString(),
+                            rs.getString("NomeDisciplinas"),
+                            rs.getString("NomeConteudos"),
+                            rs.getString("CodSerie"),
+                        });
+                    } while (rs.next());
+                }
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(this, "Erro: "+e.getMessage());
+            }
+            
+            jbEditar2.setEnabled(false);
+            jbExcluir2.setEnabled(false);
+            jmiEditar.setEnabled(false);
+            jmiExcluir.setEnabled(false);            
+        }
     }//GEN-LAST:event_jbEditar2ActionPerformed
 
     private void jbExcluir2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbExcluir2ActionPerformed
         // TODO add your handling code here:
+        int numero = tabelaConteudo.getSelectedRowCount();
+        String mensagem;               
+        if (numero == 1) {
+            mensagem = "Tem certeza que deseja excluir este conteúdo?";
+        } else { 
+            mensagem = "Tem certeza que deseja excluir "+numero+" conteúdos?";
+        }
+        
+        int[] row = tabelaConteudo.getSelectedRows();
+        int x = JOptionPane.showConfirmDialog(this.getContentPane(), mensagem, "Excluir dados", 
+                JOptionPane.YES_NO_CANCEL_OPTION);
+        if (x==0) {          
+            for (int i=0; i<numero; i++) {
+                try {
+                    int id = Integer.parseInt(tabelaConteudo.getModel().getValueAt(row[i], 0).toString());
+                    disciConteudos.excluirConteudoPeloId(id);
+                    if ((i==0)&&((i+1)==numero)) {
+                        JOptionPane.showMessageDialog(this, "Conteúdo excluido com sucesso!");
+                    } else if ((i+1)==numero) {
+                        JOptionPane.showMessageDialog(this, "Conteúdos excluidos com sucesso!");
+                    }
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(this, "Ocorreu um erro ao excluir.\nErro: "+ex);
+                }
+            }            
+            
+            for (int i=(modelTabelaConteudo.getRowCount()-1); i>=0; i--) {
+                modelTabelaConteudo.removeRow(i);
+            }   
+            
+            try {
+                if (jcbDisciplina.getSelectedIndex()==0) {
+                    rs = disciConteudos.pegarTUDO();
+                } else {
+                    rs = disciConteudos.pegarConteudos(jcbDisciplina.getSelectedItem().toString());  
+                }
+                if (rs!=null) {
+                    do {
+                        modelTabelaConteudo.addRow(new Object[]{                        
+                            rs.getString("Conteudos_ID"), //jcbDisciplina.getSelectedItem().toString(),
+                            rs.getString("NomeDisciplinas"),
+                            rs.getString("NomeConteudos"),
+                            rs.getString("CodSerie"),
+                        });
+                    } while (rs.next());
+                }
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(this, "Erro: "+e.getMessage());
+            }
+            
+            jbEditar2.setEnabled(false);
+            jbExcluir2.setEnabled(false);
+            jmiEditar.setEnabled(false);
+            jmiExcluir.setEnabled(false);
+        }
     }//GEN-LAST:event_jbExcluir2ActionPerformed
 
     private void jmiExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiExcluirActionPerformed
         // TODO add your handling code here:
+        if (jTabbedPane1.getSelectedIndex() == 0) {
+            jbExcluirDiscActionPerformed(evt);
+        }
+        if (jTabbedPane1.getSelectedIndex() == 1) {
+            jbExcluir2ActionPerformed(evt);
+        }
     }//GEN-LAST:event_jmiExcluirActionPerformed
 
     /**
@@ -1161,7 +1278,6 @@ public class EditorDeDiscConteudos extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JButton jbEditar2;
