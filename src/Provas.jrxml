@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Provas" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="a49284dd-9ef5-4465-a63b-fd0e43493d2c">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="72"/>
+	<queryString>
+		<![CDATA[SELECT
+     *,
+     imagemquest.`ImagemQuest_ID` AS imagemquest_ImagemQuest_ID,
+     imagemquest.`ID_Questao` AS imagemquest_ID_Questao,
+     imagemquest.`Imagem` AS imagemquest_Imagem,
+     imagemquest.`POSICAO` AS imagemquest_POSICAO,
+     imagemquest.`NomeImagem` AS imagemquest_NomeImagem
+FROM
+     `Questoes` Questoes INNER JOIN `imagemquest` imagemquest ON Questoes.`Questoes_ID` = imagemquest.`ID_Questao`]]>
+	</queryString>
+	<field name="Questoes_ID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Enunciado" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Dificuldade" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ID_Conteudos" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="MultiplaEscolha" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="AlternativaA" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="AlternativaB" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="AlternativaC" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="AlternativaD" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="AlternativaE" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="AlternativaF" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ImagemQuest_ID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ID_Questao" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Imagem" class="java.io.InputStream">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="POSICAO" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="NomeImagem" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="imagemquest_ImagemQuest_ID" class="java.lang.Integer"/>
+	<field name="imagemquest_ID_Questao" class="java.lang.Integer"/>
+	<field name="imagemquest_Imagem" class="java.io.InputStream"/>
+	<field name="imagemquest_POSICAO" class="java.lang.Integer"/>
+	<field name="imagemquest_NomeImagem" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="48" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="39" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="237" splitType="Stretch">
+			<textField isStretchWithOverflow="true">
+				<reportElement x="0" y="0" width="555" height="15" uuid="3d6d3609-1eb7-4f6b-af0f-18a74f41ec3d"/>
+				<textElement>
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Enunciado}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="0" y="110" width="555" height="20" isRemoveLineWhenBlank="true" uuid="def6fe6d-14d1-4d1a-93c3-4daea2f1812a"/>
+				<textElement>
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{AlternativaA}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="0" y="130" width="555" height="20" isRemoveLineWhenBlank="true" uuid="d0997203-0aaf-4334-9497-1c23055924d6"/>
+				<textElement>
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{AlternativaB}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="0" y="150" width="555" height="20" isRemoveLineWhenBlank="true" uuid="c765fd87-6e1e-43b9-b7ba-20297446b956"/>
+				<textElement>
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{AlternativaC}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="0" y="170" width="555" height="20" isRemoveLineWhenBlank="true" uuid="7fc79b15-bcd0-4d84-8d07-56d0918633eb"/>
+				<textElement>
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{AlternativaD}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="0" y="190" width="555" height="20" isRemoveLineWhenBlank="true" uuid="c9c00ac4-ecba-4a6b-8fb2-8c013a527ddb"/>
+				<textElement>
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{AlternativaE}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="0" y="210" width="555" height="20" isRemoveLineWhenBlank="true" uuid="e73ad6c5-8e80-42eb-ad8f-93d9e8006d50"/>
+				<textElement>
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{AlternativaF}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="0" y="15" width="196" height="95" isRemoveLineWhenBlank="true" uuid="bd01a710-739b-4ebd-a88a-50b6f5b2c3c6"/>
+				<imageExpression><![CDATA[]]></imageExpression>
+			</image>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>
