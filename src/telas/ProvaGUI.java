@@ -17,6 +17,8 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRResultSetDataSource;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.view.JasperViewer;
 import org.hibernate.mapping.Map;
 import org.hsqldb.lib.HashMap;
@@ -78,7 +80,6 @@ public class ProvaGUI extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         Banco n = new Banco();
-        
         JRResultSetDataSource relatResult = null;
         try {
             relatResult = new JRResultSetDataSource(n.executaSQL("select * from questoes"));
@@ -86,16 +87,16 @@ public class ProvaGUI extends javax.swing.JFrame {
             Logger.getLogger(ProvaGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
         JasperPrint jpPrint = null;
+        
         HashMap a = new HashMap();
         try {//Teste //Nova Versão
-            jpPrint = JasperFillManager.fillReport("C:\\Users\\GUSTAVO\\Documents\\GitHub\\ATP\\src\\Prova.jasper", null, relatResult);
+            jpPrint = JasperFillManager.fillReport("C:\\Users\\GUSTAVO\\Documents\\GitHub\\ATP\\src\\Provas.jasper", null, relatResult);
         } catch (JRException ex) {
             Logger.getLogger(ProvaGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
         JasperViewer jv = new JasperViewer(jpPrint,false);
         jv.setVisible(true);     
-        jv.toFront();
-        
+        jv.toFront();       
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
