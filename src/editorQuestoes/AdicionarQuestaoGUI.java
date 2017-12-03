@@ -30,7 +30,7 @@ public class AdicionarQuestaoGUI extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jToolBar1 = new javax.swing.JToolBar();
-        jButton1 = new javax.swing.JButton();
+        jbSalvar = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jSeparator4 = new javax.swing.JToolBar.Separator();
         jButton3 = new javax.swing.JButton();
@@ -66,16 +66,15 @@ public class AdicionarQuestaoGUI extends javax.swing.JFrame {
         jToolBar1.setBackground(new java.awt.Color(178, 203, 243));
         jToolBar1.setRollover(true);
 
-        jButton1.setBackground(new java.awt.Color(178, 203, 243));
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/saveFile.png"))); // NOI18N
-        jButton1.setText("Salvar Questão");
-        jButton1.setFocusable(false);
-        jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToolBar1.add(jButton1);
+        jbSalvar.setBackground(new java.awt.Color(178, 203, 243));
+        jbSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/saveFile.png"))); // NOI18N
+        jbSalvar.setText("Salvar Questão");
+        jbSalvar.setFocusable(false);
+        jbSalvar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jbSalvar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jToolBar1.add(jbSalvar);
 
         jButton2.setBackground(new java.awt.Color(178, 203, 243));
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/editFile.png"))); // NOI18N
         jButton2.setText("Editar Questões");
         jButton2.setFocusable(false);
         jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -84,7 +83,6 @@ public class AdicionarQuestaoGUI extends javax.swing.JFrame {
         jToolBar1.add(jSeparator4);
 
         jButton3.setBackground(new java.awt.Color(178, 203, 243));
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/addImage.png"))); // NOI18N
         jButton3.setText("Carregar Imagem");
         jButton3.setFocusable(false);
         jButton3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -92,7 +90,6 @@ public class AdicionarQuestaoGUI extends javax.swing.JFrame {
         jToolBar1.add(jButton3);
 
         jButton9.setBackground(new java.awt.Color(178, 203, 243));
-        jButton9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/removeImage.png"))); // NOI18N
         jButton9.setText("Remover Imagem");
         jButton9.setFocusable(false);
         jButton9.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -101,7 +98,6 @@ public class AdicionarQuestaoGUI extends javax.swing.JFrame {
         jToolBar1.add(jSeparator5);
 
         jButton10.setBackground(new java.awt.Color(178, 203, 243));
-        jButton10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/exit.png"))); // NOI18N
         jButton10.setText("Menu Principal");
         jButton10.setFocusable(false);
         jButton10.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -112,7 +108,6 @@ public class AdicionarQuestaoGUI extends javax.swing.JFrame {
         jToolBar2.setRollover(true);
 
         jButton4.setBackground(new java.awt.Color(178, 203, 243));
-        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/bold.png"))); // NOI18N
         jButton4.setText("Negrito");
         jButton4.setFocusable(false);
         jButton4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -120,7 +115,6 @@ public class AdicionarQuestaoGUI extends javax.swing.JFrame {
         jToolBar2.add(jButton4);
 
         jButton5.setBackground(new java.awt.Color(178, 203, 243));
-        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/italic.png"))); // NOI18N
         jButton5.setText("Itálico");
         jButton5.setFocusable(false);
         jButton5.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -128,7 +122,6 @@ public class AdicionarQuestaoGUI extends javax.swing.JFrame {
         jToolBar2.add(jButton5);
 
         jButton6.setBackground(new java.awt.Color(178, 203, 243));
-        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/underline.png"))); // NOI18N
         jButton6.setText("Sublinhado");
         jButton6.setFocusable(false);
         jButton6.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -136,7 +129,6 @@ public class AdicionarQuestaoGUI extends javax.swing.JFrame {
         jToolBar2.add(jButton6);
 
         jButton7.setBackground(new java.awt.Color(178, 203, 243));
-        jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/font.png"))); // NOI18N
         jButton7.setText("Fonte");
         jButton7.setFocusable(false);
         jButton7.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -144,7 +136,6 @@ public class AdicionarQuestaoGUI extends javax.swing.JFrame {
         jToolBar2.add(jButton7);
 
         jButton8.setBackground(new java.awt.Color(178, 203, 243));
-        jButton8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/color.png"))); // NOI18N
         jButton8.setText("Cor do Texto");
         jButton8.setFocusable(false);
         jButton8.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -153,7 +144,6 @@ public class AdicionarQuestaoGUI extends javax.swing.JFrame {
         jToolBar2.add(jSeparator1);
 
         jButton11.setBackground(new java.awt.Color(178, 203, 243));
-        jButton11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/undo.png"))); // NOI18N
         jButton11.setText("Desfazer");
         jButton11.setFocusable(false);
         jButton11.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -161,7 +151,6 @@ public class AdicionarQuestaoGUI extends javax.swing.JFrame {
         jToolBar2.add(jButton11);
 
         jButton12.setBackground(new java.awt.Color(178, 203, 243));
-        jButton12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/redo.png"))); // NOI18N
         jButton12.setText("Refazer");
         jButton12.setFocusable(false);
         jButton12.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -170,7 +159,6 @@ public class AdicionarQuestaoGUI extends javax.swing.JFrame {
         jToolBar2.add(jSeparator2);
 
         jButton13.setBackground(new java.awt.Color(178, 203, 243));
-        jButton13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/cut.png"))); // NOI18N
         jButton13.setText("Recortar");
         jButton13.setFocusable(false);
         jButton13.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -178,7 +166,6 @@ public class AdicionarQuestaoGUI extends javax.swing.JFrame {
         jToolBar2.add(jButton13);
 
         jButton14.setBackground(new java.awt.Color(178, 203, 243));
-        jButton14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/copy.png"))); // NOI18N
         jButton14.setText("Copiar");
         jButton14.setFocusable(false);
         jButton14.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -186,7 +173,6 @@ public class AdicionarQuestaoGUI extends javax.swing.JFrame {
         jToolBar2.add(jButton14);
 
         jButton15.setBackground(new java.awt.Color(178, 203, 243));
-        jButton15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/paste.png"))); // NOI18N
         jButton15.setText("Colar");
         jButton15.setFocusable(false);
         jButton15.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -195,7 +181,6 @@ public class AdicionarQuestaoGUI extends javax.swing.JFrame {
         jToolBar2.add(jSeparator3);
 
         jButton16.setBackground(new java.awt.Color(178, 203, 243));
-        jButton16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/binoculars.png"))); // NOI18N
         jButton16.setText("Localizar");
         jButton16.setFocusable(false);
         jButton16.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -245,7 +230,7 @@ public class AdicionarQuestaoGUI extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jToolBar2, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPane1))
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 544, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         jMenu1.setText("File");
@@ -306,7 +291,6 @@ public class AdicionarQuestaoGUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton12;
@@ -336,5 +320,6 @@ public class AdicionarQuestaoGUI extends javax.swing.JFrame {
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JToolBar jToolBar2;
+    private javax.swing.JButton jbSalvar;
     // End of variables declaration//GEN-END:variables
 }
