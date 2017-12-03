@@ -82,7 +82,25 @@ public class ProvaGUI extends javax.swing.JFrame {
         Banco n = new Banco();
         JRResultSetDataSource relatResult = null;
         try {
-            relatResult = new JRResultSetDataSource(n.executaSQL("select * from questoes"));
+            relatResult = new JRResultSetDataSource(n.executaSQL("SELECT\n" +
+"	Questoes.Questoes_ID,\n" +
+"	Questoes.Enunciado,\n" +
+"	Questoes.Dificuldade,\n" +
+"	Questoes.ID_Conteudos,\n" +
+"	Questoes.MultiplaEscolha,\n" +
+"	CASE WHEN Questoes.AlternativaA <> '' THEN CONCAT('A) ', Questoes.AlternativaA) END AS AlternativaA,\n" +
+"	CASE WHEN Questoes.AlternativaB <> '' THEN CONCAT('B) ', Questoes.AlternativaB) END AS AlternativaB,\n" +
+"	CASE WHEN Questoes.AlternativaC <> '' THEN CONCAT('C) ', Questoes.AlternativaC) END AS AlternativaC,\n" +
+"	CASE WHEN Questoes.AlternativaD <> '' THEN CONCAT('D) ', Questoes.AlternativaD) END AS AlternativaD,\n" +
+"	CASE WHEN Questoes.AlternativaE <> '' THEN CONCAT('E) ', Questoes.AlternativaE) END AS AlternativaE,\n" +
+"	CASE WHEN Questoes.AlternativaF <> '' THEN CONCAT('F) ', Questoes.AlternativaF) END AS AlternativaF,\n" +
+"	ImagemQuest.ImagemQuest_ID,\n" +
+"	ImagemQuest.ID_Questao,\n" +
+"	ImagemQuest.Imagem,\n" +
+"	ImagemQuest.POSICAO,\n" +
+"	ImagemQuest.NomeImagem\n" +
+"FROM\n" +
+"	Questoes INNER JOIN ImagemQuest ON Questoes.Questoes_ID = ImagemQuest.ID_Questao"));
         } catch (SQLException ex) {
             Logger.getLogger(ProvaGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
