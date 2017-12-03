@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Prova" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isTitleNewPage="true" whenResourceMissingType="Error" isIgnorePagination="true" uuid="60c27be2-d189-47c1-aa32-5cabd9648354">
-	<property name="ireport.zoom" value="1.0"/>
-	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Prova" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="aa4c8d95-d041-42ce-b682-ba6e13ca74d7">
 	<queryString language="SQL">
-		<![CDATA[SELECT * FROM Questoes
-Inner join Imagemquest ON Questoes.Questoes_ID = ImagemQuest.ID_Questao]]>
+		<![CDATA[SELECT
+     *,
+     imagemquest.`ImagemQuest_ID` AS imagemquest_ImagemQuest_ID,
+     imagemquest.`ID_Questao` AS imagemquest_ID_Questao,
+     imagemquest.`Imagem` AS imagemquest_Imagem,
+     imagemquest.`POSICAO` AS imagemquest_POSICAO,
+     imagemquest.`NomeImagem` AS imagemquest_NomeImagem
+FROM
+     `Questoes` Questoes INNER JOIN `imagemquest` imagemquest ON Questoes.`Questoes_ID` = imagemquest.`ID_Questao`]]>
 	</queryString>
 	<field name="Questoes_ID" class="java.lang.Integer">
 		<fieldDescription><![CDATA[]]></fieldDescription>
@@ -40,10 +44,13 @@ Inner join Imagemquest ON Questoes.Questoes_ID = ImagemQuest.ID_Questao]]>
 	<field name="AlternativaF" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
+	<field name="ImagemQuest_ID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
 	<field name="ID_Questao" class="java.lang.Integer">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="Imagem" class="java.io.InputStream">
+	<field name="Imagem" class="java.lang.Object">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<field name="POSICAO" class="java.lang.Integer">
@@ -52,35 +59,25 @@ Inner join Imagemquest ON Questoes.Questoes_ID = ImagemQuest.ID_Questao]]>
 	<field name="NomeImagem" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
+	<field name="imagemquest_ImagemQuest_ID" class="java.lang.Integer"/>
+	<field name="imagemquest_ID_Questao" class="java.lang.Integer"/>
+	<field name="imagemquest_Imagem" class="java.lang.Object"/>
+	<field name="imagemquest_POSICAO" class="java.lang.Integer"/>
+	<field name="imagemquest_NomeImagem" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="40" splitType="Stretch">
-			<staticText>
-				<reportElement x="243" y="0" width="100" height="20" uuid="93ba475f-17c9-464a-90b0-ce4e34e14ba7"/>
-				<text><![CDATA[Fudeu]]></text>
-			</staticText>
-		</band>
+		<band height="79" splitType="Stretch"/>
 	</title>
 	<pageHeader>
 		<band height="35" splitType="Stretch"/>
 	</pageHeader>
 	<columnHeader>
-		<band height="43" splitType="Stretch">
-			<staticText>
-				<reportElement x="343" y="2" width="100" height="20" uuid="0101fbf2-7482-42c0-88ca-208acdf40643"/>
-				<text><![CDATA[Imagem]]></text>
-			</staticText>
-		</band>
+		<band height="61" splitType="Stretch"/>
 	</columnHeader>
 	<detail>
-		<band height="125" splitType="Stretch">
-			<image>
-				<reportElement x="343" y="0" width="154" height="82" uuid="dcb8c129-34ca-49e8-882a-b3f0d4082ed0"/>
-				<imageExpression><![CDATA[$F{Imagem}]]></imageExpression>
-			</image>
-		</band>
+		<band height="125" splitType="Stretch"/>
 	</detail>
 	<columnFooter>
 		<band height="45" splitType="Stretch"/>
