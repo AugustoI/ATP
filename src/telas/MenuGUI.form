@@ -505,6 +505,7 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Adicionar"/>
       </Properties>
+>>>>>>> Couth
     </Component>
   </SubComponents>
 </Form>
