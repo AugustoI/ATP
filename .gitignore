@@ -1,3 +1,6 @@
 /nbproject/private/
 *.properties
 /dist/
+nbproject/project.properties
+*.class
+*.form
