@@ -20,7 +20,7 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.view.JasperViewer;
-import org.hibernate.mapping.Map;
+import java.util.Map;
 import org.hsqldb.lib.HashMap;
 
 
@@ -30,6 +30,7 @@ import org.hsqldb.lib.HashMap;
  * @author GUSTAVO
  */
 public class ProvaGUI extends javax.swing.JFrame {
+    
 
     /**
      * Creates new form ProvaGUI
@@ -48,6 +49,7 @@ public class ProvaGUI extends javax.swing.JFrame {
     private void initComponents() {
 
         jButton1 = new javax.swing.JButton();
+        txtCodCabecalho = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -64,14 +66,18 @@ public class ProvaGUI extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(130, 130, 130)
-                .addComponent(jButton1)
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(txtCodCabecalho, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1))
                 .addContainerGap(149, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(130, Short.MAX_VALUE)
+                .addContainerGap()
+                .addComponent(txtCodCabecalho, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 99, Short.MAX_VALUE)
                 .addComponent(jButton1)
                 .addGap(137, 137, 137))
         );
@@ -101,15 +107,21 @@ public class ProvaGUI extends javax.swing.JFrame {
 "	ImagemQuest.POSICAO,\n" +
 "	ImagemQuest.NomeImagem\n" +
 "FROM\n" +
-"	Questoes INNER JOIN ImagemQuest ON Questoes.Questoes_ID = ImagemQuest.ID_Questao"));
+"	Questoes INNER JOIN ImagemQuest ON Questoes.Questoes_ID = ImagemQuest.ID_Questao"+
+                    " WHERE Questoes.Questoes_ID = 1 "));
         } catch (SQLException ex) {
             Logger.getLogger(ProvaGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
         JasperPrint jpPrint = null;
-        
-        HashMap a = new HashMap();
+                
+        //private java.util.HashMap<Object, Object> parametros;
+        //Map<String, String> parametros;
+        Map<String, Object> parametros;
+        parametros = new java.util.HashMap<>();
+        parametros.clear();
+        parametros.put("NomeCabecalho", txtCodCabecalho.getText().toString());
         try {//Teste //Nova Versão
-            jpPrint = JasperFillManager.fillReport("C:\\Users\\GUSTAVO\\Documents\\GitHub\\ATP\\src\\Provas.jasper", null, relatResult);
+            jpPrint = JasperFillManager.fillReport("C:\\Users\\GUSTAVO\\Documents\\GitHub\\ATP\\src\\Provas.jasper", parametros, relatResult);
         } catch (JRException ex) {
             Logger.getLogger(ProvaGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -155,5 +167,6 @@ public class ProvaGUI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JTextField txtCodCabecalho;
     // End of variables declaration//GEN-END:variables
 }
