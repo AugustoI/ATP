@@ -7,9 +7,7 @@
 package editorQuestoes;
 
 import banco.Questoes;
-import java.awt.Dimension;
 import java.awt.Image;
-import static java.awt.image.ImageObserver.WIDTH;
 import java.io.File;
 import java.io.FileInputStream;
 import java.sql.ResultSet;
