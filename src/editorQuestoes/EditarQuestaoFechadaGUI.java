@@ -914,7 +914,7 @@ public class EditarQuestaoFechadaGUI extends javax.swing.JDialog {
 
     private void jbCarregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCarregarActionPerformed
         // TODO add your handling code here:
-        TesteImagem a = new TesteImagem(null, true);
+        AdicionarImagemGUI a = new AdicionarImagemGUI(null, true);
         a.setVisible(true); 
         img = a.certo;
         posicaoImagem = a.posicao;

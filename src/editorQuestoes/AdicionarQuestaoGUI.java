@@ -1166,7 +1166,7 @@ public class AdicionarQuestaoGUI extends javax.swing.JFrame {
 
     private void jbCarregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCarregarActionPerformed
         // TODO add your handling code here:
-        TesteImagem a = new TesteImagem(this, true);
+        AdicionarImagemGUI a = new AdicionarImagemGUI(this, true);
         a.setVisible(true); 
         img = a.certo;
         posicaoImagem = a.posicao;
