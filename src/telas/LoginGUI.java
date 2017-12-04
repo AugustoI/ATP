@@ -61,6 +61,11 @@ public class LoginGUI extends javax.swing.JFrame {
 
         btCancel.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         btCancel.setText("Cancelar");
+        btCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btCancelActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -132,6 +137,10 @@ public class LoginGUI extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null,"Erro ao tentar logar:  " + ex.getMessage(), "Erro", JOptionPane.ERROR);
         }
     }//GEN-LAST:event_btEntrarActionPerformed
+
+    private void btCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelActionPerformed
+        this.dispose();        
+    }//GEN-LAST:event_btCancelActionPerformed
 
     /**
      * @param args the command line arguments

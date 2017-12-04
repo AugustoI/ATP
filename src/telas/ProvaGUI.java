@@ -37,6 +37,7 @@ public class ProvaGUI extends javax.swing.JFrame {
      */
     public ProvaGUI() {
         initComponents();
+        setLocationRelativeTo(this);
     }
 
     /**
