@@ -391,7 +391,7 @@ public class MenuGUI extends javax.swing.JFrame {
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
         // TODO add your handling code here:
-        EditorDeQuestoes escolha = new EditorDeQuestoes();
+        AdicionarQuestaoGUI escolha = new AdicionarQuestaoGUI();
         escolha.setVisible(true);
         dispose();
     }//GEN-LAST:event_jMenuItem6ActionPerformed

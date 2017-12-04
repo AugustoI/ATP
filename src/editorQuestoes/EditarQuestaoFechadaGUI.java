@@ -196,6 +196,8 @@ public class EditarQuestaoFechadaGUI extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        letraE = new javax.swing.ButtonGroup();
+        letraF = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         jToolBar1 = new javax.swing.JToolBar();
         jbSalvar = new javax.swing.JButton();
@@ -496,6 +498,12 @@ public class EditarQuestaoFechadaGUI extends javax.swing.JDialog {
 
         jPanel3.setBackground(new java.awt.Color(209, 224, 248));
 
+        jcbDisciplina.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcbDisciplinaActionPerformed(evt);
+            }
+        });
+
         jLabel6.setText("Disciplina:");
 
         jLabel7.setText("Conteúdo:");
@@ -574,6 +582,7 @@ public class EditarQuestaoFechadaGUI extends javax.swing.JDialog {
         jScrollPane8.setViewportView(jtpF);
 
         jrbSimE.setBackground(new java.awt.Color(209, 224, 248));
+        letraE.add(jrbSimE);
         jrbSimE.setText("Sim");
         jrbSimE.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -582,6 +591,7 @@ public class EditarQuestaoFechadaGUI extends javax.swing.JDialog {
         });
 
         jrbNaoE.setBackground(new java.awt.Color(209, 224, 248));
+        letraE.add(jrbNaoE);
         jrbNaoE.setSelected(true);
         jrbNaoE.setText("Não");
         jrbNaoE.addActionListener(new java.awt.event.ActionListener() {
@@ -591,6 +601,7 @@ public class EditarQuestaoFechadaGUI extends javax.swing.JDialog {
         });
 
         jrbSimF.setBackground(new java.awt.Color(209, 224, 248));
+        letraF.add(jrbSimF);
         jrbSimF.setText("Sim");
         jrbSimF.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -599,6 +610,7 @@ public class EditarQuestaoFechadaGUI extends javax.swing.JDialog {
         });
 
         jrbNaoF.setBackground(new java.awt.Color(209, 224, 248));
+        letraF.add(jrbNaoF);
         jrbNaoF.setSelected(true);
         jrbNaoF.setText("Não");
         jrbNaoF.addActionListener(new java.awt.event.ActionListener() {
@@ -1354,6 +1366,25 @@ public class EditarQuestaoFechadaGUI extends javax.swing.JDialog {
         jlF.setEnabled(false);
     }//GEN-LAST:event_jrbNaoFActionPerformed
 
+    private void jcbDisciplinaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbDisciplinaActionPerformed
+        // TODO add your handling code here:
+        try {
+            jcbConteudo.removeAllItems();
+            strList.removeAll(strList);
+            rs = questoesBanco.pegarConteudos(jcbDisciplina.getSelectedItem().toString());
+            if (rs!=null) {
+                do {
+                    strList.add(
+                            rs.getString("NomeConteudos"));
+                } while (rs.next());                   
+            }             
+            modelComboBox = new DefaultComboBoxModel(strList.toArray());
+            jcbConteudo.setModel(modelComboBox);
+        } catch (SQLException e) {
+
+        }
+    }//GEN-LAST:event_jcbDisciplinaActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1875,5 +1906,7 @@ public class EditarQuestaoFechadaGUI extends javax.swing.JDialog {
     private javax.swing.JTextPane jtpE;
     private javax.swing.JTextPane jtpEnunciado;
     private javax.swing.JTextPane jtpF;
+    private javax.swing.ButtonGroup letraE;
+    private javax.swing.ButtonGroup letraF;
     // End of variables declaration//GEN-END:variables
 }

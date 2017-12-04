@@ -318,6 +318,7 @@ public class AdicionarQuestaoGUI extends javax.swing.JFrame {
         jbRemover.setBackground(new java.awt.Color(178, 203, 243));
         jbRemover.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/removeImage.png"))); // NOI18N
         jbRemover.setToolTipText("Remover Imagem");
+        jbRemover.setEnabled(false);
         jbRemover.setFocusable(false);
         jbRemover.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jbRemover.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -566,6 +567,12 @@ public class AdicionarQuestaoGUI extends javax.swing.JFrame {
         tabbedPane.addTab("tab1", jPanel2);
 
         jPanel3.setBackground(new java.awt.Color(209, 224, 248));
+
+        jcbDisciplina1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcbDisciplina1ActionPerformed(evt);
+            }
+        });
 
         jLabel6.setText("Disciplina:");
 
@@ -1237,7 +1244,7 @@ public class AdicionarQuestaoGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         int x = JOptionPane.showConfirmDialog(this.getContentPane(), "Deseja salvar antes de sair?", "Encerrar",
             JOptionPane.YES_NO_CANCEL_OPTION);
-        TelaDeQuestoes editor = new TelaDeQuestoes();
+        EditarQuestoesGUI editor = new EditarQuestoesGUI();
         if (x==0) {
             if (tabbed1) {
                 jbSalvarActionPerformed(evt);
@@ -1585,6 +1592,44 @@ public class AdicionarQuestaoGUI extends javax.swing.JFrame {
         jtpF.setEnabled(false);
         jlF.setEnabled(false);
     }//GEN-LAST:event_jrbNaoFActionPerformed
+
+    private void jcbDisciplina1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbDisciplina1ActionPerformed
+        // TODO add your handling code here:
+        if (tabbed1) {
+            try {
+                jcbConteudo.removeAllItems();
+                strList.removeAll(strList);
+                resultSet = questoesBanco.pegarConteudos(jcbDisciplina.getSelectedItem().toString());
+                if (resultSet!=null) {
+                    do {
+                        strList.add(
+                                resultSet.getString("NomeConteudos"));
+                    } while (resultSet.next());                   
+                }             
+                modelComboBox = new DefaultComboBoxModel(strList.toArray());
+                jcbConteudo.setModel(modelComboBox);
+            } catch (SQLException e) {
+
+            }
+        }
+        if (tabbed2) {
+            try {
+                jcbConteudo1.removeAllItems();
+                strList.removeAll(strList);
+                resultSet = questoesBanco.pegarConteudos(jcbDisciplina1.getSelectedItem().toString());
+                if (resultSet!=null) {
+                    do {
+                        strList.add(
+                                resultSet.getString("NomeConteudos"));
+                    } while (resultSet.next());                   
+                }             
+                modelComboBox = new DefaultComboBoxModel(strList.toArray());
+                jcbConteudo1.setModel(modelComboBox);
+            } catch (SQLException e) {
+
+            }
+        }
+    }//GEN-LAST:event_jcbDisciplina1ActionPerformed
 
     /**
      * @param args the command line arguments

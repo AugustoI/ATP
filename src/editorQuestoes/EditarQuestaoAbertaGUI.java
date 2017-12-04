@@ -442,6 +442,12 @@ public class EditarQuestaoAbertaGUI extends javax.swing.JDialog {
 
         jPanel2.setBackground(new java.awt.Color(209, 224, 248));
 
+        jcbDisciplina.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcbDisciplinaActionPerformed(evt);
+            }
+        });
+
         jLabel1.setText("Disciplina:");
 
         jLabel2.setText("Conteúdo:");
@@ -779,6 +785,25 @@ public class EditarQuestaoAbertaGUI extends javax.swing.JDialog {
 
         }
     }//GEN-LAST:event_jbLocalizarActionPerformed
+
+    private void jcbDisciplinaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbDisciplinaActionPerformed
+        // TODO add your handling code here:
+        try {
+            jcbConteudo.removeAllItems();
+            strList.removeAll(strList);
+            rs = questoesBanco.pegarConteudos(jcbDisciplina.getSelectedItem().toString());
+            if (rs!=null) {
+                do {
+                    strList.add(
+                            rs.getString("NomeConteudos"));
+                } while (rs.next());                   
+            }             
+            modelComboBox = new DefaultComboBoxModel(strList.toArray());
+            jcbConteudo.setModel(modelComboBox);
+        } catch (SQLException e) {
+            
+        }
+    }//GEN-LAST:event_jcbDisciplinaActionPerformed
 
     /**
      * @param args the command line arguments
