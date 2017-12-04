@@ -12,7 +12,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GraphicsEnvironment;
 import java.awt.GridLayout;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileInputStream;
@@ -33,8 +32,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextPane;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import javax.swing.event.UndoableEditEvent;
 import javax.swing.event.UndoableEditListener;
 import javax.swing.text.AttributeSet;
@@ -47,70 +44,43 @@ import javax.swing.text.StyledEditorKit;
 import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
 import javax.swing.undo.UndoManager;
-import telas.MenuGUI;
-
 /**
  *
  * @author Couth
  */
-public class AdicionarQuestaoGUI extends javax.swing.JFrame {
+public class EditarQuestaoFechadaGUI extends javax.swing.JDialog {
 
     /**
-     * Creates new form AdicionarQuestaoGUI
-     */  
-    
-    JFrame frame = new JFrame();
+     * Creates new form EditarQuestaoFechadaGUI
+     */
     Questoes questoesBanco = new Questoes();
-    ResultSet resultSet;
-    DefaultComboBoxModel modelComboBox;
-    int idConteudo, idQuestao, posicaoImagem, ind = 0;
-    List<String> strList = new ArrayList<String>();  
-    boolean img, t1, t2, t3, t4, t5, t6, t7, tabbed1, tabbed2;
+    JDialog dialog = new JDialog();
+    List<String> strList = new ArrayList<String>();
+    
+    ResultSet rs;
+    DefaultComboBoxModel modelComboBox;  
     FileInputStream input;
-    String fileName, findString;    
+    String fileName, fileNameAntigo, enunciado, disciplina, conteudo, alternativaA, alternativaB, alternativaC, alternativaD, alternativaE, alternativaF, findString;
+    int idQuestao, dificuldade, idConteudo, posicaoImagem, ind = 0;      
+    boolean img, img2, remover, t1, t2, t3, t4, t5, t6, t7;        
     StringBuffer sbufer;
     
     UndoManager undo = new UndoManager();
     UndoAction undoAction = new UndoAction();
     RedoAction redoAction = new RedoAction();
-    public AdicionarQuestaoGUI() {
+    public EditarQuestaoFechadaGUI(java.awt.Frame parent, boolean modal) {
+        super(parent, modal);
         initComponents();
-        tabbedPane.setTitleAt(0, "Questão ABERTA");
-        tabbedPane.setTitleAt(1, "Questão FECHADA");
+    }
+    
+    public EditarQuestaoFechadaGUI(java.awt.Frame parent, boolean modal, int id) {
+        super(parent, modal);
+        initComponents();
+        this.setLocationRelativeTo(this);
+        this.setTitle("Editor de Questão FECHADA");
+        jlImagem.setMaximumSize(new Dimension(14, 225));
+        jbRemover.setEnabled(false);
         
-        frame = this;
-        tabbed1 = true;
-        tabbed2 = false;
-        
-        tabbedPane.addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e) {
-                if (tabbedPane.getSelectedIndex() == 0) {
-                    frame.setSize(new Dimension(frame.getSize().width, 420));
-                    frame.setLocationRelativeTo(null);
-                    tabbed1 = true;
-                    tabbed2 = false;
-                }
-                if (tabbedPane.getSelectedIndex() == 1) {
-                    frame.setSize(new Dimension(frame.getSize().width, 675));
-                    Toolkit kit = Toolkit.getDefaultToolkit();
-                    Dimension tamanhoTela = kit.getScreenSize();
-                    int width = tamanhoTela.width;
-                    int height = tamanhoTela.height;
-                    frame.setLocation(width / 4, height / 18);
-                    tabbed1 = false;
-                    tabbed2 = true;
-                }
-                CarregarComboBox();
-            }
-        });
-        
-        this.setResizable(false);
-        this.setSize(new Dimension(this.getSize().width, 420)); 
-        this.setLocationRelativeTo(null);
-        this.setTitle("Editor de Questões");
-        
-        img = false;
         t1 = false;
         t2 = false;
         t3 = false;
@@ -118,46 +88,105 @@ public class AdicionarQuestaoGUI extends javax.swing.JFrame {
         t5 = false;
         t6 = false;
         t7 = false;
-        
-        jlImagem1.setMaximumSize(new Dimension(14, 225));
-        jlImagem2.setMaximumSize(new Dimension(14, 225));
+        remover = false;
         
         //Carregar os dois combobox (disciplinas e conteúdos)
         CarregarComboBox();
         
-        //MenuItem e Botão Negrito
-        Action boldAction = new AdicionarQuestaoGUI.BoldAction();
+        //MenuItem Negrito
+        Action boldAction = new EditarQuestaoFechadaGUI.BoldAction();
         boldAction.putValue(Action.NAME, "Negrito");
-        jbNegrito.addActionListener(boldAction);      
+        jbNegrito.addActionListener(boldAction);
         
-        //MenuItem e Botão Itálico
-        Action italicAction = new AdicionarQuestaoGUI.ItalicAction();
+        //MenuItem Itálico
+        Action italicAction = new EditarQuestaoFechadaGUI.ItalicAction();
         italicAction.putValue(Action.NAME, "Itálico");
-        jbItalico.addActionListener(italicAction);    
+        jbItalico.addActionListener(italicAction);
 
-        //MenuItem e Botão Sublinhado
-        Action underlineAction = new AdicionarQuestaoGUI.UnderlineAction();
+        //MenuItem Sublinhado
+        Action underlineAction = new EditarQuestaoFechadaGUI.UnderlineAction();
         underlineAction.putValue(Action.NAME, "Sublinhado");
-        jbSublinhado.addActionListener(underlineAction);   
+        jbSublinhado.addActionListener(underlineAction);
 
-        //MenuItem e Botão Cor
-        Action foregroundAction = new AdicionarQuestaoGUI.ForegroundAction();
+        //MenuItem Cor
+        Action foregroundAction = new EditarQuestaoFechadaGUI.ForegroundAction();
         foregroundAction.putValue(Action.NAME, "Cor do texto");
-        jbCor.addActionListener(foregroundAction);    
+        jbCor.addActionListener(foregroundAction);
 
-        //MenuItem e Botão Fonte
-        Action formatTextAction = new AdicionarQuestaoGUI.FontAndSizeAction();
+        //MenuItem Fonte
+        Action formatTextAction = new EditarQuestaoFechadaGUI.FontAndSizeAction();
         formatTextAction.putValue(Action.NAME, "Fonte");
-        jbFonte.addActionListener(formatTextAction);   
+        jbFonte.addActionListener(formatTextAction);
         
         jtpEnunciado.requestFocus();
         
-        jtpEnunciado.getDocument().addUndoableEditListener(new MyUndoableEditListener());
+        try {            
+            rs = questoesBanco.pegarQuestaoPeloId(id);
+            if (rs!=null) {                                
+                idQuestao = rs.getInt("Questoes_ID");
+                enunciado = rs.getString("Enunciado");
+                dificuldade = rs.getInt("Dificuldade");
+                idConteudo = rs.getInt("ID_Conteudos");
+
+                alternativaA = rs.getString("AlternativaA");
+                alternativaB = rs.getString("AlternativaB");
+                alternativaC = rs.getString("AlternativaC");
+                alternativaD = rs.getString("AlternativaD");
+                alternativaE = rs.getString("AlternativaE");
+                alternativaF = rs.getString("AlternativaF");
+                
+                jtpEnunciado.setText(enunciado);
+                jtpA.setText(alternativaA);
+                jtpB.setText(alternativaB);
+                jtpC.setText(alternativaC);
+                jtpD.setText(alternativaD);
+                jtpE.setText(alternativaE);
+                jtpF.setText(alternativaF);
+                jcbDificuldade.setSelectedIndex(dificuldade);
+                
+                if (!alternativaE.isEmpty()) {
+                    jtpE.setEnabled(true);
+                    jlE.setEnabled(true);
+                    jrbSimE.setSelected(true);
+                }
+                if (!alternativaF.isEmpty()) {
+                    jtpF.setEnabled(true);
+                    jlF.setEnabled(true);
+                    jrbSimF.setSelected(true);
+                }
+            }
+            
+            rs = questoesBanco.pegarNomeDisciplinasPeloConteudosID(idConteudo);
+            if (rs!=null) {                                
+                disciplina = rs.getString("NomeDisciplinas");                
+                jcbDisciplina.setSelectedItem(disciplina);
+            }
+            
+            rs = questoesBanco.pegarNomeConteudosPeloConteudosID(idConteudo);
+            if (rs!=null) {                                
+                conteudo = rs.getString("NomeConteudos");                
+                jcbConteudo.setSelectedItem(conteudo);
+            }
+            
+            rs = questoesBanco.pegarNomeImagem(idQuestao);
+            if (rs!=null) {                                
+                fileNameAntigo = fileName = rs.getString("NomeImagem");
+                jlImagem.setText(fileName);
+                jbRemover.setEnabled(true);
+                img2 = true;
+            } else {
+                img2 = false;
+            }
+        } catch (SQLException sqlEx) {
+            JOptionPane.showMessageDialog(this, "Error SQL: "+sqlEx);
+        }
+        
+        jtpEnunciado.getDocument().addUndoableEditListener(new EditarQuestaoFechadaGUI.MyUndoableEditListener());
         
         jbDesfazer.addActionListener(undoAction);
         jbRefazer.addActionListener(redoAction);
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -167,13 +196,10 @@ public class AdicionarQuestaoGUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        letraE = new javax.swing.ButtonGroup();
-        letraF = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         jToolBar1 = new javax.swing.JToolBar();
         jbSalvar = new javax.swing.JButton();
         jbAbrir = new javax.swing.JButton();
-        jbEditar = new javax.swing.JButton();
         jSeparator4 = new javax.swing.JToolBar.Separator();
         jbCarregar = new javax.swing.JButton();
         jbRemover = new javax.swing.JButton();
@@ -194,31 +220,18 @@ public class AdicionarQuestaoGUI extends javax.swing.JFrame {
         jbColar = new javax.swing.JButton();
         jSeparator3 = new javax.swing.JToolBar.Separator();
         jbLocalizar = new javax.swing.JButton();
-        tabbedPane = new javax.swing.JTabbedPane();
-        jPanel2 = new javax.swing.JPanel();
-        jcbDisciplina = new javax.swing.JComboBox();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jcbConteudo = new javax.swing.JComboBox();
-        jLabel3 = new javax.swing.JLabel();
-        jcbDificuldade = new javax.swing.JComboBox();
-        jLabel4 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jtpEnunciado = new javax.swing.JTextPane();
-        jLabel5 = new javax.swing.JLabel();
-        jlImagem1 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
-        jcbDisciplina1 = new javax.swing.JComboBox();
+        jcbDisciplina = new javax.swing.JComboBox();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        jcbConteudo1 = new javax.swing.JComboBox();
+        jcbConteudo = new javax.swing.JComboBox();
         jLabel8 = new javax.swing.JLabel();
-        jcbDificuldade1 = new javax.swing.JComboBox();
+        jcbDificuldade = new javax.swing.JComboBox();
         jLabel9 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jtpEnunciado1 = new javax.swing.JTextPane();
+        jtpEnunciado = new javax.swing.JTextPane();
         jLabel10 = new javax.swing.JLabel();
-        jlImagem2 = new javax.swing.JLabel();
+        jlImagem = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
@@ -245,14 +258,13 @@ public class AdicionarQuestaoGUI extends javax.swing.JFrame {
         jmArquivo = new javax.swing.JMenu();
         jmiAbrir = new javax.swing.JMenuItem();
         jmiSalvar = new javax.swing.JMenuItem();
-        jmiEditar = new javax.swing.JMenuItem();
         jSeparator6 = new javax.swing.JPopupMenu.Separator();
         jmiCarregar = new javax.swing.JMenuItem();
         jmiRemover = new javax.swing.JMenuItem();
         jSeparator7 = new javax.swing.JPopupMenu.Separator();
         jmiMenu = new javax.swing.JMenuItem();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(178, 203, 243));
 
@@ -287,19 +299,6 @@ public class AdicionarQuestaoGUI extends javax.swing.JFrame {
             }
         });
         jToolBar1.add(jbAbrir);
-
-        jbEditar.setBackground(new java.awt.Color(178, 203, 243));
-        jbEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/editFile.png"))); // NOI18N
-        jbEditar.setToolTipText("Editar Questões");
-        jbEditar.setFocusable(false);
-        jbEditar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jbEditar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jbEditar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbEditarActionPerformed(evt);
-            }
-        });
-        jToolBar1.add(jbEditar);
         jToolBar1.add(jSeparator4);
 
         jbCarregar.setBackground(new java.awt.Color(178, 203, 243));
@@ -495,76 +494,6 @@ public class AdicionarQuestaoGUI extends javax.swing.JFrame {
         });
         jToolBar2.add(jbLocalizar);
 
-        tabbedPane.setBackground(new java.awt.Color(209, 224, 248));
-
-        jPanel2.setBackground(new java.awt.Color(209, 224, 248));
-
-        jLabel1.setText("Disciplina:");
-
-        jLabel2.setText("Conteúdo:");
-
-        jLabel3.setText("Dificuldade:");
-
-        jcbDificuldade.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
-
-        jLabel4.setText("Enunciado:");
-
-        jScrollPane1.setViewportView(jtpEnunciado);
-
-        jLabel5.setText("Imagem:");
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jcbDisciplina, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel4))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jcbConteudo, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jcbDificuldade, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jlImagem1)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jcbDisciplina, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2)
-                    .addComponent(jcbConteudo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3)
-                    .addComponent(jcbDificuldade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel5)
-                    .addComponent(jlImagem1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(264, Short.MAX_VALUE))
-        );
-
-        tabbedPane.addTab("tab1", jPanel2);
-
         jPanel3.setBackground(new java.awt.Color(209, 224, 248));
 
         jLabel6.setText("Disciplina:");
@@ -573,16 +502,16 @@ public class AdicionarQuestaoGUI extends javax.swing.JFrame {
 
         jLabel8.setText("Dificuldade:");
 
-        jcbDificuldade1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
+        jcbDificuldade.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
 
         jLabel9.setText("Enunciado:");
 
-        jtpEnunciado1.addFocusListener(new java.awt.event.FocusAdapter() {
+        jtpEnunciado.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                jtpEnunciado1FocusGained(evt);
+                jtpEnunciadoFocusGained(evt);
             }
         });
-        jScrollPane2.setViewportView(jtpEnunciado1);
+        jScrollPane2.setViewportView(jtpEnunciado);
 
         jLabel10.setText("Imagem:");
 
@@ -645,7 +574,6 @@ public class AdicionarQuestaoGUI extends javax.swing.JFrame {
         jScrollPane8.setViewportView(jtpF);
 
         jrbSimE.setBackground(new java.awt.Color(209, 224, 248));
-        letraE.add(jrbSimE);
         jrbSimE.setText("Sim");
         jrbSimE.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -654,7 +582,6 @@ public class AdicionarQuestaoGUI extends javax.swing.JFrame {
         });
 
         jrbNaoE.setBackground(new java.awt.Color(209, 224, 248));
-        letraE.add(jrbNaoE);
         jrbNaoE.setSelected(true);
         jrbNaoE.setText("Não");
         jrbNaoE.addActionListener(new java.awt.event.ActionListener() {
@@ -664,7 +591,6 @@ public class AdicionarQuestaoGUI extends javax.swing.JFrame {
         });
 
         jrbSimF.setBackground(new java.awt.Color(209, 224, 248));
-        letraF.add(jrbSimF);
         jrbSimF.setText("Sim");
         jrbSimF.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -673,7 +599,6 @@ public class AdicionarQuestaoGUI extends javax.swing.JFrame {
         });
 
         jrbNaoF.setBackground(new java.awt.Color(209, 224, 248));
-        letraF.add(jrbNaoF);
         jrbNaoF.setSelected(true);
         jrbNaoF.setText("Não");
         jrbNaoF.addActionListener(new java.awt.event.ActionListener() {
@@ -695,22 +620,22 @@ public class AdicionarQuestaoGUI extends javax.swing.JFrame {
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addComponent(jLabel6)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jcbDisciplina1, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jcbDisciplina, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jLabel9))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addComponent(jLabel7)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jcbConteudo1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jcbConteudo, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(jLabel8)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jcbDificuldade1, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jcbDificuldade, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addComponent(jLabel10)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jlImagem2)))
+                                .addComponent(jlImagem)))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel11)
@@ -754,19 +679,19 @@ public class AdicionarQuestaoGUI extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jcbDisciplina1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jcbDisciplina, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6)
                     .addComponent(jLabel7)
-                    .addComponent(jcbConteudo1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jcbConteudo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8)
-                    .addComponent(jcbDificuldade1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jcbDificuldade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel9)
                             .addComponent(jLabel10)
-                            .addComponent(jlImagem2))
+                            .addComponent(jlImagem))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -801,15 +726,15 @@ public class AdicionarQuestaoGUI extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        tabbedPane.addTab("tab2", jPanel3);
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jToolBar2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(tabbedPane)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -817,8 +742,8 @@ public class AdicionarQuestaoGUI extends javax.swing.JFrame {
                 .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jToolBar2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tabbedPane))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         jmArquivo.setText("Arquivo");
@@ -827,11 +752,6 @@ public class AdicionarQuestaoGUI extends javax.swing.JFrame {
         jmiAbrir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/openFile.png"))); // NOI18N
         jmiAbrir.setText("Abrir Arquivo");
         jmiAbrir.setEnabled(false);
-        jmiAbrir.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jmiAbrirActionPerformed(evt);
-            }
-        });
         jmArquivo.add(jmiAbrir);
 
         jmiSalvar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
@@ -843,16 +763,6 @@ public class AdicionarQuestaoGUI extends javax.swing.JFrame {
             }
         });
         jmArquivo.add(jmiSalvar);
-
-        jmiEditar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.CTRL_MASK));
-        jmiEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/editFile.png"))); // NOI18N
-        jmiEditar.setText("Editar Questões");
-        jmiEditar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jmiEditarActionPerformed(evt);
-            }
-        });
-        jmArquivo.add(jmiEditar);
         jmArquivo.add(jSeparator6);
 
         jmiCarregar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/addImage.png"))); // NOI18N
@@ -901,468 +811,378 @@ public class AdicionarQuestaoGUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jmiSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiSalvarActionPerformed
+        // TODO add your handling code here:
+        jbSalvarActionPerformed(evt);
+    }//GEN-LAST:event_jmiSalvarActionPerformed
+
+    private void jmiCarregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiCarregarActionPerformed
+        // TODO add your handling code here:
+        jbCarregarActionPerformed(evt);
+    }//GEN-LAST:event_jmiCarregarActionPerformed
+
+    private void jmiRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiRemoverActionPerformed
+        // TODO add your handling code here:
+        jbRemoverActionPerformed(evt);
+    }//GEN-LAST:event_jmiRemoverActionPerformed
+
+    private void jmiMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiMenuActionPerformed
+        // TODO add your handling code here:
+        jbMenuActionPerformed(evt);
+    }//GEN-LAST:event_jmiMenuActionPerformed
+
     private void jbSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSalvarActionPerformed
         // TODO add your handling code here:
         try {
-            if (tabbed1) {
-                if (!jtpEnunciado.getText().isEmpty()) {
-                    if (jcbConteudo.getItemCount() != 0) {
-                        int x = JOptionPane.showConfirmDialog(this.getContentPane(), "Tem certeza que deseja salvar esta questão?", "Salvar questão",
-                        JOptionPane.YES_NO_CANCEL_OPTION);
-                        if (x==0) {
-                            String enunciado = jtpEnunciado.getText();                        
-                            int dificuldade = Integer.parseInt(jcbDificuldade.getSelectedItem().toString());
-                            String multipla = "N";
-                            resultSet = questoesBanco.pegarConteudosID(jcbConteudo.getSelectedItem().toString());
-                            if (resultSet!=null) {
-                                do {
-                                    idConteudo = resultSet.getInt("Conteudos_ID");                        
-                                } while (resultSet.next());
-                                SalvarQuestaoAberta(enunciado, dificuldade, multipla, idConteudo); 
-                            }
-
-                            resultSet = questoesBanco.pegarUltimaQuestao();
-                            if (resultSet!=null) {
-                                do {
-                                    idQuestao = resultSet.getInt("ult");                      
-                                } while (resultSet.next());
-                                AddImagem(idQuestao);
-                            }
-
-                            jtpEnunciado.setText("");
-                            JOptionPane.showMessageDialog(this, "Questão adicionada com sucesso!");
-                        }
-                    } else {
-                        JOptionPane.showMessageDialog(this, "Não há conteúdo cadastrado nesta disciplina!");
-                    }
-                } else {
-                    JOptionPane.showMessageDialog(this, "O enunciado da questão não pode ser vazio!");
-                }
-            }
-            if (tabbed2) {
-                if ((!jtpEnunciado1.getText().isEmpty())&&(!jtpA.getText().isEmpty())&&(!jtpB.getText().isEmpty())
+            if ((!jtpEnunciado.getText().isEmpty())&&(!jtpA.getText().isEmpty())&&(!jtpB.getText().isEmpty())
                     &&(!jtpC.getText().isEmpty())&&(!jtpD.getText().isEmpty())) {
-                    if (((!jtpE.getText().isEmpty())&&(jrbSimE.isSelected()))||(jrbNaoE.isSelected())) {
-                        if (((!jtpF.getText().isEmpty())&&(jrbSimF.isSelected()))||(jrbNaoF.isSelected())) {
-                            if (jcbConteudo1.getItemCount() != 0) {
-                                int x = JOptionPane.showConfirmDialog(this.getContentPane(), "Tem certeza que deseja salvar esta questão?", "Salvar questão",
-                                JOptionPane.YES_NO_CANCEL_OPTION);
-                                if (x==0) {
-                                    String enunciado = jtpEnunciado1.getText();
-                                    int dificuldade = Integer.parseInt(jcbDificuldade1.getSelectedItem().toString());
-                                    String multipla = "S";
-                                    String letraA = jtpA.getText();
-                                    String letraB = jtpB.getText();
-                                    String letraC = jtpC.getText();
-                                    String letraD = jtpD.getText();
-                                    String letraE = "";
-                                    String letraF = "";
-                                    if (jrbSimE.isSelected()) {
-                                        letraE = jtpE.getText();
-                                    }
-                                    if (jrbSimF.isSelected()) {
-                                        letraF = jtpF.getText();
-                                    }
-
-                                    resultSet = questoesBanco.pegarConteudosID(jcbConteudo1.getSelectedItem().toString());
-                                    if (resultSet!=null) {
-                                        do {
-                                            idConteudo = resultSet.getInt("Conteudos_ID");    
-                                        } while (resultSet.next());
-                                        SalvarQuestaoFechada(enunciado, dificuldade, multipla, letraA, letraB, letraC, letraD, letraE, letraF, idConteudo);
-                                    }                            
-
-                                    resultSet = questoesBanco.pegarUltimaQuestao();
-                                    if (resultSet!=null) {
-                                        do {
-                                            idQuestao = resultSet.getInt("ult");                      
-                                        } while (resultSet.next());
-                                        AddImagem(idQuestao);
-                                    }
-
-                                    jtpEnunciado1.setText("");
-                                    jtpA.setText("");
-                                    jtpB.setText("");
-                                    jtpC.setText("");
-                                    jtpD.setText("");
-                                    jtpE.setText("");
-                                    jtpF.setText("");
-
-                                    jlE.setEnabled(false);
-                                    jlF.setEnabled(false);
-                                    jtpE.setEnabled(false);
-                                    jtpF.setEnabled(false);
-                                    
-                                    jrbNaoE.setSelected(true);
-                                    jrbNaoF.setSelected(true);                                    
-                                    JOptionPane.showMessageDialog(this, "Questão adicionada com sucesso!");
+                if (((!jtpE.getText().isEmpty())&&(jrbSimE.isSelected()))||(jrbNaoE.isSelected())) {
+                    if (((!jtpF.getText().isEmpty())&&(jrbSimF.isSelected()))||(jrbNaoF.isSelected())) {
+                        if (jcbConteudo.getItemCount() != 0) {
+                            int x = JOptionPane.showConfirmDialog(this.getContentPane(), "Tem certeza que deseja salvar esta questão?", "Salvar questão",
+                            JOptionPane.YES_NO_CANCEL_OPTION);
+                            if (x==0) {
+                                enunciado = jtpEnunciado.getText();
+                                dificuldade = Integer.parseInt(jcbDificuldade.getSelectedItem().toString());
+                                alternativaA = jtpA.getText();
+                                alternativaB = jtpB.getText();
+                                alternativaC = jtpC.getText();
+                                alternativaD = jtpD.getText();
+                                alternativaE = "";
+                                alternativaF = "";
+                                if (jrbSimE.isSelected()) {
+                                    alternativaE = jtpE.getText();
                                 }
-                            } else {
-                                JOptionPane.showMessageDialog(this, "Não há conteúdo cadastrado nesta disciplina!");
+                                if (jrbSimF.isSelected()) {
+                                    alternativaF = jtpF.getText();
+                                }
+
+                                rs = questoesBanco.pegarConteudosID(jcbConteudo.getSelectedItem().toString());
+                                if (rs!=null) {
+                                    do {
+                                        idConteudo = rs.getInt("Conteudos_ID");    
+                                    } while (rs.next());
+                                    SalvarQuestao(enunciado, dificuldade, alternativaA, alternativaB, alternativaC, 
+                                            alternativaD, alternativaE, alternativaF, idConteudo, idQuestao);
+                                    AddImagem(idQuestao);
+                                    RemoverImagem(idQuestao);
+                                }                            
+
+                                jtpEnunciado.setText("");
+                                jtpA.setText("");
+                                jtpB.setText("");
+                                jtpC.setText("");
+                                jtpD.setText("");
+                                jtpE.setText("");
+                                jtpF.setText("");
+
+                                jlE.setEnabled(false);
+                                jlF.setEnabled(false);
+                                jtpE.setEnabled(false);
+                                jtpF.setEnabled(false);
+
+                                jrbNaoE.setSelected(true);
+                                jrbNaoF.setSelected(true); 
+                                
+                                JOptionPane.showMessageDialog(this, "Questão atualizada com sucesso!");
+                                dispose();
                             }
                         } else {
-                            JOptionPane.showMessageDialog(this, "A letra F está vazia!");
+                            JOptionPane.showMessageDialog(this, "Não há conteúdo cadastrado nesta disciplina!");
                         }
                     } else {
-                        JOptionPane.showMessageDialog(this, "A letra E está vazia!");
+                        JOptionPane.showMessageDialog(this, "A letra F está vazia!");
                     }
                 } else {
-                    if (jtpEnunciado1.getText().isEmpty()) {
-                        JOptionPane.showMessageDialog(this, "O enunciado da questão não pode ser vazio!");
-                    } else {
-                        JOptionPane.showMessageDialog(this, "Uma ou mais opções estão vazias!");
-                    }
+                    JOptionPane.showMessageDialog(this, "A letra E está vazia!");
+                }
+            } else {
+                if (jtpEnunciado.getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "O enunciado da questão não pode ser vazio!");
+                } else {
+                    JOptionPane.showMessageDialog(this, "Uma ou mais opções estão vazias!");
                 }
             }
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(this, "Ocorreu um erro. Tente novamente");
-        }     
+        }
     }//GEN-LAST:event_jbSalvarActionPerformed
 
-    private void jbNegritoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbNegritoActionPerformed
+    private void jbAbrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAbrirActionPerformed
         // TODO add your handling code here:
-        if (tabbed1)
-            jtpEnunciado.requestFocus();
-        if (tabbed2) {
-            if (t1) {
-                jtpEnunciado1.requestFocus();
-            }
-            if (t2) {
-                jtpA.requestFocus();
-            }
-            if (t3) {
-                jtpB.requestFocus();
-            }
-            if (t4) {
-                jtpC.requestFocus();
-            }
-            if (t5) {
-                jtpD.requestFocus();
-            }
-            if (t6) {
-                jtpE.requestFocus();
-            }
-            if (t7) {
-                jtpF.requestFocus();
-            }
-        }
-    }//GEN-LAST:event_jbNegritoActionPerformed
-
-    private void jbItalicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbItalicoActionPerformed
-        // TODO add your handling code here:
-        if (tabbed1)
-            jtpEnunciado.requestFocus();
-        if (tabbed2) {
-            if (t1) {
-                jtpEnunciado1.requestFocus();
-            }
-            if (t2) {
-                jtpA.requestFocus();
-            }
-            if (t3) {
-                jtpB.requestFocus();
-            }
-            if (t4) {
-                jtpC.requestFocus();
-            }
-            if (t5) {
-                jtpD.requestFocus();
-            }
-            if (t6) {
-                jtpE.requestFocus();
-            }
-            if (t7) {
-                jtpF.requestFocus();
-            }
-        }
-    }//GEN-LAST:event_jbItalicoActionPerformed
-
-    private void jbSublinhadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSublinhadoActionPerformed
-        // TODO add your handling code here:
-        if (tabbed1)
-            jtpEnunciado.requestFocus();
-        if (tabbed2) {
-            if (t1) {
-                jtpEnunciado1.requestFocus();
-            }
-            if (t2) {
-                jtpA.requestFocus();
-            }
-            if (t3) {
-                jtpB.requestFocus();
-            }
-            if (t4) {
-                jtpC.requestFocus();
-            }
-            if (t5) {
-                jtpD.requestFocus();
-            }
-            if (t6) {
-                jtpE.requestFocus();
-            }
-            if (t7) {
-                jtpF.requestFocus();
-            }
-        }
-    }//GEN-LAST:event_jbSublinhadoActionPerformed
-
-    private void jbFonteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbFonteActionPerformed
-        // TODO add your handling code here:
-        if (tabbed1)
-            jtpEnunciado.requestFocus();
-        if (tabbed2) {
-            if (t1) {
-                jtpEnunciado1.requestFocus();
-            }
-            if (t2) {
-                jtpA.requestFocus();
-            }
-            if (t3) {
-                jtpB.requestFocus();
-            }
-            if (t4) {
-                jtpC.requestFocus();
-            }
-            if (t5) {
-                jtpD.requestFocus();
-            }
-            if (t6) {
-                jtpE.requestFocus();
-            }
-            if (t7) {
-                jtpF.requestFocus();
-            }
-        }
-    }//GEN-LAST:event_jbFonteActionPerformed
-
-    private void jbCorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCorActionPerformed
-        // TODO add your handling code here:
-        if (tabbed1)
-            jtpEnunciado.requestFocus();
-        if (tabbed2) {
-            if (t1) {
-                jtpEnunciado1.requestFocus();
-            }
-            if (t2) {
-                jtpA.requestFocus();
-            }
-            if (t3) {
-                jtpB.requestFocus();
-            }
-            if (t4) {
-                jtpC.requestFocus();
-            }
-            if (t5) {
-                jtpD.requestFocus();
-            }
-            if (t6) {
-                jtpE.requestFocus();
-            }
-            if (t7) {
-                jtpF.requestFocus();
-            }
-        }
-    }//GEN-LAST:event_jbCorActionPerformed
+    }//GEN-LAST:event_jbAbrirActionPerformed
 
     private void jbCarregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCarregarActionPerformed
         // TODO add your handling code here:
-        AdicionarImagemGUI a = new AdicionarImagemGUI(this, true);
+        AdicionarImagemGUI a = new AdicionarImagemGUI(null, true);
         a.setVisible(true); 
         img = a.certo;
         posicaoImagem = a.posicao;
         input = a.input;
         fileName = a.fileName;
-        if (tabbed1) {
-            jlImagem1.setText(fileName);            
-        }
-        if (tabbed2) {
-            jlImagem2.setText(fileName);
-        }   
+        jlImagem.setText(fileName);
         jbRemover.setEnabled(true);
     }//GEN-LAST:event_jbCarregarActionPerformed
 
     private void jbRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbRemoverActionPerformed
         // TODO add your handling code here:
-        img = false;
-        fileName = "Nenhuma imagem selecionada";
-        if (tabbed1) {
-            jlImagem1.setText(fileName);
+        int x = JOptionPane.showConfirmDialog(this.getContentPane(), "Tem certeza que deseja remover a imagem?", "Remover imagem",
+        JOptionPane.YES_NO_CANCEL_OPTION);
+        if (x==0) {
+            if (img) {
+                img = false;
+                if (!img2) {
+                    fileName = "Não há imagem cadastrada";
+                    jlImagem.setText(fileName);            
+                } else {
+                    jlImagem.setText(fileNameAntigo);     
+                }
+            } else if (img2) {
+                img2 = false;
+                fileName = "Não há imagem cadastrada";
+                jlImagem.setText(fileName);   
+                remover = true;
+            } 
+            if ((!img)&&(!img2)) {
+                jbRemover.setEnabled(false);
+            }
         }
-        if (tabbed2) {
-            jlImagem2.setText(fileName);
-        } 
-        jbRemover.setEnabled(false);
     }//GEN-LAST:event_jbRemoverActionPerformed
 
     private void jbMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbMenuActionPerformed
         // TODO add your handling code here:
         int x = JOptionPane.showConfirmDialog(this.getContentPane(), "Deseja salvar antes de sair?", "Encerrar",
             JOptionPane.YES_NO_CANCEL_OPTION);
-        MenuGUI menu = new MenuGUI();
         if (x==0) {
-            if (tabbed1) {
-                jbSalvarActionPerformed(evt);
-                if (!jtpEnunciado.getText().isEmpty()) {
-                    if (jcbConteudo.getItemCount() != 0) {
-                        menu.setVisible(true);
-                        menu.setLocationRelativeTo(null);
-                        dispose();
-                    }
-                }
-            }
-            if (tabbed2) {
-                jbSalvarActionPerformed(evt);
-                if ((!jtpEnunciado1.getText().isEmpty())&&(!jtpA.getText().isEmpty())&&(!jtpB.getText().isEmpty())
-                    &&(!jtpC.getText().isEmpty())&&(!jtpD.getText().isEmpty())) {
-                    if (((!jtpE.getText().isEmpty())&&(jrbSimE.isSelected()))||(jrbNaoE.isSelected())) {
-                        if (((!jtpF.getText().isEmpty())&&(jrbSimF.isSelected()))||(jrbNaoF.isSelected())) {
-                            if (jcbConteudo1.getItemCount() != 0) {
-                                menu.setVisible(true);
-                                menu.setLocationRelativeTo(null);
-                                dispose();
-                            }
+            jbSalvarActionPerformed(evt);
+            if ((!jtpEnunciado.getText().isEmpty())&&(!jtpA.getText().isEmpty())&&(!jtpB.getText().isEmpty())
+                &&(!jtpC.getText().isEmpty())&&(!jtpD.getText().isEmpty())) {
+                if (((!jtpE.getText().isEmpty())&&(jrbSimE.isSelected()))||(jrbNaoE.isSelected())) {
+                    if (((!jtpF.getText().isEmpty())&&(jrbSimF.isSelected()))||(jrbNaoF.isSelected())) {
+                        if (jcbConteudo.getItemCount() != 0) {
+                            dispose();
                         }
                     }
                 }
-            }            
+            }
         }
         if (x==1) {
-            menu.setVisible(true);
-            menu.setLocationRelativeTo(null);
             dispose();
         }
     }//GEN-LAST:event_jbMenuActionPerformed
 
-    private void jbEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbEditarActionPerformed
+    private void jbNegritoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbNegritoActionPerformed
         // TODO add your handling code here:
-        int x = JOptionPane.showConfirmDialog(this.getContentPane(), "Deseja salvar antes de sair?", "Encerrar",
-            JOptionPane.YES_NO_CANCEL_OPTION);
-        TelaDeQuestoes editor = new TelaDeQuestoes();
-        if (x==0) {
-            if (tabbed1) {
-                jbSalvarActionPerformed(evt);
-                if (!jtpEnunciado.getText().isEmpty()) {
-                    if (jcbConteudo.getItemCount() != 0) {
-                        editor.setVisible(true);
-                        editor.setLocationRelativeTo(null);
-                        dispose();
-                    }
-                }
-            }
-            if (tabbed2) {
-                jbSalvarActionPerformed(evt);
-                if ((!jtpEnunciado1.getText().isEmpty())&&(!jtpA.getText().isEmpty())&&(!jtpB.getText().isEmpty())
-                    &&(!jtpC.getText().isEmpty())&&(!jtpD.getText().isEmpty())) {
-                    if (((!jtpE.getText().isEmpty())&&(jrbSimE.isSelected()))||(jrbNaoE.isSelected())) {
-                        if (((!jtpF.getText().isEmpty())&&(jrbSimF.isSelected()))||(jrbNaoF.isSelected())) {
-                            if (jcbConteudo1.getItemCount() != 0) {
-                                editor.setVisible(true);
-                                editor.setLocationRelativeTo(null);
-                                dispose();
-                            }
-                        }
-                    }
-                }
-            }            
+        if (t1) {
+            jtpEnunciado.requestFocus();
         }
-        if (x==1) {
-            editor.setVisible(true);
-            editor.setLocationRelativeTo(null);
-            dispose();
-        }  
-    }//GEN-LAST:event_jbEditarActionPerformed
+        if (t2) {
+            jtpA.requestFocus();
+        }
+        if (t3) {
+            jtpB.requestFocus();
+        }
+        if (t4) {
+            jtpC.requestFocus();
+        }
+        if (t5) {
+            jtpD.requestFocus();
+        }
+        if (t6) {
+            jtpE.requestFocus();
+        }
+        if (t7) {
+            jtpF.requestFocus();
+        }
+    }//GEN-LAST:event_jbNegritoActionPerformed
+
+    private void jbItalicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbItalicoActionPerformed
+        // TODO add your handling code here:
+        if (t1) {
+            jtpEnunciado.requestFocus();
+        }
+        if (t2) {
+            jtpA.requestFocus();
+        }
+        if (t3) {
+            jtpB.requestFocus();
+        }
+        if (t4) {
+            jtpC.requestFocus();
+        }
+        if (t5) {
+            jtpD.requestFocus();
+        }
+        if (t6) {
+            jtpE.requestFocus();
+        }
+        if (t7) {
+            jtpF.requestFocus();
+        }
+    }//GEN-LAST:event_jbItalicoActionPerformed
+
+    private void jbSublinhadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSublinhadoActionPerformed
+        // TODO add your handling code here:
+        if (t1) {
+            jtpEnunciado.requestFocus();
+        }
+        if (t2) {
+            jtpA.requestFocus();
+        }
+        if (t3) {
+            jtpB.requestFocus();
+        }
+        if (t4) {
+            jtpC.requestFocus();
+        }
+        if (t5) {
+            jtpD.requestFocus();
+        }
+        if (t6) {
+            jtpE.requestFocus();
+        }
+        if (t7) {
+            jtpF.requestFocus();
+        }
+    }//GEN-LAST:event_jbSublinhadoActionPerformed
+
+    private void jbFonteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbFonteActionPerformed
+        // TODO add your handling code here:
+        if (t1) {
+            jtpEnunciado.requestFocus();
+        }
+        if (t2) {
+            jtpA.requestFocus();
+        }
+        if (t3) {
+            jtpB.requestFocus();
+        }
+        if (t4) {
+            jtpC.requestFocus();
+        }
+        if (t5) {
+            jtpD.requestFocus();
+        }
+        if (t6) {
+            jtpE.requestFocus();
+        }
+        if (t7) {
+            jtpF.requestFocus();
+        }
+    }//GEN-LAST:event_jbFonteActionPerformed
+
+    private void jbCorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCorActionPerformed
+        // TODO add your handling code here:
+        if (t1) {
+            jtpEnunciado.requestFocus();
+        }
+        if (t2) {
+            jtpA.requestFocus();
+        }
+        if (t3) {
+            jtpB.requestFocus();
+        }
+        if (t4) {
+            jtpC.requestFocus();
+        }
+        if (t5) {
+            jtpD.requestFocus();
+        }
+        if (t6) {
+            jtpE.requestFocus();
+        }
+        if (t7) {
+            jtpF.requestFocus();
+        }
+    }//GEN-LAST:event_jbCorActionPerformed
+
+    private void jbDesfazerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbDesfazerActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jbDesfazerActionPerformed
+
+    private void jbRefazerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbRefazerActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jbRefazerActionPerformed
 
     private void jbRecortarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbRecortarActionPerformed
         // TODO add your handling code here:
-        if (tabbed1)
+        if (t1) {
             jtpEnunciado.cut();
-        if (tabbed2) {
-            if (t1) {
-                jtpEnunciado1.cut();
-            }
-            if (t2) {
-                jtpA.cut();
-            }
-            if (t3) {
-                jtpB.cut();
-            }
-            if (t4) {
-                jtpC.cut();
-            }
-            if (t5) {
-                jtpD.cut();
-            }
-            if (t6) {
-                jtpE.cut();
-            }
-            if (t7) {
-                jtpF.cut();
-            }
+        }
+        if (t2) {
+            jtpA.cut();
+        }
+        if (t3) {
+            jtpB.cut();
+        }
+        if (t4) {
+            jtpC.cut();
+        }
+        if (t5) {
+            jtpD.cut();
+        }
+        if (t6) {
+            jtpE.cut();
+        }
+        if (t7) {
+            jtpF.cut();
         }
     }//GEN-LAST:event_jbRecortarActionPerformed
 
     private void jbCopiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCopiarActionPerformed
         // TODO add your handling code here:
-        if (tabbed1)
+        if (t1) {
             jtpEnunciado.copy();
-        if (tabbed2) {
-            if (t1) {
-                jtpEnunciado1.copy();
-            }
-            if (t2) {
-                jtpA.copy();
-            }
-            if (t3) {
-                jtpB.copy();
-            }
-            if (t4) {
-                jtpC.copy();
-            }
-            if (t5) {
-                jtpD.copy();
-            }
-            if (t6) {
-                jtpE.copy();
-            }
-            if (t7) {
-                jtpF.copy();
-            }
+        }
+        if (t2) {
+            jtpA.copy();
+        }
+        if (t3) {
+            jtpB.copy();
+        }
+        if (t4) {
+            jtpC.copy();
+        }
+        if (t5) {
+            jtpD.copy();
+        }
+        if (t6) {
+            jtpE.copy();
+        }
+        if (t7) {
+            jtpF.copy();
         }
     }//GEN-LAST:event_jbCopiarActionPerformed
 
     private void jbColarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbColarActionPerformed
         // TODO add your handling code here:
-        if (tabbed1)
+        if (t1) {
             jtpEnunciado.paste();
-        if (tabbed2) {
-            if (t1) {
-                jtpEnunciado1.paste();
-            }
-            if (t2) {
-                jtpA.paste();
-            }
-            if (t3) {
-                jtpB.paste();
-            }
-            if (t4) {
-                jtpC.paste();
-            }
-            if (t5) {
-                jtpD.paste();
-            }
-            if (t6) {
-                jtpE.paste();
-            }
-            if (t7) {
-                jtpF.paste();
-            }
+        }
+        if (t2) {
+            jtpA.paste();
+        }
+        if (t3) {
+            jtpB.paste();
+        }
+        if (t4) {
+            jtpC.paste();
+        }
+        if (t5) {
+            jtpD.paste();
+        }
+        if (t6) {
+            jtpE.paste();
+        }
+        if (t7) {
+            jtpF.paste();
         }
     }//GEN-LAST:event_jbColarActionPerformed
 
     private void jbLocalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbLocalizarActionPerformed
         // TODO add your handling code here:
         try {
-            if (tabbed1) {
+            if (t1) {
                 sbufer = new StringBuffer(jtpEnunciado.getText());
                 findString = JOptionPane.showInputDialog(null, "Localizar");
                 ind = sbufer.indexOf(findString);
@@ -1370,84 +1190,62 @@ public class AdicionarQuestaoGUI extends javax.swing.JFrame {
                 jtpEnunciado.setSelectionStart(ind);
                 jtpEnunciado.setSelectionEnd(ind+findString.length());
             }
-            if (tabbed2) {
-                if (t1) {
-                    sbufer = new StringBuffer(jtpEnunciado1.getText());
-                    findString = JOptionPane.showInputDialog(null, "Localizar");
-                    ind = sbufer.indexOf(findString);
-                    jtpEnunciado1.setCaretPosition(ind);
-                    jtpEnunciado1.setSelectionStart(ind);
-                    jtpEnunciado1.setSelectionEnd(ind+findString.length());
-                }
-                if (t2) {
-                    sbufer = new StringBuffer(jtpA.getText());
-                    findString = JOptionPane.showInputDialog(null, "Localizar");
-                    ind = sbufer.indexOf(findString);
-                    jtpA.setCaretPosition(ind);
-                    jtpA.setSelectionStart(ind);
-                    jtpA.setSelectionEnd(ind+findString.length());
-                }
-                if (t3) {
-                    sbufer = new StringBuffer(jtpB.getText());
-                    findString = JOptionPane.showInputDialog(null, "Localizar");
-                    ind = sbufer.indexOf(findString);
-                    jtpB.setCaretPosition(ind);
-                    jtpB.setSelectionStart(ind);
-                    jtpB.setSelectionEnd(ind+findString.length());
-                }
-                if (t4) {
-                    sbufer = new StringBuffer(jtpC.getText());
-                    findString = JOptionPane.showInputDialog(null, "Localizar");
-                    ind = sbufer.indexOf(findString);
-                    jtpC.setCaretPosition(ind);
-                    jtpC.setSelectionStart(ind);
-                    jtpC.setSelectionEnd(ind+findString.length());
-                }
-                if (t5) {
-                    sbufer = new StringBuffer(jtpD.getText());
-                    findString = JOptionPane.showInputDialog(null, "Localizar");
-                    ind = sbufer.indexOf(findString);
-                    jtpD.setCaretPosition(ind);
-                    jtpD.setSelectionStart(ind);
-                    jtpD.setSelectionEnd(ind+findString.length());
-                }
-                if (t6) {
-                    sbufer = new StringBuffer(jtpE.getText());
-                    findString = JOptionPane.showInputDialog(null, "Localizar");
-                    ind = sbufer.indexOf(findString);
-                    jtpE.setCaretPosition(ind);
-                    jtpE.setSelectionStart(ind);
-                    jtpE.setSelectionEnd(ind+findString.length());
-                }
-                if (t7) {
-                    sbufer = new StringBuffer(jtpF.getText());
-                    findString = JOptionPane.showInputDialog(null, "Localizar");
-                    ind = sbufer.indexOf(findString);
-                    jtpF.setCaretPosition(ind);
-                    jtpF.setSelectionStart(ind);
-                    jtpF.setSelectionEnd(ind+findString.length());
-                }                
+            if (t2) {
+                sbufer = new StringBuffer(jtpA.getText());
+                findString = JOptionPane.showInputDialog(null, "Localizar");
+                ind = sbufer.indexOf(findString);
+                jtpA.setCaretPosition(ind);
+                jtpA.setSelectionStart(ind);
+                jtpA.setSelectionEnd(ind+findString.length());
+            }
+            if (t3) {
+                sbufer = new StringBuffer(jtpB.getText());
+                findString = JOptionPane.showInputDialog(null, "Localizar");
+                ind = sbufer.indexOf(findString);
+                jtpB.setCaretPosition(ind);
+                jtpB.setSelectionStart(ind);
+                jtpB.setSelectionEnd(ind+findString.length());
+            }
+            if (t4) {
+                sbufer = new StringBuffer(jtpC.getText());
+                findString = JOptionPane.showInputDialog(null, "Localizar");
+                ind = sbufer.indexOf(findString);
+                jtpC.setCaretPosition(ind);
+                jtpC.setSelectionStart(ind);
+                jtpC.setSelectionEnd(ind+findString.length());
+            }
+            if (t5) {
+                sbufer = new StringBuffer(jtpD.getText());
+                findString = JOptionPane.showInputDialog(null, "Localizar");
+                ind = sbufer.indexOf(findString);
+                jtpD.setCaretPosition(ind);
+                jtpD.setSelectionStart(ind);
+                jtpD.setSelectionEnd(ind+findString.length());
+            }
+            if (t6) {
+                sbufer = new StringBuffer(jtpE.getText());
+                findString = JOptionPane.showInputDialog(null, "Localizar");
+                ind = sbufer.indexOf(findString);
+                jtpE.setCaretPosition(ind);
+                jtpE.setSelectionStart(ind);
+                jtpE.setSelectionEnd(ind+findString.length());
+            }
+            if (t7) {
+                sbufer = new StringBuffer(jtpF.getText());
+                findString = JOptionPane.showInputDialog(null, "Localizar");
+                ind = sbufer.indexOf(findString);
+                jtpF.setCaretPosition(ind);
+                jtpF.setSelectionStart(ind);
+                jtpF.setSelectionEnd(ind+findString.length());
             }
         } catch (IllegalArgumentException npe) {
             JOptionPane.showMessageDialog(null, "Palavra não encontrada!");
         } catch (NullPointerException nfe) {
-        
+
         }
     }//GEN-LAST:event_jbLocalizarActionPerformed
 
-    private void jbRefazerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbRefazerActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jbRefazerActionPerformed
-
-    private void jbDesfazerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbDesfazerActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jbDesfazerActionPerformed
-
-    private void jbAbrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAbrirActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jbAbrirActionPerformed
-
-    private void jtpEnunciado1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtpEnunciado1FocusGained
+    private void jtpEnunciadoFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtpEnunciadoFocusGained
         // TODO add your handling code here:
         t1 = true;
         t2 = false;
@@ -1456,7 +1254,7 @@ public class AdicionarQuestaoGUI extends javax.swing.JFrame {
         t5 = false;
         t6 = false;
         t7 = false;
-    }//GEN-LAST:event_jtpEnunciado1FocusGained
+    }//GEN-LAST:event_jtpEnunciadoFocusGained
 
     private void jtpAFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtpAFocusGained
         // TODO add your handling code here:
@@ -1524,36 +1322,6 @@ public class AdicionarQuestaoGUI extends javax.swing.JFrame {
         t7 = true;
     }//GEN-LAST:event_jtpFFocusGained
 
-    private void jmiAbrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiAbrirActionPerformed
-        // TODO add your handling code here:
-        jbAbrirActionPerformed(evt);
-    }//GEN-LAST:event_jmiAbrirActionPerformed
-
-    private void jmiSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiSalvarActionPerformed
-        // TODO add your handling code here:
-        jbSalvarActionPerformed(evt);
-    }//GEN-LAST:event_jmiSalvarActionPerformed
-
-    private void jmiEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiEditarActionPerformed
-        // TODO add your handling code here:
-        jbEditarActionPerformed(evt);
-    }//GEN-LAST:event_jmiEditarActionPerformed
-
-    private void jmiCarregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiCarregarActionPerformed
-        // TODO add your handling code here:
-        jbCarregarActionPerformed(evt);
-    }//GEN-LAST:event_jmiCarregarActionPerformed
-
-    private void jmiRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiRemoverActionPerformed
-        // TODO add your handling code here:
-        jbRemoverActionPerformed(evt);
-    }//GEN-LAST:event_jmiRemoverActionPerformed
-
-    private void jmiMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiMenuActionPerformed
-        // TODO add your handling code here:
-        jbMenuActionPerformed(evt);
-    }//GEN-LAST:event_jmiMenuActionPerformed
-
     private void jrbSimEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jrbSimEActionPerformed
         // TODO add your handling code here:
         jtpE.setEnabled(true);
@@ -1603,86 +1371,99 @@ public class AdicionarQuestaoGUI extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AdicionarQuestaoGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EditarQuestaoFechadaGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AdicionarQuestaoGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EditarQuestaoFechadaGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AdicionarQuestaoGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EditarQuestaoFechadaGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AdicionarQuestaoGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EditarQuestaoFechadaGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
-        /* Create and display the form */
+        /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AdicionarQuestaoGUI().setVisible(true);
+                EditarQuestaoFechadaGUI dialog = new EditarQuestaoFechadaGUI(new javax.swing.JFrame(), true);
+                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent e) {
+                        System.exit(0);
+                    }
+                });
+                dialog.setVisible(true);
             }
         });
     }
 
+    //SALVAR QUESTÃO
+    public void SalvarQuestao(String e, int d, String letraA, String letraB, String letraC,
+                              String letraD, String letraE, String letraF, int idConteudo, int idQuestao) {        
+        try {
+            questoesBanco.inserirQuestaoFechadaEditada(
+                    e, d, letraA, letraB, letraC, letraD, letraE, letraF, idConteudo, idQuestao);
+        } catch (SQLException sqlEx) {
+            JOptionPane.showMessageDialog(this, "Error SQL: "+sqlEx);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Error: "+ex);
+        }
+    }
+    
     //SALVAR IMAGEM
     public void AddImagem(int idDestaQuestao) {        
         if (img) {
             try {
-                questoesBanco.inserirImagem(idDestaQuestao, input, posicaoImagem, fileName);              
+                rs = questoesBanco.confereSeTemImagem(idDestaQuestao);
+                if (rs!=null) {
+                    //PASSAR FILENAME
+                    questoesBanco.inserirImagemEditada(input, posicaoImagem, idDestaQuestao, fileName);              
+                } else {
+                    //PASSAR FILENAME
+                    questoesBanco.inserirImagem(idDestaQuestao, input, posicaoImagem, fileName);              
+                }
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(this, "Ocorreu um erro, tente novamente!");
             }
         }
     }
     
-    //SALVAR QUESTÃO ABERTA
-    public void SalvarQuestaoAberta(String e, int d, String m, int idConteudo) {        
-        try {
-            questoesBanco.inserirQuestaoAberta(e, d, m, idConteudo);
-        } catch (SQLException sqlEx) {
-            JOptionPane.showMessageDialog(this, "Error SQL: "+sqlEx);
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Error: "+ex);
+    //REMOVER IMAGEM
+    public void RemoverImagem(int idDestaQuestao) {        
+        if (remover) {            
+            try {
+                questoesBanco.removerImagem(idDestaQuestao);
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(this, "Erro ao remover imagem.\nErro:"+e);
+            }
         }
-    }
-    
-    //SALVAR QUESTÃO FECHADA
-    public void SalvarQuestaoFechada(String e, int d, String m, String letraA, String letraB, String letraC,
-                              String letraD, String letraE, String letraF, int idConteudo) {        
-        try {
-            questoesBanco.inserirQuestaoFechada(e, d, m, letraA, letraB, letraC, letraD, letraE, letraF, idConteudo);
-        } catch (SQLException sqlEx) {
-            JOptionPane.showMessageDialog(this, "Error SQL: "+sqlEx);
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Error: "+ex);
-        }
-    }    
+    } 
     
     //CARREGAR COMBOBOXES
     public void CarregarComboBox() {     
         try {
             //Disciplinas   
             strList.removeAll(strList);
-            resultSet = questoesBanco.pegarDisciplinas();
-            if (resultSet!=null) {
+            rs = questoesBanco.pegarDisciplinas();
+            if (rs!=null) {
                 do {
                     strList.add(
-                            resultSet.getString("NomeDisciplinas"));
-                } while (resultSet.next());
+                            rs.getString("NomeDisciplinas"));
+                } while (rs.next());
             }
             modelComboBox = new DefaultComboBoxModel(strList.toArray());
             jcbDisciplina.setModel(modelComboBox);
-            jcbDisciplina1.setModel(modelComboBox);
             
             //Conteúdos
             strList.removeAll(strList);
-            resultSet = questoesBanco.pegarConteudos(jcbDisciplina.getSelectedItem().toString());
-            if (resultSet!=null) {
+            rs = questoesBanco.pegarConteudos(jcbDisciplina.getSelectedItem().toString());
+            if (rs!=null) {
                 do {
                     strList.add(
-                            resultSet.getString("NomeConteudos"));
-                } while (resultSet.next());                   
+                            rs.getString("NomeConteudos"));
+                } while (rs.next());                   
             }             
             modelComboBox = new DefaultComboBoxModel(strList.toArray());
-            jcbConteudo.setModel(modelComboBox);            
-            jcbConteudo1.setModel(modelComboBox);    
+            jcbConteudo.setModel(modelComboBox);     
         } catch (SQLException sqlEx) {
             JOptionPane.showMessageDialog(this, "Error SQL: "+sqlEx);
         } catch (Exception ex) {
@@ -1890,7 +1671,7 @@ public class AdicionarQuestaoGUI extends javax.swing.JFrame {
 
             formatText = new JDialog(new JFrame(), "Font and Size", true);
             formatText.getContentPane().setLayout(new BorderLayout());
-            formatText.setLocationRelativeTo(frame.getContentPane());
+            formatText.setLocationRelativeTo(dialog.getContentPane());
             //format aq de centralizar a tela
 
             JPanel choosers = new JPanel();
@@ -2024,28 +1805,21 @@ public class AdicionarQuestaoGUI extends javax.swing.JFrame {
             undoAction.update();
             redoAction.update();
         }
-    }        
+    } 
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
@@ -2068,7 +1842,6 @@ public class AdicionarQuestaoGUI extends javax.swing.JFrame {
     private javax.swing.JButton jbCopiar;
     private javax.swing.JButton jbCor;
     private javax.swing.JButton jbDesfazer;
-    private javax.swing.JButton jbEditar;
     private javax.swing.JButton jbFonte;
     private javax.swing.JButton jbItalico;
     private javax.swing.JButton jbLocalizar;
@@ -2080,19 +1853,14 @@ public class AdicionarQuestaoGUI extends javax.swing.JFrame {
     private javax.swing.JButton jbSalvar;
     private javax.swing.JButton jbSublinhado;
     private javax.swing.JComboBox jcbConteudo;
-    private javax.swing.JComboBox jcbConteudo1;
     private javax.swing.JComboBox jcbDificuldade;
-    private javax.swing.JComboBox jcbDificuldade1;
     private javax.swing.JComboBox jcbDisciplina;
-    private javax.swing.JComboBox jcbDisciplina1;
     private javax.swing.JLabel jlE;
     private javax.swing.JLabel jlF;
-    private javax.swing.JLabel jlImagem1;
-    private javax.swing.JLabel jlImagem2;
+    private javax.swing.JLabel jlImagem;
     private javax.swing.JMenu jmArquivo;
     private javax.swing.JMenuItem jmiAbrir;
     private javax.swing.JMenuItem jmiCarregar;
-    private javax.swing.JMenuItem jmiEditar;
     private javax.swing.JMenuItem jmiMenu;
     private javax.swing.JMenuItem jmiRemover;
     private javax.swing.JMenuItem jmiSalvar;
@@ -2106,10 +1874,6 @@ public class AdicionarQuestaoGUI extends javax.swing.JFrame {
     private javax.swing.JTextPane jtpD;
     private javax.swing.JTextPane jtpE;
     private javax.swing.JTextPane jtpEnunciado;
-    private javax.swing.JTextPane jtpEnunciado1;
     private javax.swing.JTextPane jtpF;
-    private javax.swing.ButtonGroup letraE;
-    private javax.swing.ButtonGroup letraF;
-    private javax.swing.JTabbedPane tabbedPane;
     // End of variables declaration//GEN-END:variables
 }
