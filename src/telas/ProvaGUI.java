@@ -261,7 +261,7 @@ public class ProvaGUI extends javax.swing.JFrame {
                 } while (rs.next());
             }
             modelComboBox = new DefaultComboBoxModel(strList.toArray());
-            cbCabecalho.setModel(modelComboBox);         
+            cbDisciplinas.setModel(modelComboBox);         
         } catch (SQLException sqlEx) {
             JOptionPane.showMessageDialog(this, "Error SQL: "+sqlEx);
         }
@@ -278,7 +278,7 @@ public class ProvaGUI extends javax.swing.JFrame {
                 } while (rs.next());
             }
             modelComboBox = new DefaultComboBoxModel(strList.toArray());
-            cbCabecalho.setModel(modelComboBox);         
+            cbConteudos.setModel(modelComboBox);         
         } catch (SQLException sqlEx) {
             JOptionPane.showMessageDialog(this, "Error SQL: "+sqlEx);
         }

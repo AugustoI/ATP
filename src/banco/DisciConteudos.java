@@ -156,7 +156,7 @@ public class DisciConteudos {
         if (disciplina.equals("")){
             rs = p.executeQuery(pesquisar + ")");
         }else{
-            rs = p.executeQuery(pesquisar + " where NomeDisciplinas = " + disciplina + ")");
+            rs = p.executeQuery(pesquisar + " where NomeDisciplinas = '" + disciplina + "')");
         }        
         if (rs.next()) {
             return rs;
