@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 /**
  *
@@ -148,11 +149,15 @@ public class DisciConteudos {
     
     public ResultSet pegarConteudos(String disciplina) throws SQLException { 
         String pesquisar = "select * from conteudos where ID_Disciplinas = "
-                + "(select Disciplinas_ID from disciplinas where NomeDisciplinas=?)";
+                + " (select Disciplinas_ID from disciplinas ";
         Connection con = new ConexaoDAO().conectar();        
-        PreparedStatement p = con.prepareStatement(pesquisar);
-        p.setString(1, disciplina);
-        ResultSet rs = p.executeQuery();        
+        Statement p = con.createStatement(); 
+        ResultSet rs;
+        if (disciplina.equals("")){
+            rs = p.executeQuery(pesquisar + ")");
+        }else{
+            rs = p.executeQuery(pesquisar + " where NomeDisciplinas = '" + disciplina + "')");
+        }        
         if (rs.next()) {
             return rs;
         } else {

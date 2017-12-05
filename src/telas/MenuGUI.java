@@ -52,6 +52,8 @@ public class MenuGUI extends javax.swing.JFrame {
         jButton7 = new javax.swing.JButton();
         jButton9 = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
+        btProva = new javax.swing.JButton();
+        jLabel10 = new javax.swing.JLabel();
         mnMenu = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -218,6 +220,15 @@ public class MenuGUI extends javax.swing.JFrame {
 
         jLabel9.setText("Adicionar");
 
+        btProva.setText("ICON");
+        btProva.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btProvaActionPerformed(evt);
+            }
+        });
+
+        jLabel10.setText("Prova");
+
         jMenu1.setText("Arquivo");
 
         jMenuItem1.setText("Cadastro de Usuários");
@@ -317,7 +328,13 @@ public class MenuGUI extends javax.swing.JFrame {
                                 .addComponent(jButton2))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(18, 18, 18)
-                                .addComponent(jLabel4))))
+                                .addComponent(jLabel4)))
+                        .addGap(35, 35, 35)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btProva)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(10, 10, 10)
+                                .addComponent(jLabel10))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(10, 10, 10)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -346,7 +363,6 @@ public class MenuGUI extends javax.swing.JFrame {
                 .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(6, 6, 6)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -358,8 +374,12 @@ public class MenuGUI extends javax.swing.JFrame {
                                     .addComponent(jLabel4)))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(20, 20, 20)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGap(20, 20, 20))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addComponent(btProva, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel10)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel8)
@@ -373,7 +393,6 @@ public class MenuGUI extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(20, 20, 20)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0))
         );
@@ -391,7 +410,7 @@ public class MenuGUI extends javax.swing.JFrame {
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
         // TODO add your handling code here:
-        EditorDeQuestoes escolha = new EditorDeQuestoes();
+        AdicionarQuestaoGUI escolha = new AdicionarQuestaoGUI();
         escolha.setVisible(true);
         dispose();
     }//GEN-LAST:event_jMenuItem6ActionPerformed
@@ -429,6 +448,12 @@ public class MenuGUI extends javax.swing.JFrame {
         p.setVisible(true);
     }//GEN-LAST:event_jToggleButton1ActionPerformed
 
+    private void btProvaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btProvaActionPerformed
+        ProvaGUI pv = new ProvaGUI();
+        pv.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btProvaActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -465,6 +490,7 @@ public class MenuGUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btProva;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
@@ -474,6 +500,7 @@ public class MenuGUI extends javax.swing.JFrame {
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel15;

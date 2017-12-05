@@ -430,6 +430,21 @@ public class EditorQuestaoAberta extends javax.swing.JDialog {
 
     private void jcbDisciplinaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbDisciplinaActionPerformed
         // TODO add your handling code here:
+        try {
+            jcbConteudo.removeAllItems();
+            strList.removeAll(strList);
+            rs = questoesBanco.pegarConteudos(jcbDisciplina.getSelectedItem().toString());
+            if (rs!=null) {
+                do {
+                    strList.add(
+                            rs.getString("NomeConteudos"));
+                } while (rs.next());                   
+            }             
+            modelComboBox = new DefaultComboBoxModel(strList.toArray());
+            jcbConteudo.setModel(modelComboBox);
+        } catch (SQLException e) {
+
+        }
     }//GEN-LAST:event_jcbDisciplinaActionPerformed
 
     private void jbSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSalvarActionPerformed
