@@ -7,10 +7,17 @@
 package telas;
 
 import banco.Banco;
+import banco.Cabecalho;
+import banco.DisciConteudos;
+import banco.DisciplinasDAO;
+import banco.Questoes;
+import java.awt.Component;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import net.sf.jasperreports.engine.JRException;
@@ -21,6 +28,12 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.view.JasperViewer;
 import java.util.Map;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumn;
+import nickyb.sqleonardo.common.gui.CheckBoxCellRenderer;
 import org.hsqldb.lib.HashMap;
 
 
@@ -34,10 +47,13 @@ public class ProvaGUI extends javax.swing.JFrame {
 
     /**
      * Creates new form ProvaGUI
-     */
+     */   
+    Questoes questoes = new Questoes();
     public ProvaGUI() {
         initComponents();
         setLocationRelativeTo(this);
+        PreencheCabecalho();
+        
     }
 
     /**
@@ -49,11 +65,21 @@ public class ProvaGUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        query1 = java.beans.Beans.isDesignTime() ? null : ((javax.persistence.EntityManager)null).createQuery("SELECT * FROM QUESTOES");
+        list1 = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : new java.util.LinkedList(query1.getResultList());
         jButton1 = new javax.swing.JButton();
-        txtCodCabecalho = new javax.swing.JTextField();
         jButton2 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        cbCabecalho = new javax.swing.JComboBox();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tabelaQuestoes = new javax.swing.JTable();
+        jLabel2 = new javax.swing.JLabel();
+        cbDisciplinas = new javax.swing.JComboBox();
+        cbConteudos = new javax.swing.JComboBox();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Emitir Provas");
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/printer.png"))); // NOI18N
         jButton1.setText("Emitir");
@@ -70,6 +96,25 @@ public class ProvaGUI extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setText("Cabecalho:");
+
+        tabelaQuestoes.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
+
+            }
+        ));
+        jScrollPane1.setViewportView(tabelaQuestoes);
+
+        jLabel2.setText("Disciplinas:");
+
+        jLabel3.setText("Conteudos:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -78,25 +123,48 @@ public class ProvaGUI extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(txtCodCabecalho, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 139, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
                         .addComponent(jButton1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton2)))
+                        .addComponent(jButton2))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 500, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel1))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(cbCabecalho, 0, 175, Short.MAX_VALUE)
+                            .addComponent(cbConteudos, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(cbDisciplinas, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(txtCodCabecalho, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 225, Short.MAX_VALUE)
+                .addGap(10, 10, 10)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(cbCabecalho, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(10, 10, 10)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(cbDisciplinas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(10, 10, 10)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(cbConteudos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(54, 54, 54)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(23, 23, 23)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE)
                 .addContainerGap())
         );
+
+        cbCabecalho.getAccessibleContext().setAccessibleDescription("teste");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -135,7 +203,7 @@ public class ProvaGUI extends javax.swing.JFrame {
         Map<String, Object> parametros;
         parametros = new java.util.HashMap<>();
         parametros.clear();
-        parametros.put("NomeCabecalho", txtCodCabecalho.getText().toString());
+        //parametros.put("NomeCabecalho", txtCodCabecalho.getText().toString());
         try {//Teste //Nova Versão
             jpPrint = JasperFillManager.fillReport("C:\\Users\\GUSTAVO\\Documents\\GitHub\\ATP\\src\\Provas.jasper", parametros, relatResult);
         } catch (JRException ex) {
@@ -152,6 +220,64 @@ public class ProvaGUI extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    List<String> strList = new ArrayList<String>(); 
+    ResultSet rs;    
+    DefaultComboBoxModel modelComboBox;
+    private void PreencheCabecalho(){
+        try {
+            //Cabecalhos
+            Cabecalho a = new Cabecalho();
+            strList.removeAll(strList);
+            rs = a.pegarCabecalho();
+            if (rs!=null) {
+                do {
+                    strList.add(
+                            rs.getString("Titulo"));
+                } while (rs.next());
+            }
+            modelComboBox = new DefaultComboBoxModel(strList.toArray());
+            cbCabecalho.setModel(modelComboBox);         
+        } catch (SQLException sqlEx) {
+            JOptionPane.showMessageDialog(this, "Error SQL: "+sqlEx);
+        }
+    }
+    DisciConteudos a = new DisciConteudos();
+    private void PreencheDisciplinas(){
+        try {
+            //Disciplinas              
+            strList.removeAll(strList);
+            rs = a.pegarDisciplinas();
+            if (rs!=null) {
+                do {
+                    strList.add(
+                            rs.getString("NomeDisciplinas"));
+                } while (rs.next());
+            }
+            modelComboBox = new DefaultComboBoxModel(strList.toArray());
+            cbCabecalho.setModel(modelComboBox);         
+        } catch (SQLException sqlEx) {
+            JOptionPane.showMessageDialog(this, "Error SQL: "+sqlEx);
+        }
+    }
+    private void PreencheConteudos(){
+        try {
+            //Conteudos              
+            strList.removeAll(strList);
+            rs = a.pegarConteudos(cbDisciplinas.getSelectedItem().toString());
+            if (rs!=null) {
+                do {
+                    strList.add(
+                            rs.getString("NomeConteudos"));
+                } while (rs.next());
+            }
+            modelComboBox = new DefaultComboBoxModel(strList.toArray());
+            cbCabecalho.setModel(modelComboBox);         
+        } catch (SQLException sqlEx) {
+            JOptionPane.showMessageDialog(this, "Error SQL: "+sqlEx);
+        }
+    }
+        
+    
     /**
      * @param args the command line arguments
      */
@@ -188,8 +314,17 @@ public class ProvaGUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox cbCabecalho;
+    private javax.swing.JComboBox cbConteudos;
+    private javax.swing.JComboBox cbDisciplinas;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JTextField txtCodCabecalho;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JScrollPane jScrollPane1;
+    private java.util.List list1;
+    private javax.persistence.Query query1;
+    private javax.swing.JTable tabelaQuestoes;
     // End of variables declaration//GEN-END:variables
 }
