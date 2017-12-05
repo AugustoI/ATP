@@ -114,6 +114,12 @@ public class ProvaGUI extends javax.swing.JFrame {
 
         jLabel2.setText("Disciplinas:");
 
+        cbDisciplinas.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbDisciplinasItemStateChanged(evt);
+            }
+        });
+
         jLabel3.setText("Conteudos:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -226,6 +232,10 @@ public class ProvaGUI extends javax.swing.JFrame {
         PreencheDisciplinas();
         PreencheConteudos();
     }//GEN-LAST:event_formComponentShown
+
+    private void cbDisciplinasItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbDisciplinasItemStateChanged
+        PreencheConteudos();
+    }//GEN-LAST:event_cbDisciplinasItemStateChanged
 
     List<String> strList = new ArrayList<String>(); 
     ResultSet rs;    
