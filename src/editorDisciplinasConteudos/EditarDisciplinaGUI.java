@@ -4,43 +4,43 @@
  * and open the template in the editor.
  */
 
-package editorQuestoes;
+package editorDisciplinasConteudos;
 
-import banco.Questoes;
-import java.awt.Image;
-import java.io.File;
-import java.io.FileInputStream;
-import java.sql.ResultSet;
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.JFileChooser;
+import banco.DisciConteudos;
+import java.awt.Dimension;
+import java.sql.SQLException;
 import javax.swing.JOptionPane;
-import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
  * @author Couth
  */
-public class AdicionarImagemGUI extends javax.swing.JDialog {
+public class EditarDisciplinaGUI extends javax.swing.JDialog {
 
     /**
-     * Creates new form AdicionarImagemGUI
+     * Creates new form EditarDisciplinaGUI
      */
-    boolean adicionou = false;
-    Questoes questoesBanco = new Questoes();
-    ResultSet rs;
-    int posicao;
-    public FileInputStream input;
-    public boolean certo = false;
-    public String fileName;
-    public AdicionarImagemGUI(java.awt.Frame parent, boolean modal) {
+    String disc;
+    int idDisc;
+    DisciConteudos disciConteudos = new DisciConteudos();
+    public EditarDisciplinaGUI(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        certo = false;
-        this.setTitle("Adicionar imagem");
-        this.setLocationRelativeTo(this);
     }
 
+    public EditarDisciplinaGUI(java.awt.Frame parent, boolean modal, int id, String disciplina) {
+        super(parent, modal);
+        initComponents();
+        this.setLocationRelativeTo(null);
+        this.setTitle("Atualizar Disciplina");
+        this.getRootPane().setDefaultButton(jbSalvar);
+        disc = disciplina;
+        idDisc = id;
+        jlDisciplina.setText(disc);
+        jlDisciplina.setMinimumSize(new Dimension(212, 14));
+        jlDisciplina.setMaximumSize(new Dimension(212, 14));
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -53,15 +53,13 @@ public class AdicionarImagemGUI extends javax.swing.JDialog {
         jPanel1 = new javax.swing.JPanel();
         jToolBar1 = new javax.swing.JToolBar();
         jbSalvar = new javax.swing.JButton();
-        jSeparator3 = new javax.swing.JToolBar.Separator();
-        jbCarregar = new javax.swing.JButton();
-        jcbPosicao = new javax.swing.JComboBox();
-        jSeparator1 = new javax.swing.JToolBar.Separator();
+        jSeparator5 = new javax.swing.JToolBar.Separator();
         jbCancelar = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
-        jlImagem = new javax.swing.JLabel();
-        jlImageView = new javax.swing.JLabel();
+        jlDisciplina = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jtDisciplina = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -84,26 +82,7 @@ public class AdicionarImagemGUI extends javax.swing.JDialog {
             }
         });
         jToolBar1.add(jbSalvar);
-        jToolBar1.add(jSeparator3);
-
-        jbCarregar.setBackground(new java.awt.Color(178, 203, 243));
-        jbCarregar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/imageFile.png"))); // NOI18N
-        jbCarregar.setToolTipText("Adicionar Imagem");
-        jbCarregar.setFocusable(false);
-        jbCarregar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jbCarregar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jbCarregar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbCarregarActionPerformed(evt);
-            }
-        });
-        jToolBar1.add(jbCarregar);
-
-        jcbPosicao.setBackground(new java.awt.Color(178, 203, 243));
-        jcbPosicao.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Posição da Imagem:", "Esquerda", "Centralizada", "Direita" }));
-        jcbPosicao.setMaximumSize(new java.awt.Dimension(125, 32767));
-        jToolBar1.add(jcbPosicao);
-        jToolBar1.add(jSeparator1);
+        jToolBar1.add(jSeparator5);
 
         jbCancelar.setBackground(new java.awt.Color(178, 203, 243));
         jbCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/cancel.png"))); // NOI18N
@@ -120,17 +99,9 @@ public class AdicionarImagemGUI extends javax.swing.JDialog {
 
         jPanel2.setBackground(new java.awt.Color(209, 224, 248));
 
-        jLabel5.setText("Imagem:");
+        jLabel5.setText("Nome antigo da Disciplina:");
 
-        jlImagem.setText("Nenhuma imagem selecionada");
-        jlImagem.setMaximumSize(new java.awt.Dimension(202, 14));
-        jlImagem.setMinimumSize(new java.awt.Dimension(202, 14));
-        jlImagem.setPreferredSize(new java.awt.Dimension(202, 14));
-
-        jlImageView.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jlImageView.setMaximumSize(new java.awt.Dimension(250, 189));
-        jlImageView.setMinimumSize(new java.awt.Dimension(250, 189));
-        jlImageView.setPreferredSize(new java.awt.Dimension(250, 189));
+        jLabel2.setText("Novo nome da Disciplina:");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -139,11 +110,15 @@ public class AdicionarImagemGUI extends javax.swing.JDialog {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jlImageView, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jlImagem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(jlDisciplina, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jtDisciplina, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -152,10 +127,12 @@ public class AdicionarImagemGUI extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jlImagem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jlDisciplina))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jlImageView, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(jtDisciplina, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -163,13 +140,12 @@ public class AdicionarImagemGUI extends javax.swing.JDialog {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -179,49 +155,40 @@ public class AdicionarImagemGUI extends javax.swing.JDialog {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jbSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSalvarActionPerformed
-        // TODO add your handling code here:      
-        if (jcbPosicao.getSelectedIndex()!=0) {
-            if (jcbPosicao.getSelectedIndex()==1) {
-                posicao = 1;
-            }
-            if (jcbPosicao.getSelectedIndex()==2) {
-                posicao = 2;
-            }
-            if (jcbPosicao.getSelectedIndex()==3) {
-                posicao = 3;
-            }
-            certo = true;
-            dispose();            
-        } else {
-            JOptionPane.showMessageDialog(this, "Selecione a posição da imagem!");
-        }
-    }//GEN-LAST:event_jbSalvarActionPerformed
-
-    private void jbCarregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCarregarActionPerformed
-        // TODO add your handling code here:
-        buscar();
-        if (adicionou) {
-            jbSalvar.setEnabled(true);
-            this.getRootPane().setDefaultButton(jbSalvar);
-            jbSalvar.requestFocus();
-        }
-    }//GEN-LAST:event_jbCarregarActionPerformed
-
     private void jbCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCancelarActionPerformed
-        // TODO add your handling code here:  
+        // TODO add your handling code here:
         dispose();
     }//GEN-LAST:event_jbCancelarActionPerformed
+
+    private void jbSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSalvarActionPerformed
+        // TODO add your handling code here:
+        if (!jtDisciplina.getText().isEmpty()) {
+            int x = JOptionPane.showConfirmDialog(this.getContentPane(), "Tem certeza que deseja alterar o nome desta disciplina?", "Alterar disciplina",
+                JOptionPane.YES_NO_CANCEL_OPTION);
+            if (x==0) {
+                try {
+                    String novaDisc = jtDisciplina.getText();
+                    disciConteudos.alterarDisciplina(novaDisc, idDisc);
+                    JOptionPane.showMessageDialog(this, "Disciplina atualizada com sucesso!");
+                    dispose();
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(this, "Erro ao atualizar disciplina.\nErro:"+ex);
+                }
+            } else if (x==1) {
+                dispose();
+            }
+        }
+    }//GEN-LAST:event_jbSalvarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -240,20 +207,20 @@ public class AdicionarImagemGUI extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AdicionarImagemGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EditarDisciplinaGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AdicionarImagemGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EditarDisciplinaGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AdicionarImagemGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EditarDisciplinaGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AdicionarImagemGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EditarDisciplinaGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                AdicionarImagemGUI dialog = new AdicionarImagemGUI(new javax.swing.JFrame(), true);
+                EditarDisciplinaGUI dialog = new EditarDisciplinaGUI(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -265,45 +232,16 @@ public class AdicionarImagemGUI extends javax.swing.JDialog {
         });
     }
 
-    public void buscar() {
-        FileNameExtensionFilter fileNameExtensionFilter = new FileNameExtensionFilter(
-                "Imagens", "png", "jpg");
-        JFileChooser chooser = new JFileChooser();
-        chooser.setFileFilter(fileNameExtensionFilter);
-        chooser.setDialogTitle("Selecione a imagem");
-        int resposta = chooser.showOpenDialog(null);
-        if (resposta == JFileChooser.APPROVE_OPTION) {
-            try {
-                File file = new File(chooser.getSelectedFile().getAbsolutePath());      
-                fileName = file.getName();
-                input = new FileInputStream(file);  
-                adicionou = true;
-                
-                Image img = ImageIO.read(file);
-                ImageIcon icon = new ImageIcon(img);
-                icon.setImage(icon.getImage().getScaledInstance(250, 189, 100));
-                
-                jlImagem.setText(fileName);
-                jlImageView.setIcon(icon);
-                jlImageView.setBorder(null);
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "Error: "+e);
-            }
-        }
-    }
-    
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JToolBar.Separator jSeparator1;
-    private javax.swing.JToolBar.Separator jSeparator3;
+    private javax.swing.JToolBar.Separator jSeparator5;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JButton jbCancelar;
-    private javax.swing.JButton jbCarregar;
     private javax.swing.JButton jbSalvar;
-    private javax.swing.JComboBox jcbPosicao;
-    private javax.swing.JLabel jlImageView;
-    private javax.swing.JLabel jlImagem;
+    private javax.swing.JLabel jlDisciplina;
+    private javax.swing.JTextField jtDisciplina;
     // End of variables declaration//GEN-END:variables
 }
