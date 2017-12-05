@@ -51,9 +51,7 @@ public class ProvaGUI extends javax.swing.JFrame {
     Questoes questoes = new Questoes();
     public ProvaGUI() {
         initComponents();
-        setLocationRelativeTo(this);
-        PreencheCabecalho();
-        
+        setLocationRelativeTo(this);        
     }
 
     /**
@@ -80,6 +78,11 @@ public class ProvaGUI extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Emitir Provas");
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                formComponentShown(evt);
+            }
+        });
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/printer.png"))); // NOI18N
         jButton1.setText("Emitir");
@@ -219,6 +222,12 @@ public class ProvaGUI extends javax.swing.JFrame {
         mn.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
+        PreencheCabecalho();
+        PreencheDisciplinas();
+        PreencheConteudos();
+    }//GEN-LAST:event_formComponentShown
 
     List<String> strList = new ArrayList<String>(); 
     ResultSet rs;    
