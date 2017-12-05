@@ -63,8 +63,6 @@ public class ProvaGUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        query1 = java.beans.Beans.isDesignTime() ? null : ((javax.persistence.EntityManager)null).createQuery("SELECT * FROM QUESTOES");
-        list1 = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : new java.util.LinkedList(query1.getResultList());
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
@@ -332,8 +330,6 @@ public class ProvaGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private java.util.List list1;
-    private javax.persistence.Query query1;
     private javax.swing.JTable tabelaQuestoes;
     // End of variables declaration//GEN-END:variables
 }
