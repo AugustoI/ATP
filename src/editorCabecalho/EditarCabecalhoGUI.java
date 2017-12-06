@@ -51,8 +51,9 @@ public class EditarCabecalhoGUI extends javax.swing.JDialog {
     
     ResultSet rs;
     FileInputStream input;
-    String fileName, nome, instrucoes, titulo, subtitulo, serie, valor;
-    int idCabecalho;
+    String fileName, nome, instrucoes, titulo, subtitulo, serie, valor, findString;
+    StringBuffer sbufer;
+    int idCabecalho, ind = 0;
     boolean t1, t2, t3, t4, t5, t6, img;
     
     public EditarCabecalhoGUI(java.awt.Frame parent, boolean modal) {
@@ -682,26 +683,44 @@ public class EditarCabecalhoGUI extends javax.swing.JDialog {
 
     private void jbMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbMenuActionPerformed
         // TODO add your handling code here:
+        int x = JOptionPane.showConfirmDialog(this.getContentPane(), "Deseja salvar antes de sair?", "Encerrar",
+            JOptionPane.YES_NO_CANCEL_OPTION);
+        if (x==0) {
+            jbSalvarActionPerformed(evt);
+            if (!jtNome.getText().isEmpty()) {
+                if (!jtpInstrucoes.getText().isEmpty()) {
+                    dispose();
+                }
+            }
+        }
+        if (x==1) {
+            dispose();
+        }
     }//GEN-LAST:event_jbMenuActionPerformed
 
     private void jbNegritoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbNegritoActionPerformed
         // TODO add your handling code here:
+        jtpInstrucoes.requestFocus();
     }//GEN-LAST:event_jbNegritoActionPerformed
 
     private void jbItalicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbItalicoActionPerformed
         // TODO add your handling code here:
+        jtpInstrucoes.requestFocus();
     }//GEN-LAST:event_jbItalicoActionPerformed
 
     private void jbSublinhadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSublinhadoActionPerformed
         // TODO add your handling code here:
+        jtpInstrucoes.requestFocus();
     }//GEN-LAST:event_jbSublinhadoActionPerformed
 
     private void jbFonteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbFonteActionPerformed
         // TODO add your handling code here:
+        jtpInstrucoes.requestFocus();
     }//GEN-LAST:event_jbFonteActionPerformed
 
     private void jbCorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCorActionPerformed
         // TODO add your handling code here:
+        jtpInstrucoes.requestFocus();
     }//GEN-LAST:event_jbCorActionPerformed
 
     private void jbDesfazerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbDesfazerActionPerformed
@@ -714,18 +733,126 @@ public class EditarCabecalhoGUI extends javax.swing.JDialog {
 
     private void jbRecortarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbRecortarActionPerformed
         // TODO add your handling code here:
+        if (t1) {
+            jtNome.cut();
+        }
+        if (t2) {
+            jtSerie.cut();
+        }
+        if (t3) {
+            jtTitulo.cut();
+        }
+        if (t4) {
+            jtSubtitulo.cut();
+        }
+        if (t5) {
+            jtValor.cut();
+        }
+        if (t6) {
+            jtpInstrucoes.cut();
+        }
     }//GEN-LAST:event_jbRecortarActionPerformed
 
     private void jbCopiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCopiarActionPerformed
         // TODO add your handling code here:
+        if (t1) {
+            jtNome.cut();
+        }
+        if (t2) {
+            jtSerie.cut();
+        }
+        if (t3) {
+            jtTitulo.cut();
+        }
+        if (t4) {
+            jtSubtitulo.cut();
+        }
+        if (t5) {
+            jtValor.cut();
+        }
+        if (t6) {
+            jtpInstrucoes.cut();
+        }
     }//GEN-LAST:event_jbCopiarActionPerformed
 
     private void jbColarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbColarActionPerformed
         // TODO add your handling code here:
+        if (t1) {
+            jtNome.cut();
+        }
+        if (t2) {
+            jtSerie.cut();
+        }
+        if (t3) {
+            jtTitulo.cut();
+        }
+        if (t4) {
+            jtSubtitulo.cut();
+        }
+        if (t5) {
+            jtValor.cut();
+        }
+        if (t6) {
+            jtpInstrucoes.cut();
+        }
     }//GEN-LAST:event_jbColarActionPerformed
 
     private void jbLocalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbLocalizarActionPerformed
         // TODO add your handling code here:
+        try {
+            if (t1) {
+                sbufer = new StringBuffer(jtNome.getText());
+                findString = JOptionPane.showInputDialog(null, "Localizar");
+                ind = sbufer.indexOf(findString);
+                jtNome.setCaretPosition(ind);
+                jtNome.setSelectionStart(ind);
+                jtNome.setSelectionEnd(ind+findString.length());
+            }
+            if (t2) {
+                sbufer = new StringBuffer(jtSerie.getText());
+                findString = JOptionPane.showInputDialog(null, "Localizar");
+                ind = sbufer.indexOf(findString);
+                jtSerie.setCaretPosition(ind);
+                jtSerie.setSelectionStart(ind);
+                jtSerie.setSelectionEnd(ind+findString.length());
+            }
+            if (t3) {
+                sbufer = new StringBuffer(jtTitulo.getText());
+                findString = JOptionPane.showInputDialog(null, "Localizar");
+                ind = sbufer.indexOf(findString);
+                jtTitulo.setCaretPosition(ind);
+                jtTitulo.setSelectionStart(ind);
+                jtTitulo.setSelectionEnd(ind+findString.length());
+            }
+            if (t4) {
+                sbufer = new StringBuffer(jtSubtitulo.getText());
+                findString = JOptionPane.showInputDialog(null, "Localizar");
+                ind = sbufer.indexOf(findString);
+                jtSubtitulo.setCaretPosition(ind);
+                jtSubtitulo.setSelectionStart(ind);
+                jtSubtitulo.setSelectionEnd(ind+findString.length());
+            }
+            if (t5) {
+                sbufer = new StringBuffer(jtValor.getText());
+                findString = JOptionPane.showInputDialog(null, "Localizar");
+                ind = sbufer.indexOf(findString);
+                jtValor.setCaretPosition(ind);
+                jtValor.setSelectionStart(ind);
+                jtValor.setSelectionEnd(ind+findString.length());
+            }
+            if (t6) {
+                sbufer = new StringBuffer(jtpInstrucoes.getText());
+                findString = JOptionPane.showInputDialog(null, "Localizar");
+                ind = sbufer.indexOf(findString);
+                jtpInstrucoes.setCaretPosition(ind);
+                jtpInstrucoes.setSelectionStart(ind);
+                jtpInstrucoes.setSelectionEnd(ind+findString.length());
+            }
+        } catch (IllegalArgumentException npe) {
+            JOptionPane.showMessageDialog(null, "Palavra não encontrada!");
+        } catch (NullPointerException nfe) {
+
+        }        
     }//GEN-LAST:event_jbLocalizarActionPerformed
 
     private void jmiAbrir4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiAbrir4ActionPerformed
