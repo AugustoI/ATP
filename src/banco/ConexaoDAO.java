@@ -15,6 +15,6 @@ import java.sql.SQLException;
  */
 public class ConexaoDAO {
     public Connection conectar() throws SQLException {
-        return DriverManager.getConnection("jdbc:mysql://localhost/Quest","root","061099");
+        return DriverManager.getConnection("jdbc:mysql://localhost/Quest","root","joaoh123");
     }
 }

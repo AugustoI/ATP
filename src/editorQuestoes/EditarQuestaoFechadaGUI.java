@@ -80,6 +80,7 @@ public class EditarQuestaoFechadaGUI extends javax.swing.JDialog {
         this.setTitle("Editor de Questão FECHADA");
         jlImagem.setMaximumSize(new Dimension(14, 225));
         jbRemover.setEnabled(false);
+        jmiRemover.setEnabled(false);
         
         t1 = false;
         t2 = false;
@@ -173,6 +174,7 @@ public class EditarQuestaoFechadaGUI extends javax.swing.JDialog {
                 fileNameAntigo = fileName = rs.getString("NomeImagem");
                 jlImagem.setText(fileName);
                 jbRemover.setEnabled(true);
+                jmiRemover.setEnabled(true);
                 img2 = true;
             } else {
                 img2 = false;
@@ -934,6 +936,7 @@ public class EditarQuestaoFechadaGUI extends javax.swing.JDialog {
         fileName = a.fileName;
         jlImagem.setText(fileName);
         jbRemover.setEnabled(true);
+        jmiRemover.setEnabled(true);
     }//GEN-LAST:event_jbCarregarActionPerformed
 
     private void jbRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbRemoverActionPerformed
@@ -957,6 +960,7 @@ public class EditarQuestaoFechadaGUI extends javax.swing.JDialog {
             } 
             if ((!img)&&(!img2)) {
                 jbRemover.setEnabled(false);
+                jmiRemover.setEnabled(false);
             }
         }
     }//GEN-LAST:event_jbRemoverActionPerformed
@@ -1396,7 +1400,7 @@ public class EditarQuestaoFechadaGUI extends javax.swing.JDialog {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
