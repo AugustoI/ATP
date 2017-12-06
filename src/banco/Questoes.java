@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 /**
  *
@@ -259,6 +260,18 @@ public class Questoes {
         p = con.prepareStatement(excluir);
         p.setInt(1, id);            
         p.executeUpdate();
+    }
+    
+    public ResultSet pegarQuestaoConteudo(String conteudo) throws SQLException{
+        String SQL = "select * from questoes where ID_Conteudos IN " + conteudo;        
+        Connection con = new ConexaoDAO().conectar();        
+        Statement p = con.createStatement();       
+        ResultSet rs = p.executeQuery(SQL);
+        if (rs.next()) {
+            return rs;
+        } else {
+            return null;
+        }        
     }
     
     public ResultSet pegarNomeImagem(int idQuestao) throws SQLException {

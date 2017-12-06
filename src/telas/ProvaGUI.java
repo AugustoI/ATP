@@ -68,7 +68,7 @@ public class ProvaGUI extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         cbCabecalho = new javax.swing.JComboBox();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tabelaQuestoes = new javax.swing.JTable();
+        tbQuestoes = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
         cbDisciplinas = new javax.swing.JComboBox();
         jLabel3 = new javax.swing.JLabel();
@@ -77,6 +77,7 @@ public class ProvaGUI extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         tbConteudos = new javax.swing.JTable();
         jButton3 = new javax.swing.JButton();
+        btBuscar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Emitir Provas");
@@ -103,7 +104,7 @@ public class ProvaGUI extends javax.swing.JFrame {
 
         jLabel1.setText("Cabecalho:");
 
-        tabelaQuestoes.setModel(new javax.swing.table.DefaultTableModel(
+        tbQuestoes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
                 {},
@@ -114,7 +115,7 @@ public class ProvaGUI extends javax.swing.JFrame {
 
             }
         ));
-        jScrollPane1.setViewportView(tabelaQuestoes);
+        jScrollPane1.setViewportView(tbQuestoes);
 
         jLabel2.setText("Disciplinas:");
 
@@ -171,6 +172,13 @@ public class ProvaGUI extends javax.swing.JFrame {
             }
         });
 
+        btBuscar.setText("Buscar");
+        btBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btBuscarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -181,11 +189,14 @@ public class ProvaGUI extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 355, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton1))
+                            .addComponent(btBuscar))
                         .addGap(39, 39, 39)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 355, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton2))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jButton1)
+                                .addGap(47, 47, 47)
+                                .addComponent(jButton2)))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -222,7 +233,8 @@ public class ProvaGUI extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btBuscar))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 303, Short.MAX_VALUE)
@@ -299,6 +311,10 @@ public class ProvaGUI extends javax.swing.JFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         JOptionPane.showMessageDialog(this, IdConteudosSelecionados());
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void btBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btBuscarActionPerformed
+        PreencherQuestoes();
+    }//GEN-LAST:event_btBuscarActionPerformed
 
     List<String> strList = new ArrayList<String>(); 
     ResultSet rs;    
@@ -384,6 +400,29 @@ public class ProvaGUI extends javax.swing.JFrame {
     private DefaultTableModel modelQuestoes;
     private DefaultTableModel modelSelecionadas;
     
+    private void PreencherQuestoes(){
+        Questoes q = new Questoes();
+        try {
+            //Questoes    
+            modelQuestoes = new DefaultTableModel();
+            tbQuestoes.setModel(modelQuestoes);
+            modelQuestoes.setNumRows(0);
+            rs = q.pegarQuestaoConteudo(IdConteudosSelecionados());
+            if (rs!=null) {
+                do {
+                    modelQuestoes.addRow(new Object[]{
+                        rs.getString("Questoes_ID"),
+                        rs.getString("Enunciado"),
+                        rs.getString("Dificuldade"),
+                        rs.getString("MultiplaEscolha"),
+                    });
+                } while (rs.next());
+            }            
+        } catch (SQLException sqlEx) {
+            JOptionPane.showMessageDialog(this, "Error SQL: "+sqlEx);
+        }        
+    }
+    
         
     
     /**
@@ -422,6 +461,7 @@ public class ProvaGUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btBuscar;
     private javax.swing.JComboBox cbCabecalho;
     private javax.swing.JComboBox cbDisciplinas;
     private javax.swing.JButton jButton1;
@@ -433,8 +473,8 @@ public class ProvaGUI extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTable tabelaQuestoes;
     private javax.swing.JTable tabelaQuestoes1;
     private javax.swing.JTable tbConteudos;
+    private javax.swing.JTable tbQuestoes;
     // End of variables declaration//GEN-END:variables
 }
