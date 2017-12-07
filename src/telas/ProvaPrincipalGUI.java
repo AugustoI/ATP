@@ -14,9 +14,17 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRResultSetDataSource;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -326,7 +334,7 @@ public class ProvaPrincipalGUI extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-        Banco n = new Banco();/*
+        Banco n = new Banco();
         JRResultSetDataSource relatResult = null;
         try {
             relatResult = new JRResultSetDataSource(n.executaSQL("SELECT\n" +
@@ -365,7 +373,7 @@ public class ProvaPrincipalGUI extends javax.swing.JFrame {
         }
         JasperViewer jv = new JasperViewer(jpPrint,false);
         jv.setVisible(true);     
-        jv.toFront();       */
+        jv.toFront();       
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
