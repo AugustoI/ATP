@@ -147,14 +147,7 @@ FROM
 		</band>
 	</title>
 	<pageHeader>
-		<band height="10" splitType="Stretch">
-			<line>
-				<reportElement x="468" y="26" width="100" height="1" uuid="4dfdf4a7-b9ce-4508-a46f-ae7a6df9671c"/>
-			</line>
-			<line>
-				<reportElement x="508" y="29" width="100" height="1" uuid="928fdb17-1289-4417-805d-1dacfe7d90bd"/>
-			</line>
-		</band>
+		<band height="10" splitType="Stretch"/>
 	</pageHeader>
 	<columnHeader>
 		<band splitType="Stretch"/>
@@ -186,28 +179,28 @@ FROM
 				</reportElement>
 				<imageExpression><![CDATA[$F{Imagem}]]></imageExpression>
 			</image>
-			<textField>
-				<reportElement positionType="FixRelativeToBottom" x="0" y="83" width="555" height="20" uuid="08679776-4fcd-4c23-a8e6-39bfee52f074"/>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="FixRelativeToBottom" x="0" y="83" width="555" height="20" isRemoveLineWhenBlank="true" uuid="08679776-4fcd-4c23-a8e6-39bfee52f074"/>
 				<textFieldExpression><![CDATA[$F{AlternativaA}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement positionType="FixRelativeToBottom" x="0" y="103" width="555" height="20" uuid="2d542e0d-efc9-4d65-a77b-95db4cc2a0dc"/>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="FixRelativeToBottom" x="0" y="103" width="555" height="20" isRemoveLineWhenBlank="true" uuid="2d542e0d-efc9-4d65-a77b-95db4cc2a0dc"/>
 				<textFieldExpression><![CDATA[$F{AlternativaB}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement positionType="FixRelativeToBottom" x="0" y="123" width="555" height="20" uuid="5997de39-680c-4e58-be9a-a3bdd13324d3"/>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="FixRelativeToBottom" x="0" y="123" width="555" height="20" isRemoveLineWhenBlank="true" uuid="5997de39-680c-4e58-be9a-a3bdd13324d3"/>
 				<textFieldExpression><![CDATA[$F{AlternativaC}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement positionType="FixRelativeToBottom" x="0" y="143" width="555" height="20" uuid="d443ce31-6ad1-49f8-900e-d4127885917e"/>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="FixRelativeToBottom" x="0" y="143" width="555" height="20" isRemoveLineWhenBlank="true" uuid="d443ce31-6ad1-49f8-900e-d4127885917e"/>
 				<textFieldExpression><![CDATA[$F{AlternativaD}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement positionType="FixRelativeToBottom" x="0" y="163" width="555" height="20" uuid="2bfcd7e0-76c2-40d1-91b8-11056abb2e62"/>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="FixRelativeToBottom" x="0" y="163" width="555" height="20" isRemoveLineWhenBlank="true" uuid="2bfcd7e0-76c2-40d1-91b8-11056abb2e62"/>
 				<textFieldExpression><![CDATA[$F{AlternativaE}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement positionType="FixRelativeToBottom" x="0" y="183" width="555" height="20" uuid="9cbe6eee-f082-43b8-af93-1db61c73a640"/>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="FixRelativeToBottom" x="0" y="183" width="555" height="20" isRemoveLineWhenBlank="true" uuid="9cbe6eee-f082-43b8-af93-1db61c73a640"/>
 				<textFieldExpression><![CDATA[$F{AlternativaF}]]></textFieldExpression>
 			</textField>
 		</band>
