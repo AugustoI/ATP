@@ -51,7 +51,7 @@ public class ProvaGUI extends javax.swing.JFrame {
     Questoes questoes = new Questoes();
     public ProvaGUI() {
         initComponents();
-        setLocationRelativeTo(this);        
+        setLocationRelativeTo(this);                
     }
 
     /**
@@ -68,11 +68,22 @@ public class ProvaGUI extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         cbCabecalho = new javax.swing.JComboBox();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tabelaQuestoes = new javax.swing.JTable();
+        tbQuestoes = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
         cbDisciplinas = new javax.swing.JComboBox();
-        cbConteudos = new javax.swing.JComboBox();
         jLabel3 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tbSelecionadas = new javax.swing.JTable();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tbConteudos = new javax.swing.JTable();
+        btBuscar = new javax.swing.JButton();
+        btSelectUm = new javax.swing.JButton();
+        btSelecionarTudo = new javax.swing.JButton();
+        btDescartUm = new javax.swing.JButton();
+        btDescartarTudo = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jButton3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Emitir Provas");
@@ -99,7 +110,7 @@ public class ProvaGUI extends javax.swing.JFrame {
 
         jLabel1.setText("Cabecalho:");
 
-        tabelaQuestoes.setModel(new javax.swing.table.DefaultTableModel(
+        tbQuestoes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
                 {},
@@ -110,7 +121,7 @@ public class ProvaGUI extends javax.swing.JFrame {
 
             }
         ));
-        jScrollPane1.setViewportView(tabelaQuestoes);
+        jScrollPane1.setViewportView(tbQuestoes);
 
         jLabel2.setText("Disciplinas:");
 
@@ -122,6 +133,90 @@ public class ProvaGUI extends javax.swing.JFrame {
 
         jLabel3.setText("Conteudos:");
 
+        tbSelecionadas.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
+
+            }
+        ));
+        jScrollPane2.setViewportView(tbSelecionadas);
+
+        tbConteudos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Selecionado", "ID", "Nome Conteudo", "Série"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Boolean.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
+            };
+            boolean[] canEdit = new boolean [] {
+                true, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane3.setViewportView(tbConteudos);
+
+        btBuscar.setText("Buscar");
+        btBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btBuscarActionPerformed(evt);
+            }
+        });
+
+        btSelectUm.setText(">");
+        btSelectUm.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btSelectUmActionPerformed(evt);
+            }
+        });
+
+        btSelecionarTudo.setText(">|");
+        btSelecionarTudo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btSelecionarTudoActionPerformed(evt);
+            }
+        });
+
+        btDescartUm.setText("<");
+        btDescartUm.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btDescartUmActionPerformed(evt);
+            }
+        });
+
+        btDescartarTudo.setText("|<");
+        btDescartarTudo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btDescartarTudoActionPerformed(evt);
+            }
+        });
+
+        jLabel4.setText("Selecionadas:");
+
+        jLabel5.setText("Questões:");
+
+        jButton3.setText("jButton3");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -130,45 +225,90 @@ public class ProvaGUI extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton1)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btBuscar)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 355, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(btSelecionarTudo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btDescartarTudo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btSelectUm, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btDescartUm, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(jLabel5))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton2))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 500, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 355, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jButton1)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jButton2)))
+                            .addComponent(jLabel4))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
                             .addComponent(jLabel3)
                             .addComponent(jLabel1))
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(cbCabecalho, 0, 175, Short.MAX_VALUE)
-                            .addComponent(cbConteudos, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(cbDisciplinas, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(cbCabecalho, javax.swing.GroupLayout.Alignment.LEADING, 0, 246, Short.MAX_VALUE)
+                                    .addComponent(cbDisciplinas, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(105, 105, 105)
+                                .addComponent(jButton3)
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(cbCabecalho, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(10, 10, 10)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(cbDisciplinas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(10, 10, 10)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(cbCabecalho, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(10, 10, 10)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(cbDisciplinas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(22, 22, 22)
+                        .addComponent(jButton3)))
+                .addGap(13, 13, 13)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3)
-                    .addComponent(cbConteudos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(54, 54, 54)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton1)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(23, 23, 23)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE)
-                .addContainerGap())
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btBuscar)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel5))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 303, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(54, 54, 54)
+                        .addComponent(btSelecionarTudo)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btSelectUm)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btDescartUm)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btDescartarTudo)))
+                .addGap(18, 18, 18))
         );
 
         cbCabecalho.getAccessibleContext().setAccessibleDescription("teste");
@@ -199,19 +339,17 @@ public class ProvaGUI extends javax.swing.JFrame {
 "	ImagemQuest.NomeImagem\n" +
 "FROM\n" +
 "	Questoes INNER JOIN ImagemQuest ON Questoes.Questoes_ID = ImagemQuest.ID_Questao"+
-                    " WHERE Questoes.Questoes_ID = 1 "));
+                    " WHERE Questoes.Questoes_ID IN " + QuestoesSelecionadas()));
         } catch (SQLException ex) {
             Logger.getLogger(ProvaGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
         JasperPrint jpPrint = null;
                 
-        //private java.util.HashMap<Object, Object> parametros;
-        //Map<String, String> parametros;
         Map<String, Object> parametros;
         parametros = new java.util.HashMap<>();
         parametros.clear();
-        //parametros.put("NomeCabecalho", txtCodCabecalho.getText().toString());
-        try {//Teste //Nova Versão
+        parametros.put("NomeCabecalho", cbCabecalho.getSelectedItem().toString());
+        try {
             jpPrint = JasperFillManager.fillReport("C:\\Users\\GUSTAVO\\Documents\\GitHub\\ATP\\src\\Provas.jasper", parametros, relatResult);
         } catch (JRException ex) {
             Logger.getLogger(ProvaGUI.class.getName()).log(Level.SEVERE, null, ex);
@@ -231,11 +369,63 @@ public class ProvaGUI extends javax.swing.JFrame {
         PreencheCabecalho();
         PreencheDisciplinas();
         PreencheConteudos();
+        ConfiguraSelecionadas();
     }//GEN-LAST:event_formComponentShown
 
     private void cbDisciplinasItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbDisciplinasItemStateChanged
         PreencheConteudos();
     }//GEN-LAST:event_cbDisciplinasItemStateChanged
+
+    private void btBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btBuscarActionPerformed
+        PreencherQuestoes();
+    }//GEN-LAST:event_btBuscarActionPerformed
+
+    private void btSelecionarTudoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSelecionarTudoActionPerformed
+        if (tbQuestoes.getRowCount() == 0){
+            JOptionPane.showMessageDialog(this, "Nenhuma Questão selecionadas!");
+        }else{            
+            for (int i = 0; i < tbQuestoes.getRowCount(); i++) {
+                modelSelecionadas.addRow(new Object[]{
+                        tbQuestoes.getValueAt(i, 0),
+                        tbQuestoes.getValueAt(i, 1),
+                        tbQuestoes.getValueAt(i, 2),
+                        tbQuestoes.getValueAt(i, 3),
+                });
+            }
+            modelQuestoes.setNumRows(0);
+        }
+    }//GEN-LAST:event_btSelecionarTudoActionPerformed
+
+    private void btSelectUmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSelectUmActionPerformed
+        if (tbQuestoes.getRowCount() == 0){
+            JOptionPane.showMessageDialog(this, "Nenhuma Questão selecionadas!");
+        }else{            
+            int i = tbQuestoes.getSelectedRow();
+            modelSelecionadas.addRow(new Object[]{
+                tbQuestoes.getValueAt(i, 0),
+                tbQuestoes.getValueAt(i, 1),
+                tbQuestoes.getValueAt(i, 2),
+                tbQuestoes.getValueAt(i, 3),
+            });
+            
+            modelQuestoes.removeRow(i);
+        }        
+    }//GEN-LAST:event_btSelectUmActionPerformed
+
+    private void btDescartUmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btDescartUmActionPerformed
+        PreencherQuestoes();
+        int i = tbSelecionadas.getSelectedRow();
+        modelSelecionadas.removeRow(i);        
+    }//GEN-LAST:event_btDescartUmActionPerformed
+
+    private void btDescartarTudoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btDescartarTudoActionPerformed
+        PreencherQuestoes();
+        modelSelecionadas.setNumRows(0);
+    }//GEN-LAST:event_btDescartarTudoActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        JOptionPane.showMessageDialog(this, QuestoesSelecionadas());
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     List<String> strList = new ArrayList<String>(); 
     ResultSet rs;    
@@ -276,23 +466,105 @@ public class ProvaGUI extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Error SQL: "+sqlEx);
         }
     }
+    
+    //Funcionalidades relacionadas aos conteudos
     private void PreencheConteudos(){
+        DefaultTableModel modelConteudos = (DefaultTableModel)tbConteudos.getModel();
         try {
             //Conteudos              
-            strList.removeAll(strList);
+            modelConteudos.setNumRows(0);
             rs = a.pegarConteudos(cbDisciplinas.getSelectedItem().toString());
             if (rs!=null) {
                 do {
-                    strList.add(
-                            rs.getString("NomeConteudos"));
+                    modelConteudos.addRow(new Object[]{
+                        false,
+                        rs.getString("Conteudos_ID"),
+                        rs.getString("NomeConteudos"),
+                        rs.getString("CodSerie"),
+                    });
                 } while (rs.next());
             }
-            modelComboBox = new DefaultComboBoxModel(strList.toArray());
-            cbConteudos.setModel(modelComboBox);         
+            tbConteudos.setModel(modelConteudos);
         } catch (SQLException sqlEx) {
             JOptionPane.showMessageDialog(this, "Error SQL: "+sqlEx);
         }
     }
+    
+    private String IdConteudosSelecionados(){
+        int i = tbConteudos.getRowCount();
+        String selecionados = "(0";
+        for (int j = 0; j < i; j++) {
+            if (tbConteudos.getValueAt(j, 0).equals(true)){
+                selecionados =  selecionados + "," + tbConteudos.getValueAt(j, 1);
+            }           
+        }
+        if (selecionados.equals("(0")){
+            selecionados = "";
+        }else{
+            selecionados = selecionados + ")";
+        }
+        
+        return selecionados;
+    }
+    
+    //Funcionalidades relacionadas à selecionar questões
+    private DefaultTableModel modelQuestoes;
+    private DefaultTableModel modelSelecionadas;
+    
+    private void PreencherQuestoes(){
+        Questoes q = new Questoes();
+        try {
+            //Questoes                
+            modelQuestoes = new DefaultTableModel();
+            modelQuestoes.addColumn("ID");
+            modelQuestoes.addColumn("Enunciado");
+            modelQuestoes.addColumn("Dificuldade");
+            modelQuestoes.addColumn("Multipla Escolha");
+            tbQuestoes.setModel(modelQuestoes);
+            modelQuestoes.setNumRows(0);
+            rs = q.pegarQuestaoConteudo(IdConteudosSelecionados());
+            if (rs!=null) {
+                do {
+                    modelQuestoes.addRow(new Object[]{
+                        rs.getString("Questoes_ID"),
+                        rs.getString("Enunciado"),
+                        rs.getString("Dificuldade"),
+                        rs.getString("MultiplaEscolha"),
+                    });
+                } while (rs.next());
+            }            
+        } catch (SQLException sqlEx) {
+            JOptionPane.showMessageDialog(this, "Error SQL: "+sqlEx);
+        }        
+    }
+    
+    private void ConfiguraSelecionadas(){
+        modelSelecionadas = new DefaultTableModel();
+        modelSelecionadas.addColumn("ID");
+        modelSelecionadas.addColumn("Enunciado");
+        modelSelecionadas.addColumn("Dificuldade");
+        modelSelecionadas.addColumn("Multipla Escolha");
+        tbSelecionadas.setModel(modelSelecionadas);              
+    }
+    
+    private String QuestoesSelecionadas(){
+        String selecionadas = "(0";
+        if (tbSelecionadas.getRowCount() == 0){
+            JOptionPane.showMessageDialog(this, "Nenhuma Questão selecionadas!");
+        }else{            
+            for (int i = 0; i < tbSelecionadas.getRowCount(); i++) {
+                selecionadas = selecionadas + "," + tbSelecionadas.getValueAt(i, 0);                            
+            }
+        }
+        if (selecionadas.equals("(0")){
+            selecionadas = "(0)";
+        }else{
+            selecionadas = selecionadas + ")";
+        }
+        return selecionadas;
+    }
+    
+    
         
     
     /**
@@ -331,15 +603,26 @@ public class ProvaGUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btBuscar;
+    private javax.swing.JButton btDescartUm;
+    private javax.swing.JButton btDescartarTudo;
+    private javax.swing.JButton btSelecionarTudo;
+    private javax.swing.JButton btSelectUm;
     private javax.swing.JComboBox cbCabecalho;
-    private javax.swing.JComboBox cbConteudos;
     private javax.swing.JComboBox cbDisciplinas;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable tabelaQuestoes;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JTable tbConteudos;
+    private javax.swing.JTable tbQuestoes;
+    private javax.swing.JTable tbSelecionadas;
     // End of variables declaration//GEN-END:variables
 }
