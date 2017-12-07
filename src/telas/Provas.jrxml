@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Provas" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="a49284dd-9ef5-4465-a63b-fd0e43493d2c">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="3"/>
 	<parameter name="Instituicao" class="java.lang.String"/>
 	<parameter name="Titulo" class="java.lang.String"/>
 	<parameter name="SubTitulo" class="java.lang.String"/>
@@ -95,6 +95,21 @@ FROM
 				<reportElement x="227" y="40" width="100" height="20" uuid="97fee555-9116-4ff4-8f38-b27fbaab256f"/>
 				<textFieldExpression><![CDATA[$P{SubTitulo}]]></textFieldExpression>
 			</textField>
+			<textField>
+				<reportElement x="0" y="92" width="555" height="62" uuid="276d985c-161d-4187-a690-55ae8fe53476"/>
+				<textFieldExpression><![CDATA[$P{Instrucoes}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="0" y="0" width="120" height="60" uuid="27acb110-288b-4510-a73a-de326d2b665f"/>
+			</image>
+			<staticText>
+				<reportElement x="0" y="60" width="33" height="13" uuid="4d54b2e1-a894-44c5-a654-eef350645f05"/>
+				<text><![CDATA[Nome:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="73" width="53" height="13" uuid="997978fd-bee0-4492-938a-0eea0b6e34e8"/>
+				<text><![CDATA[Professor:]]></text>
+			</staticText>
 			<line>
 				<reportElement x="33" y="73" width="336" height="1" uuid="cdba0ff5-1b9e-4970-b1bb-9dd0b9f9df07"/>
 			</line>
@@ -125,36 +140,10 @@ FROM
 				<reportElement x="363" y="73" width="100" height="14" uuid="03f3176c-296f-4006-b5be-fdfc8dad0e8f"/>
 				<textFieldExpression><![CDATA[$P{Valor}]]></textFieldExpression>
 			</textField>
-			<image scaleImage="RetainShape">
-				<reportElement x="0" y="0" width="139" height="60" uuid="92f2cc7f-5a4e-480f-82dd-71539becf45c"/>
-				<imageExpression><![CDATA["C:\\Users\\GUSTAVO\\Documents\\ATP\\src\\Polimig.jpg"]]></imageExpression>
-			</image>
-			<textField>
-				<reportElement x="0" y="92" width="555" height="62" uuid="276d985c-161d-4187-a690-55ae8fe53476"/>
-				<textFieldExpression><![CDATA[$P{Instrucoes}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="0" y="60" width="33" height="13" uuid="4d54b2e1-a894-44c5-a654-eef350645f05"/>
-				<text><![CDATA[Nome:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="0" y="73" width="53" height="13" uuid="997978fd-bee0-4492-938a-0eea0b6e34e8"/>
-				<text><![CDATA[Professor:]]></text>
-			</staticText>
-			<line>
-				<reportElement x="402" y="71" width="69" height="1" uuid="fcb4bb05-4845-453d-8418-89affe840146"/>
-			</line>
 		</band>
 	</title>
 	<pageHeader>
-		<band height="10" splitType="Stretch">
-			<line>
-				<reportElement x="468" y="26" width="100" height="1" uuid="4dfdf4a7-b9ce-4508-a46f-ae7a6df9671c"/>
-			</line>
-			<line>
-				<reportElement x="508" y="29" width="100" height="1" uuid="928fdb17-1289-4417-805d-1dacfe7d90bd"/>
-			</line>
-		</band>
+		<band height="10" splitType="Stretch"/>
 	</pageHeader>
 	<columnHeader>
 		<band splitType="Stretch"/>
