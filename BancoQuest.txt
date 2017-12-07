@@ -54,3 +54,5 @@ ALTER TABLE Cabecalho ADD COLUMN Imagem LONGBLOB;
 ALTER TABLE Cabecalho MODIFY Cabecalho_ID INT AUTO_INCREMENT;
 
 ALTER TABLE Conteudos MODIFY CodSerie VARCHAR(20);
+
+alter table usuarios modify Usuario_ID int auto_increment;

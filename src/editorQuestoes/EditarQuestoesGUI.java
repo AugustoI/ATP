@@ -15,7 +15,7 @@ import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
-import telas.MenuGUI;
+import telas.MenuPrincipalGUI;
 
 /**
  *
@@ -349,7 +349,7 @@ public class EditarQuestoesGUI extends javax.swing.JFrame {
 
     private void jbMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbMenuActionPerformed
         // TODO add your handling code here:
-        MenuGUI menu = new MenuGUI();
+        MenuPrincipalGUI menu = new MenuPrincipalGUI();
         menu.setVisible(true);
         menu.setLocationRelativeTo(null);
         dispose();

@@ -7,8 +7,6 @@
 package telas;
 
 import banco.LoginDAO;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.TimerTask;
 import javax.swing.JOptionPane;
 
@@ -16,15 +14,15 @@ import javax.swing.JOptionPane;
  *
  * @author Couth
  */
-public class LoginPrincipalGUI extends javax.swing.JFrame {
+public class CadastroPrincipalGUI extends javax.swing.JFrame {
 
     /**
-     * Creates new form LoginPrincipalGUI
+     * Creates new form CadastroPrincipalGUI
      */
-    int xy, xx;
-    public LoginPrincipalGUI() {
+    int xx, xy;
+    public CadastroPrincipalGUI() {
         initComponents();
-        this.setLocationRelativeTo(null);        
+        this.setLocationRelativeTo(null);
     }
 
     /**
@@ -36,30 +34,29 @@ public class LoginPrincipalGUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        pnl_bg1 = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
         login1 = new javax.swing.JPanel();
         jtEmail = new javax.swing.JTextField();
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jbLogar = new java.awt.Button();
-        jlEsqueceu = new javax.swing.JLabel();
+        jbCadastro = new java.awt.Button();
         jpSenha = new javax.swing.JPasswordField();
         jLabel6 = new javax.swing.JLabel();
+        jSeparator3 = new javax.swing.JSeparator();
+        jpSenha1 = new javax.swing.JPasswordField();
+        jLabel4 = new javax.swing.JLabel();
+        jbCancelar = new java.awt.Button();
         loader = new javax.swing.JPanel();
         img_loader = new javax.swing.JLabel();
         lbl_loader = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Login - SCQ");
+        setTitle("Cadastro - SCQ");
         setResizable(false);
 
-        pnl_bg1.setBackground(new java.awt.Color(255, 255, 255));
-
-        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel2.setLayout(new java.awt.CardLayout());
+        jPanel1.setLayout(new java.awt.CardLayout());
 
         login1.setBackground(new java.awt.Color(209, 224, 248));
         login1.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
@@ -97,21 +94,13 @@ public class LoginPrincipalGUI extends javax.swing.JFrame {
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/contacts_18px.png"))); // NOI18N
 
-        jbLogar.setBackground(new java.awt.Color(178, 203, 243));
-        jbLogar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jbLogar.setForeground(new java.awt.Color(102, 102, 102));
-        jbLogar.setLabel("Login");
-        jbLogar.addActionListener(new java.awt.event.ActionListener() {
+        jbCadastro.setBackground(new java.awt.Color(178, 203, 243));
+        jbCadastro.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jbCadastro.setForeground(new java.awt.Color(102, 102, 102));
+        jbCadastro.setLabel("Cadastrar");
+        jbCadastro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbLogarActionPerformed(evt);
-            }
-        });
-
-        jlEsqueceu.setForeground(new java.awt.Color(51, 51, 51));
-        jlEsqueceu.setText("Esqueceu sua senha?");
-        jlEsqueceu.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jlEsqueceuMouseClicked(evt);
+                jbCadastroActionPerformed(evt);
             }
         });
 
@@ -130,37 +119,70 @@ public class LoginPrincipalGUI extends javax.swing.JFrame {
 
         jLabel6.setFont(new java.awt.Font("Segoe UI Semilight", 0, 24)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel6.setText("Login");
+        jLabel6.setText("Cadastro Usuário");
+
+        jSeparator3.setBackground(new java.awt.Color(178, 203, 243));
+        jSeparator3.setForeground(new java.awt.Color(178, 203, 243));
+
+        jpSenha1.setBackground(new java.awt.Color(209, 224, 248));
+        jpSenha1.setForeground(new java.awt.Color(102, 102, 102));
+        jpSenha1.setText("Password");
+        jpSenha1.setBorder(null);
+        jpSenha1.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jpSenha1FocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jpSenha1FocusLost(evt);
+            }
+        });
+
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/unlock_18px.png"))); // NOI18N
+        jLabel4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
+        jbCancelar.setBackground(new java.awt.Color(178, 203, 243));
+        jbCancelar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jbCancelar.setForeground(new java.awt.Color(102, 102, 102));
+        jbCancelar.setLabel("Cancelar");
+        jbCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbCancelarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout login1Layout = new javax.swing.GroupLayout(login1);
         login1.setLayout(login1Layout);
         login1Layout.setHorizontalGroup(
             login1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, login1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(login1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(login1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(login1Layout.createSequentialGroup()
+                .addGap(67, 67, 67)
+                .addGroup(login1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(login1Layout.createSequentialGroup()
+                        .addGroup(login1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel4))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(login1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jtEmail, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jSeparator2)
+                            .addComponent(jpSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jSeparator3)
+                            .addComponent(jpSenha1, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jLabel6)
-                    .addGroup(login1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(login1Layout.createSequentialGroup()
-                            .addComponent(jlEsqueceu)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jbLogar, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(jtEmail, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jSeparator2, javax.swing.GroupLayout.DEFAULT_SIZE, 302, Short.MAX_VALUE)
-                        .addComponent(jpSenha)))
-                .addGap(152, 152, 152))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, login1Layout.createSequentialGroup()
+                        .addComponent(jbCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jbCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(69, Short.MAX_VALUE))
         );
         login1Layout.setVerticalGroup(
             login1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(login1Layout.createSequentialGroup()
-                .addGap(69, 69, 69)
+                .addGap(43, 43, 43)
                 .addComponent(jLabel6)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67, Short.MAX_VALUE)
+                .addGap(42, 42, 42)
                 .addGroup(login1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(login1Layout.createSequentialGroup()
                         .addComponent(jtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -174,14 +196,21 @@ public class LoginPrincipalGUI extends javax.swing.JFrame {
                         .addGap(10, 10, 10)
                         .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(50, 50, 50)
+                .addGap(32, 32, 32)
+                .addGroup(login1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(login1Layout.createSequentialGroup()
+                        .addComponent(jpSenha1, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(33, 33, 33)
                 .addGroup(login1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jbLogar, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
-                    .addComponent(jlEsqueceu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(56, 56, 56))
+                    .addComponent(jbCadastro, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
+                    .addComponent(jbCancelar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(63, Short.MAX_VALUE))
         );
 
-        jPanel2.add(login1, "card2");
+        jPanel1.add(login1, "card2");
 
         loader.setBackground(new java.awt.Color(209, 224, 248));
 
@@ -189,53 +218,42 @@ public class LoginPrincipalGUI extends javax.swing.JFrame {
 
         lbl_loader.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         lbl_loader.setForeground(new java.awt.Color(51, 51, 51));
-        lbl_loader.setText("Logando....");
+        lbl_loader.setText("Cadastrando...");
 
         javax.swing.GroupLayout loaderLayout = new javax.swing.GroupLayout(loader);
         loader.setLayout(loaderLayout);
         loaderLayout.setHorizontalGroup(
             loaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, loaderLayout.createSequentialGroup()
-                .addContainerGap(238, Short.MAX_VALUE)
-                .addComponent(img_loader, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(232, 232, 232))
             .addGroup(loaderLayout.createSequentialGroup()
-                .addGap(257, 257, 257)
-                .addComponent(lbl_loader)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(159, 159, 159)
+                .addGroup(loaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(loaderLayout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(lbl_loader))
+                    .addComponent(img_loader, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(168, Short.MAX_VALUE))
         );
         loaderLayout.setVerticalGroup(
             loaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(loaderLayout.createSequentialGroup()
-                .addGap(105, 105, 105)
+                .addGap(107, 107, 107)
                 .addComponent(img_loader, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lbl_loader)
-                .addContainerGap(118, Short.MAX_VALUE))
+                .addContainerGap(145, Short.MAX_VALUE))
         );
 
-        jPanel2.add(loader, "card3");
-
-        javax.swing.GroupLayout pnl_bg1Layout = new javax.swing.GroupLayout(pnl_bg1);
-        pnl_bg1.setLayout(pnl_bg1Layout);
-        pnl_bg1Layout.setHorizontalGroup(
-            pnl_bg1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        pnl_bg1Layout.setVerticalGroup(
-            pnl_bg1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
+        jPanel1.add(loader, "card3");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pnl_bg1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pnl_bg1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -251,7 +269,14 @@ public class LoginPrincipalGUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jtEmailFocusGained
 
-    private void jbLogarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbLogarActionPerformed
+    private void jtEmailFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtEmailFocusLost
+        // TODO add your handling code here:
+        if (jtEmail.getText().isEmpty()) {
+            jtEmail.setText("Usuário");
+        }
+    }//GEN-LAST:event_jtEmailFocusLost
+
+    private void jbCadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCadastroActionPerformed
         // TODO add your handling code here:
         loader.show();
         login1.hide();
@@ -260,57 +285,52 @@ public class LoginPrincipalGUI extends javax.swing.JFrame {
             @Override
             public void run() {
                 /*
-                LoginDAO Logar = new LoginDAO();
-                try{
-                    Logar.setLogin(jtEmail.getText().toString());
-                    Logar.setSenha(new String(jpSenha.getPassword()).trim());
-                } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(null,ex.getMessage(), "Erro", JOptionPane.ERROR);
-                }                
-
+                LoginDAO Trab = new LoginDAO();
                 try {
-                    if (Logar.Logar()){                
-                        //MenuGUI mn = new MenuGUI();
-                        //MenuGUI.Login = Logar;
-                        //mn.setVisible(true);
-                        //dispose();     
-                        
-                        MenuPrincipalGUI menu = new MenuPrincipalGUI();
-                        //menu.Login = Logar;
-                        menu.setVisible(true);
-                        menu.setLocationRelativeTo(null);
-                        dispose();
-                        
-                        //menu.setExtendedState(MAXIMIZED_BOTH); //CONFERIR SE FICA LEGAL
-                    }else{
-                        JOptionPane.showMessageDialog(null,"Usuário não encontrado. ", "Alerta", JOptionPane.INFORMATION_MESSAGE);
-                    }
+                    Trab.setLogin(txtLogin.getText().toString());
+                    Trab.setSenha(new String(txtSenha.getPassword()).trim());
+                } catch (RuntimeException exRun) {
+                    JOptionPane.showMessageDialog(null,exRun.getMessage());
+                }
+                try {
+                    Trab.InserirLogin();       
+                    JOptionPane.showMessageDialog(null,"Salvo com sucesso!");
                 } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(null,"Erro ao tentar logar:  " + ex.getMessage(), "Erro", JOptionPane.ERROR);
-                }*/
+                    JOptionPane.showMessageDialog(null,ex.getMessage());
+                }
+                txtLogin.setText("");
+                txtSenha.setText("");
+                txtLogin.requestFocus();
+                */
                 
                 try {
                     String usuario = jtEmail.getText();
                     String senha = new String(jpSenha.getPassword());
-                    if ((!usuario.isEmpty())&&(!senha.isEmpty())) {
-                        boolean login;
-                        LoginDAO loginDAO = new LoginDAO();
-                        login = loginDAO.login(usuario, senha);
-                        if (login) {
-                            MenuPrincipalGUI menu = new MenuPrincipalGUI();
+                    String senha2 = new String(jpSenha1.getPassword());
+                    if ((!usuario.isEmpty())&&(!senha.isEmpty())&&(!senha2.isEmpty())) {
+                        if (senha.equals(senha2)) {
+                            LoginDAO login = new LoginDAO();
+                            login.inserirUsuario(usuario, senha);
+                            JOptionPane.showMessageDialog(null, "Usuário cadastrado com sucesso!");
+                            
+                            LoginPrincipalGUI menu = new LoginPrincipalGUI();
                             menu.setVisible(true);
                             menu.setLocationRelativeTo(null);
                             dispose();
                         } else {
                             loader.hide();
                             login1.show();
-                            JOptionPane.showMessageDialog(null, "Usuário ou senha incorretos!"); 
+                            JOptionPane.showMessageDialog(null, senha+" "+senha2);
+                            jpSenha.requestFocus();
+                            jpSenha.setText("");
+                            jpSenha1.setText("");
                         }
                     } else {
                         loader.hide();
                         login1.show();
-                        JOptionPane.showMessageDialog(null, "Um ou mais campos estão vazios!");
-                        jpSenha.setText("");                        
+                        JOptionPane.showMessageDialog(null, "Um ou mais campo estão em branco!");
+                        jpSenha.setText("");
+                        jpSenha1.setText("");
                     }
                 } catch (Exception e) {
                     loader.hide();
@@ -318,14 +338,20 @@ public class LoginPrincipalGUI extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, e);
                 }
             }
-        },1000*3);
-
-    }//GEN-LAST:event_jbLogarActionPerformed
+        },1000*5);
+    }//GEN-LAST:event_jbCadastroActionPerformed
 
     private void jpSenhaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jpSenhaFocusGained
         // TODO add your handling code here:
         jpSenha.setText("");
     }//GEN-LAST:event_jpSenhaFocusGained
+
+    private void jpSenhaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jpSenhaFocusLost
+        // TODO add your handling code here:
+        if (jpSenha.getPassword().length == 0) {
+            jpSenha.setText("Password");
+        }
+    }//GEN-LAST:event_jpSenhaFocusLost
 
     private void login1MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_login1MouseDragged
         // TODO add your handling code here:
@@ -336,29 +362,29 @@ public class LoginPrincipalGUI extends javax.swing.JFrame {
 
     private void login1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_login1MousePressed
         // TODO add your handling code here:
-
         xx = evt.getX();
         xy = evt.getY();
     }//GEN-LAST:event_login1MousePressed
 
-    private void jtEmailFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtEmailFocusLost
+    private void jpSenha1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jpSenha1FocusGained
         // TODO add your handling code here:
-        if (jtEmail.getText().isEmpty()) {
-            jtEmail.setText("Usuário");
-        }
-    }//GEN-LAST:event_jtEmailFocusLost
+        jpSenha1.setText("");
+    }//GEN-LAST:event_jpSenha1FocusGained
 
-    private void jpSenhaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jpSenhaFocusLost
+    private void jpSenha1FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jpSenha1FocusLost
         // TODO add your handling code here:
-        if (jpSenha.getPassword().length == 0) {
-            jpSenha.setText("Password");
+        if (jpSenha1.getPassword().length == 0) {
+            jpSenha1.setText("Password");
         }
-    }//GEN-LAST:event_jpSenhaFocusLost
+    }//GEN-LAST:event_jpSenha1FocusLost
 
-    private void jlEsqueceuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlEsqueceuMouseClicked
+    private void jbCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCancelarActionPerformed
         // TODO add your handling code here:
-        JOptionPane.showMessageDialog(this, "Função não disponível!");
-    }//GEN-LAST:event_jlEsqueceuMouseClicked
+        MenuPrincipalGUI menu = new MenuPrincipalGUI();
+        menu.setVisible(true);
+        menu.setLocationRelativeTo(null);
+        dispose();
+    }//GEN-LAST:event_jbCancelarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -377,39 +403,41 @@ public class LoginPrincipalGUI extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(LoginPrincipalGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CadastroPrincipalGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(LoginPrincipalGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CadastroPrincipalGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(LoginPrincipalGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CadastroPrincipalGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(LoginPrincipalGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CadastroPrincipalGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new LoginPrincipalGUI().setVisible(true);
+                new CadastroPrincipalGUI().setVisible(true);
             }
         });
     }
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel img_loader;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
-    private java.awt.Button jbLogar;
-    private javax.swing.JLabel jlEsqueceu;
+    private javax.swing.JSeparator jSeparator3;
+    private java.awt.Button jbCadastro;
+    private java.awt.Button jbCancelar;
     private javax.swing.JPasswordField jpSenha;
+    private javax.swing.JPasswordField jpSenha1;
     private javax.swing.JTextField jtEmail;
     private javax.swing.JLabel lbl_loader;
     private javax.swing.JPanel loader;
     private javax.swing.JPanel login1;
-    private javax.swing.JPanel pnl_bg1;
     // End of variables declaration//GEN-END:variables
 }

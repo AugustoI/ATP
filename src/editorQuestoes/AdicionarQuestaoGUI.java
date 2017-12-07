@@ -47,7 +47,7 @@ import javax.swing.text.StyledEditorKit;
 import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
 import javax.swing.undo.UndoManager;
-import telas.MenuGUI;
+import telas.MenuPrincipalGUI;
 
 /**
  *
@@ -1213,7 +1213,7 @@ public class AdicionarQuestaoGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         int x = JOptionPane.showConfirmDialog(this.getContentPane(), "Deseja salvar antes de sair?", "Encerrar",
             JOptionPane.YES_NO_CANCEL_OPTION);
-        MenuGUI menu = new MenuGUI();
+        MenuPrincipalGUI menu = new MenuPrincipalGUI();
         if (x==0) {
             if (tabbed1) {
                 jbSalvarActionPerformed(evt);

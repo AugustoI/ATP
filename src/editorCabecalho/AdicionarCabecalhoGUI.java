@@ -40,7 +40,7 @@ import javax.swing.text.StyledEditorKit;
 import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
 import javax.swing.undo.UndoManager;
-import telas.MenuGUI;
+import telas.MenuPrincipalGUI;
 
 /**
  *
@@ -658,7 +658,7 @@ public class AdicionarCabecalhoGUI extends javax.swing.JFrame {
                 if (x==0) {
                     cabecalho.inserirCabecalho(nome, instrucoes, titulo, subtitulo, serie, valor, input, fileName);
                     JOptionPane.showMessageDialog(this, "Cabeçalho cadastrado com sucesso!");
-                    MenuGUI menu = new MenuGUI();
+                    MenuPrincipalGUI menu = new MenuPrincipalGUI();
                     menu.setVisible(true);
                     menu.setLocationRelativeTo(null);
                     dispose();
@@ -704,7 +704,7 @@ public class AdicionarCabecalhoGUI extends javax.swing.JFrame {
 
     private void jbMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbMenuActionPerformed
         // TODO add your handling code here:
-        MenuGUI menu = new MenuGUI();
+        MenuPrincipalGUI menu = new MenuPrincipalGUI();
         int x = JOptionPane.showConfirmDialog(this.getContentPane(), "Deseja salvar antes de sair?", "Encerrar",
             JOptionPane.YES_NO_CANCEL_OPTION);
         if (x==0) {

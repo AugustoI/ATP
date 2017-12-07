@@ -2,6 +2,7 @@ package banco;
 
 
 import banco.Banco;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -80,5 +81,29 @@ public class LoginDAO extends Banco{
             throw new RuntimeException("Usuário não encontrado!");
         }
         
+    }
+    
+    public void inserirUsuario(String us, String ps) throws SQLException {
+        String inserir = "insert into usuarios values(?,?,password(?))";
+        Connection con = new ConexaoDAO().conectar();
+        PreparedStatement p = con.prepareStatement(inserir);
+        p.setInt(1, 0);
+        p.setString(2, us);
+        p.setString(3, ps);
+        p.executeUpdate();
+    }
+    
+    public boolean login(String us, String ps) throws SQLException {
+        String pesquisar = "select * from usuarios where Login=? and Senha=password(?)";
+        Connection con = new ConexaoDAO().conectar();
+        PreparedStatement p = con.prepareStatement(pesquisar);
+        p.setString(1, us);
+        p.setString(2, ps);
+        ResultSet rs = p.executeQuery();
+        if (rs.next()) {
+            return true;
+        } else {
+            return false;
+        }  
     }
 }

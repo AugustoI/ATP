@@ -20,7 +20,7 @@ import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
-import telas.MenuGUI;
+import telas.MenuPrincipalGUI;
 /**
  *
  * @author Couth
@@ -515,6 +515,7 @@ public class AdicionarDisciplinaConteúdoGUI extends javax.swing.JFrame {
         jmiEditar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.CTRL_MASK));
         jmiEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/editFile.png"))); // NOI18N
         jmiEditar.setText("Editar Disciplina");
+        jmiEditar.setEnabled(false);
         jmiEditar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jmiEditarActionPerformed(evt);
@@ -524,6 +525,7 @@ public class AdicionarDisciplinaConteúdoGUI extends javax.swing.JFrame {
 
         jmiExcluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/removeFile.png"))); // NOI18N
         jmiExcluir.setText("Excluir Disciplina");
+        jmiExcluir.setEnabled(false);
         jmiExcluir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jmiExcluirActionPerformed(evt);
@@ -748,7 +750,7 @@ public class AdicionarDisciplinaConteúdoGUI extends javax.swing.JFrame {
 
     private void jbMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbMenuActionPerformed
         // TODO add your handling code here:
-        MenuGUI menu = new MenuGUI();
+        MenuPrincipalGUI menu = new MenuPrincipalGUI();
         if (tabbed1) {
             if (!jtDisciplina.getText().isEmpty()) {
                 int x = JOptionPane.showConfirmDialog(this.getContentPane(), "Deseja salvar antes de sair?", "Encerrar",
@@ -765,13 +767,9 @@ public class AdicionarDisciplinaConteúdoGUI extends javax.swing.JFrame {
                     dispose();
                 }
             } else {
-                int x = JOptionPane.showConfirmDialog(this.getContentPane(), "Deseja realmente voltar ao menu?", "Voltar ao MENU",
-                    JOptionPane.YES_NO_CANCEL_OPTION);
-                if (x==0) {
-                    menu.setVisible(true);
-                    menu.setLocationRelativeTo(null);
-                    dispose();
-                }
+                menu.setVisible(true);
+                menu.setLocationRelativeTo(null);
+                dispose();
             }
         }
         if (tabbed2) {
