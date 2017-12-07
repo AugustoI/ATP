@@ -20,21 +20,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRResultSetDataSource;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.engine.util.JRLoader;
-import net.sf.jasperreports.view.JasperViewer;
+//import net.sf.jasperreports.engine.JRException;
+//import net.sf.jasperreports.engine.JRResultSetDataSource;
+//import net.sf.jasperreports.engine.JasperFillManager;
+//import net.sf.jasperreports.engine.JasperPrint;
+//import net.sf.jasperreports.engine.JasperReport;
+//import net.sf.jasperreports.engine.util.JRLoader;
+//import net.sf.jasperreports.view.JasperViewer;
 import java.util.Map;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
-import nickyb.sqleonardo.common.gui.CheckBoxCellRenderer;
-import org.hsqldb.lib.HashMap;
+//import nickyb.sqleonardo.common.gui.CheckBoxCellRenderer;
+//import org.hsqldb.lib.HashMap;
 
 
 
@@ -317,7 +317,7 @@ public class ProvaGUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        Banco n = new Banco();
+        Banco n = new Banco();/*
         JRResultSetDataSource relatResult = null;
         try {
             relatResult = new JRResultSetDataSource(n.executaSQL("SELECT\n" +
@@ -356,7 +356,7 @@ public class ProvaGUI extends javax.swing.JFrame {
         }
         JasperViewer jv = new JasperViewer(jpPrint,false);
         jv.setVisible(true);     
-        jv.toFront();       
+        jv.toFront();       */
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed

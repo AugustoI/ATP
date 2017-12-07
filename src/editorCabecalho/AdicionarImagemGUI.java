@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package editorQuestoes;
+package editorCabecalho;
 
 import banco.Questoes;
 import java.awt.Image;
@@ -29,7 +29,6 @@ public class AdicionarImagemGUI extends javax.swing.JDialog {
     boolean adicionou = false;
     Questoes questoesBanco = new Questoes();
     ResultSet rs;
-    int posicao;
     public FileInputStream input;
     public boolean certo = false;
     public String fileName;
@@ -55,7 +54,6 @@ public class AdicionarImagemGUI extends javax.swing.JDialog {
         jbSalvar = new javax.swing.JButton();
         jSeparator3 = new javax.swing.JToolBar.Separator();
         jbCarregar = new javax.swing.JButton();
-        jcbPosicao = new javax.swing.JComboBox();
         jSeparator1 = new javax.swing.JToolBar.Separator();
         jbCancelar = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
@@ -99,11 +97,6 @@ public class AdicionarImagemGUI extends javax.swing.JDialog {
             }
         });
         jToolBar1.add(jbCarregar);
-
-        jcbPosicao.setBackground(new java.awt.Color(178, 203, 243));
-        jcbPosicao.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Posição da Imagem:", "Esquerda", "Centralizada", "Direita" }));
-        jcbPosicao.setMaximumSize(new java.awt.Dimension(125, 32767));
-        jToolBar1.add(jcbPosicao);
         jToolBar1.add(jSeparator1);
 
         jbCancelar.setBackground(new java.awt.Color(178, 203, 243));
@@ -191,21 +184,12 @@ public class AdicionarImagemGUI extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSalvarActionPerformed
-        // TODO add your handling code here:      
-        if (jcbPosicao.getSelectedIndex()!=0) {
-            if (jcbPosicao.getSelectedIndex()==1) {
-                posicao = 1;
-            }
-            if (jcbPosicao.getSelectedIndex()==2) {
-                posicao = 2;
-            }
-            if (jcbPosicao.getSelectedIndex()==3) {
-                posicao = 3;
-            }
+        // TODO add your handling code here:
+        int x = JOptionPane.showConfirmDialog(this.getContentPane(), "Todos os dados estão corretos?", "Salvar Imagem",
+            JOptionPane.YES_NO_OPTION);
+        if (x==0) {
             certo = true;
-            dispose();            
-        } else {
-            JOptionPane.showMessageDialog(this, "Selecione a posição da imagem!");
+            dispose();
         }
     }//GEN-LAST:event_jbSalvarActionPerformed
 
@@ -220,7 +204,7 @@ public class AdicionarImagemGUI extends javax.swing.JDialog {
     }//GEN-LAST:event_jbCarregarActionPerformed
 
     private void jbCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCancelarActionPerformed
-        // TODO add your handling code here:  
+        // TODO add your handling code here:
         dispose();
     }//GEN-LAST:event_jbCancelarActionPerformed
 
@@ -265,7 +249,7 @@ public class AdicionarImagemGUI extends javax.swing.JDialog {
             }
         });
     }
-
+    
     public void buscar() {
         FileNameExtensionFilter fileNameExtensionFilter = new FileNameExtensionFilter(
                 "Imagens", "png", "jpg");
@@ -291,8 +275,8 @@ public class AdicionarImagemGUI extends javax.swing.JDialog {
                 JOptionPane.showMessageDialog(this, "Error: "+e);
             }
         }
-    }
-    
+    }    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
@@ -303,7 +287,6 @@ public class AdicionarImagemGUI extends javax.swing.JDialog {
     private javax.swing.JButton jbCancelar;
     private javax.swing.JButton jbCarregar;
     private javax.swing.JButton jbSalvar;
-    private javax.swing.JComboBox jcbPosicao;
     private javax.swing.JLabel jlImageView;
     private javax.swing.JLabel jlImagem;
     // End of variables declaration//GEN-END:variables

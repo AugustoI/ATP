@@ -4,9 +4,9 @@
  * and open the template in the editor.
  */
 
-package editorQuestoes;
+package editorCabecalho;
 
-import banco.Questoes;
+import banco.Cabecalho;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -17,11 +17,7 @@ import java.awt.event.ActionListener;
 import java.io.FileInputStream;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import javax.swing.AbstractAction;
 import javax.swing.Action;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
 import javax.swing.JComboBox;
@@ -32,8 +28,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextPane;
-import javax.swing.event.UndoableEditEvent;
-import javax.swing.event.UndoableEditListener;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.Element;
 import javax.swing.text.MutableAttributeSet;
@@ -41,120 +35,97 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 import javax.swing.text.StyledEditorKit;
-import javax.swing.undo.CannotRedoException;
-import javax.swing.undo.CannotUndoException;
-import javax.swing.undo.UndoManager;
+import telas.EditorCabecalhoGUI;
+
 /**
  *
  * @author Couth
  */
-public class EditarQuestaoAbertaGUI extends javax.swing.JDialog {
+public class EditarCabecalhoGUI extends javax.swing.JDialog {
 
     /**
-     * Creates new form EditarQuestaoAbertaGUI
+     * Creates new form EditarCabecalhoGUI
      */
-    Questoes questoesBanco = new Questoes();
     JDialog dialog = new JDialog();
-    List<String> strList = new ArrayList<String>(); 
+    Cabecalho cabecalho = new Cabecalho();
     
     ResultSet rs;
-    DefaultComboBoxModel modelComboBox;  
     FileInputStream input;
-    String enunciado, disciplina, conteudo, fileName, fileNameAntigo, findString;
-    int idQuestao, dificuldade, idConteudo, posicaoImagem, ind = 0;      
-    boolean img, img2, remover;         
+    String fileName, nome, instrucoes, titulo, subtitulo, serie, valor, findString;
     StringBuffer sbufer;
+    int idCabecalho, ind = 0;
+    boolean t1, t2, t3, t4, t5, t6, img;
     
-    UndoManager undo = new UndoManager();
-    UndoAction undoAction = new UndoAction();
-    RedoAction redoAction = new RedoAction();
-    public EditarQuestaoAbertaGUI(java.awt.Frame parent, boolean modal) {
+    public EditarCabecalhoGUI(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
     }
     
-    public EditarQuestaoAbertaGUI(java.awt.Frame parent, boolean modal, int id) {
+    public EditarCabecalhoGUI(java.awt.Frame parent, boolean modal, int id) {
         super(parent, modal);
         initComponents();
         this.setLocationRelativeTo(this);        
-        this.setTitle("Editor de Questão ABERTA");
-        jlImagem.setMaximumSize(new Dimension(14, 225));
-        jbRemover.setEnabled(false);
-        jmiRemover.setEnabled(false);
-        remover = false;
+        this.setTitle("Editor de Cabeçalho");
+        jlImagem.setMaximumSize(new Dimension(14, 254));
         
-        //Carregar os dois combobox (disciplinas e conteúdos)
-        CarregarComboBox();
+        t1 = false;
+        t2 = false;
+        t3 = false;
+        t4 = false;
+        t5 = false;
+        t6 = false;
         
         //MenuItem Negrito
-        Action boldAction = new EditarQuestaoAbertaGUI.BoldAction();
+        Action boldAction = new EditarCabecalhoGUI.BoldAction();
         boldAction.putValue(Action.NAME, "Negrito");
-        jbNegrito.addActionListener(boldAction);  
+        jbNegrito.addActionListener(boldAction);
         
         //MenuItem Itálico
-        Action italicAction = new EditarQuestaoAbertaGUI.ItalicAction();
+        Action italicAction = new EditarCabecalhoGUI.ItalicAction();
         italicAction.putValue(Action.NAME, "Itálico");
         jbItalico.addActionListener(italicAction);
 
         //MenuItem Sublinhado
-        Action underlineAction = new EditarQuestaoAbertaGUI.UnderlineAction();
+        Action underlineAction = new EditarCabecalhoGUI.UnderlineAction();
         underlineAction.putValue(Action.NAME, "Sublinhado");
         jbSublinhado.addActionListener(underlineAction);
 
         //MenuItem Cor
-        Action foregroundAction = new EditarQuestaoAbertaGUI.ForegroundAction();
+        Action foregroundAction = new EditarCabecalhoGUI.ForegroundAction();
         foregroundAction.putValue(Action.NAME, "Cor do texto");
         jbCor.addActionListener(foregroundAction);
 
         //MenuItem Fonte
-        Action formatTextAction = new EditarQuestaoAbertaGUI.FontAndSizeAction();
+        Action formatTextAction = new EditarCabecalhoGUI.FontAndSizeAction();
         formatTextAction.putValue(Action.NAME, "Fonte");
         jbFonte.addActionListener(formatTextAction);
         
-        jtpEnunciado.requestFocus();
+        jtNome.requestFocus();
         
-        try {            
-            rs = questoesBanco.pegarQuestaoPeloId(id);
+        try {          
+            rs = cabecalho.pegarCabecalhoPeloId(id);
             if (rs!=null) {                                
-                idQuestao = rs.getInt("Questoes_ID");
-                enunciado = rs.getString("Enunciado");
-                dificuldade = rs.getInt("Dificuldade");
-                idConteudo = rs.getInt("ID_Conteudos");                
+                idCabecalho = rs.getInt("Cabecalho_ID");
+                nome = rs.getString("NomeInstituicao");
+                instrucoes = rs.getString("Instrucoes");
+                titulo = rs.getString("Titulo");
+                subtitulo = rs.getString("SubTitulo");
+                serie = rs.getString("Serie");
+                valor = rs.getString("Valor");
+                fileName = rs.getString("NomeImagem");
                 
-                jtpEnunciado.setText(enunciado);
-                jcbDificuldade.setSelectedIndex(dificuldade);
-            }
-            
-            rs = questoesBanco.pegarNomeDisciplinasPeloConteudosID(idConteudo);
-            if (rs!=null) {                                
-                disciplina = rs.getString("NomeDisciplinas");                
-                jcbDisciplina.setSelectedItem(disciplina);
-            }
-            
-            rs = questoesBanco.pegarNomeConteudosPeloConteudosID(idConteudo);
-            if (rs!=null) {                                
-                conteudo = rs.getString("NomeConteudos");                
-                jcbConteudo.setSelectedItem(conteudo);
-            }
-                                    
-            rs = questoesBanco.pegarNomeImagem(idQuestao);
-            if (rs!=null) {                                
-                fileNameAntigo = fileName = rs.getString("NomeImagem");
-                jlImagem.setText(fileName);
-                jbRemover.setEnabled(true);
-                jmiRemover.setEnabled(true);
-                img2 = true;
-            } else {
-                img2 = false;
+                jtNome.setText(nome);
+                jtpInstrucoes.setText(instrucoes);
+                jtTitulo.setText(titulo);
+                jtSubtitulo.setText(subtitulo);
+                jtSerie.setText(serie);
+                jtValor.setText(valor);
+                if (fileName!=null)
+                    jlImagem.setText(fileName);                
             }
         } catch (SQLException sqlEx) {
             JOptionPane.showMessageDialog(this, "Error SQL: "+sqlEx);
-        }
-        
-        jtpEnunciado.getDocument().addUndoableEditListener(new EditarQuestaoAbertaGUI.MyUndoableEditListener());
-        
-        jbDesfazer.addActionListener(undoAction);
-        jbRefazer.addActionListener(redoAction);
+        }        
     }
 
     /**
@@ -191,20 +162,24 @@ public class EditarQuestaoAbertaGUI extends javax.swing.JDialog {
         jSeparator3 = new javax.swing.JToolBar.Separator();
         jbLocalizar = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
-        jcbDisciplina = new javax.swing.JComboBox();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jcbConteudo = new javax.swing.JComboBox();
-        jLabel3 = new javax.swing.JLabel();
-        jcbDificuldade = new javax.swing.JComboBox();
-        jLabel4 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jtpEnunciado = new javax.swing.JTextPane();
-        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jtNome = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        jtTitulo = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
+        jtSubtitulo = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
+        jtSerie = new javax.swing.JTextField();
+        jtValor = new javax.swing.JTextField();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jtpInstrucoes = new javax.swing.JTextPane();
+        jLabel12 = new javax.swing.JLabel();
         jlImagem = new javax.swing.JLabel();
-        jMenuBar4 = new javax.swing.JMenuBar();
-        jmiArquivo = new javax.swing.JMenu();
-        jmiAbrir = new javax.swing.JMenuItem();
+        jMenuBar8 = new javax.swing.JMenuBar();
+        jmiArquivo4 = new javax.swing.JMenu();
+        jmiAbrir4 = new javax.swing.JMenuItem();
         jmiSalvar = new javax.swing.JMenuItem();
         jSeparator6 = new javax.swing.JPopupMenu.Separator();
         jmiCarregar = new javax.swing.JMenuItem();
@@ -444,25 +419,62 @@ public class EditarQuestaoAbertaGUI extends javax.swing.JDialog {
 
         jPanel2.setBackground(new java.awt.Color(209, 224, 248));
 
-        jcbDisciplina.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jcbDisciplinaActionPerformed(evt);
+        jLabel6.setText("Nome da Instituição:");
+
+        jtNome.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jtNomeFocusGained(evt);
             }
         });
 
-        jLabel1.setText("Disciplina:");
+        jLabel7.setText("Título:");
 
-        jLabel2.setText("Conteúdo:");
+        jtTitulo.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jtTituloFocusGained(evt);
+            }
+        });
 
-        jLabel3.setText("Dificuldade:");
+        jLabel8.setText("Subtítulo:");
 
-        jcbDificuldade.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
+        jtSubtitulo.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jtSubtituloFocusGained(evt);
+            }
+        });
 
-        jLabel4.setText("Enunciado:");
+        jLabel9.setText("Série:");
 
-        jScrollPane1.setViewportView(jtpEnunciado);
+        jtSerie.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jtSerieFocusGained(evt);
+            }
+        });
 
-        jLabel5.setText("Imagem:");
+        jtValor.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jtValorFocusGained(evt);
+            }
+        });
+
+        jLabel10.setText("Valor:");
+
+        jLabel11.setText("Instruções:");
+
+        jScrollPane2.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jScrollPane2FocusGained(evt);
+            }
+        });
+
+        jtpInstrucoes.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jtpInstrucoesFocusGained(evt);
+            }
+        });
+        jScrollPane2.setViewportView(jtpInstrucoes);
+
+        jLabel12.setText("Imagem:");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -470,48 +482,60 @@ public class EditarQuestaoAbertaGUI extends javax.swing.JDialog {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
+                        .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jcbDisciplina, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel4))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jtTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
+                        .addComponent(jLabel8)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jtSubtitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jcbConteudo, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel11)
                         .addGap(18, 18, 18)
-                        .addComponent(jLabel3)
+                        .addComponent(jLabel12)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jcbDificuldade, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel5)
+                        .addComponent(jlImagem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(14, 14, 14)
+                        .addComponent(jLabel10)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jlImagem)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jtValor, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel9)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jtSerie, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+            .addComponent(jScrollPane2)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jcbDisciplina, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2)
-                    .addComponent(jcbConteudo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3)
-                    .addComponent(jcbDificuldade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel9)
+                    .addComponent(jtSerie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel5)
-                    .addComponent(jlImagem))
+                    .addComponent(jtTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7)
+                    .addComponent(jLabel8)
+                    .addComponent(jtSubtitulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jtValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel10)
+                    .addComponent(jLabel11)
+                    .addComponent(jLabel12)
+                    .addComponent(jlImagem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -520,9 +544,7 @@ public class EditarQuestaoAbertaGUI extends javax.swing.JDialog {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jToolBar2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -534,18 +556,18 @@ public class EditarQuestaoAbertaGUI extends javax.swing.JDialog {
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jmiArquivo.setText("Arquivo");
+        jmiArquivo4.setText("Arquivo");
 
-        jmiAbrir.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
-        jmiAbrir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/openFile.png"))); // NOI18N
-        jmiAbrir.setText("Abrir Arquivo");
-        jmiAbrir.setEnabled(false);
-        jmiAbrir.addActionListener(new java.awt.event.ActionListener() {
+        jmiAbrir4.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
+        jmiAbrir4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/openFile.png"))); // NOI18N
+        jmiAbrir4.setText("Abrir Arquivo");
+        jmiAbrir4.setEnabled(false);
+        jmiAbrir4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jmiAbrirActionPerformed(evt);
+                jmiAbrir4ActionPerformed(evt);
             }
         });
-        jmiArquivo.add(jmiAbrir);
+        jmiArquivo4.add(jmiAbrir4);
 
         jmiSalvar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
         jmiSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/saveFile.png"))); // NOI18N
@@ -555,8 +577,8 @@ public class EditarQuestaoAbertaGUI extends javax.swing.JDialog {
                 jmiSalvarActionPerformed(evt);
             }
         });
-        jmiArquivo.add(jmiSalvar);
-        jmiArquivo.add(jSeparator6);
+        jmiArquivo4.add(jmiSalvar);
+        jmiArquivo4.add(jSeparator6);
 
         jmiCarregar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/addImage.png"))); // NOI18N
         jmiCarregar.setText("Carregar Imagem");
@@ -565,7 +587,7 @@ public class EditarQuestaoAbertaGUI extends javax.swing.JDialog {
                 jmiCarregarActionPerformed(evt);
             }
         });
-        jmiArquivo.add(jmiCarregar);
+        jmiArquivo4.add(jmiCarregar);
 
         jmiRemover.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/removeImage.png"))); // NOI18N
         jmiRemover.setText("Remover Imagem");
@@ -574,8 +596,8 @@ public class EditarQuestaoAbertaGUI extends javax.swing.JDialog {
                 jmiRemoverActionPerformed(evt);
             }
         });
-        jmiArquivo.add(jmiRemover);
-        jmiArquivo.add(jSeparator7);
+        jmiArquivo4.add(jmiRemover);
+        jmiArquivo4.add(jSeparator7);
 
         jmiMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/exit.png"))); // NOI18N
         jmiMenu.setText("Menu Principal");
@@ -584,17 +606,19 @@ public class EditarQuestaoAbertaGUI extends javax.swing.JDialog {
                 jmiMenuActionPerformed(evt);
             }
         });
-        jmiArquivo.add(jmiMenu);
+        jmiArquivo4.add(jmiMenu);
 
-        jMenuBar4.add(jmiArquivo);
+        jMenuBar8.add(jmiArquivo4);
 
-        setJMenuBar(jMenuBar4);
+        setJMenuBar(jMenuBar8);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -604,10 +628,237 @@ public class EditarQuestaoAbertaGUI extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jmiAbrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiAbrirActionPerformed
+    private void jbSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSalvarActionPerformed
+        // TODO add your handling code here:
+        nome = jtNome.getText();
+        instrucoes = jtpInstrucoes.getText();
+        titulo = jtTitulo.getText();
+        subtitulo = jtSubtitulo.getText();
+        serie = jtSerie.getText();
+        valor = jtSerie.getText();
+        if ((!nome.isEmpty())&&(!instrucoes.isEmpty())) {
+            int x = JOptionPane.showConfirmDialog(this.getContentPane(), "Os dados estão corretos? Salvar agora?", "Salvar cabeçalho",
+                JOptionPane.YES_NO_CANCEL_OPTION);
+            if (x==0) {                    
+                SalvarCabecalho(nome, instrucoes, titulo, subtitulo, serie, valor, idCabecalho);
+                AddImagem(idCabecalho);
+                JOptionPane.showMessageDialog(this, "Cabeçalho atualizado com sucesso!");
+                dispose();
+            }
+        } else {
+            if ((nome.isEmpty())&&(instrucoes.isEmpty())) {
+                JOptionPane.showMessageDialog(this, "Nome da instituição e a instrução não podem ser vazias!");
+            } else if (nome.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Nome da instituição não pode ser vazio!");
+            } else if (instrucoes.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "A instrução não pode ser vazia!");
+            }
+        }
+    }//GEN-LAST:event_jbSalvarActionPerformed
+
+    private void jbAbrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAbrirActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jbAbrirActionPerformed
+
+    private void jbCarregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCarregarActionPerformed
+        // TODO add your handling code here:
+        AdicionarImagemGUI a = new AdicionarImagemGUI(null, true);
+        a.setVisible(true); 
+        img = a.certo;
+        input = a.input;
+        fileName = a.fileName;
+        jlImagem.setText(fileName);
+        jbRemover.setEnabled(true);
+        jmiRemover.setEnabled(true);
+    }//GEN-LAST:event_jbCarregarActionPerformed
+
+    private void jbRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbRemoverActionPerformed
+        // TODO add your handling code here:
+        img = false;
+        fileName = "Nenhuma imagem selecionada";
+        jlImagem.setText(fileName);
+        jbRemover.setEnabled(false);
+        jmiRemover.setEnabled(false);
+    }//GEN-LAST:event_jbRemoverActionPerformed
+
+    private void jbMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbMenuActionPerformed
+        // TODO add your handling code here:
+        int x = JOptionPane.showConfirmDialog(this.getContentPane(), "Deseja salvar antes de sair?", "Encerrar",
+            JOptionPane.YES_NO_CANCEL_OPTION);
+        if (x==0) {
+            jbSalvarActionPerformed(evt);
+            if (!jtNome.getText().isEmpty()) {
+                if (!jtpInstrucoes.getText().isEmpty()) {
+                    dispose();
+                }
+            }
+        }
+        if (x==1) {
+            dispose();
+        }
+    }//GEN-LAST:event_jbMenuActionPerformed
+
+    private void jbNegritoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbNegritoActionPerformed
+        // TODO add your handling code here:
+        jtpInstrucoes.requestFocus();
+    }//GEN-LAST:event_jbNegritoActionPerformed
+
+    private void jbItalicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbItalicoActionPerformed
+        // TODO add your handling code here:
+        jtpInstrucoes.requestFocus();
+    }//GEN-LAST:event_jbItalicoActionPerformed
+
+    private void jbSublinhadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSublinhadoActionPerformed
+        // TODO add your handling code here:
+        jtpInstrucoes.requestFocus();
+    }//GEN-LAST:event_jbSublinhadoActionPerformed
+
+    private void jbFonteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbFonteActionPerformed
+        // TODO add your handling code here:
+        jtpInstrucoes.requestFocus();
+    }//GEN-LAST:event_jbFonteActionPerformed
+
+    private void jbCorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCorActionPerformed
+        // TODO add your handling code here:
+        jtpInstrucoes.requestFocus();
+    }//GEN-LAST:event_jbCorActionPerformed
+
+    private void jbDesfazerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbDesfazerActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jbDesfazerActionPerformed
+
+    private void jbRefazerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbRefazerActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jbRefazerActionPerformed
+
+    private void jbRecortarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbRecortarActionPerformed
+        // TODO add your handling code here:
+        if (t1) {
+            jtNome.cut();
+        }
+        if (t2) {
+            jtSerie.cut();
+        }
+        if (t3) {
+            jtTitulo.cut();
+        }
+        if (t4) {
+            jtSubtitulo.cut();
+        }
+        if (t5) {
+            jtValor.cut();
+        }
+        if (t6) {
+            jtpInstrucoes.cut();
+        }
+    }//GEN-LAST:event_jbRecortarActionPerformed
+
+    private void jbCopiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCopiarActionPerformed
+        // TODO add your handling code here:
+        if (t1) {
+            jtNome.cut();
+        }
+        if (t2) {
+            jtSerie.cut();
+        }
+        if (t3) {
+            jtTitulo.cut();
+        }
+        if (t4) {
+            jtSubtitulo.cut();
+        }
+        if (t5) {
+            jtValor.cut();
+        }
+        if (t6) {
+            jtpInstrucoes.cut();
+        }
+    }//GEN-LAST:event_jbCopiarActionPerformed
+
+    private void jbColarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbColarActionPerformed
+        // TODO add your handling code here:
+        if (t1) {
+            jtNome.cut();
+        }
+        if (t2) {
+            jtSerie.cut();
+        }
+        if (t3) {
+            jtTitulo.cut();
+        }
+        if (t4) {
+            jtSubtitulo.cut();
+        }
+        if (t5) {
+            jtValor.cut();
+        }
+        if (t6) {
+            jtpInstrucoes.cut();
+        }
+    }//GEN-LAST:event_jbColarActionPerformed
+
+    private void jbLocalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbLocalizarActionPerformed
+        // TODO add your handling code here:
+        try {
+            if (t1) {
+                sbufer = new StringBuffer(jtNome.getText());
+                findString = JOptionPane.showInputDialog(null, "Localizar");
+                ind = sbufer.indexOf(findString);
+                jtNome.setCaretPosition(ind);
+                jtNome.setSelectionStart(ind);
+                jtNome.setSelectionEnd(ind+findString.length());
+            }
+            if (t2) {
+                sbufer = new StringBuffer(jtSerie.getText());
+                findString = JOptionPane.showInputDialog(null, "Localizar");
+                ind = sbufer.indexOf(findString);
+                jtSerie.setCaretPosition(ind);
+                jtSerie.setSelectionStart(ind);
+                jtSerie.setSelectionEnd(ind+findString.length());
+            }
+            if (t3) {
+                sbufer = new StringBuffer(jtTitulo.getText());
+                findString = JOptionPane.showInputDialog(null, "Localizar");
+                ind = sbufer.indexOf(findString);
+                jtTitulo.setCaretPosition(ind);
+                jtTitulo.setSelectionStart(ind);
+                jtTitulo.setSelectionEnd(ind+findString.length());
+            }
+            if (t4) {
+                sbufer = new StringBuffer(jtSubtitulo.getText());
+                findString = JOptionPane.showInputDialog(null, "Localizar");
+                ind = sbufer.indexOf(findString);
+                jtSubtitulo.setCaretPosition(ind);
+                jtSubtitulo.setSelectionStart(ind);
+                jtSubtitulo.setSelectionEnd(ind+findString.length());
+            }
+            if (t5) {
+                sbufer = new StringBuffer(jtValor.getText());
+                findString = JOptionPane.showInputDialog(null, "Localizar");
+                ind = sbufer.indexOf(findString);
+                jtValor.setCaretPosition(ind);
+                jtValor.setSelectionStart(ind);
+                jtValor.setSelectionEnd(ind+findString.length());
+            }
+            if (t6) {
+                sbufer = new StringBuffer(jtpInstrucoes.getText());
+                findString = JOptionPane.showInputDialog(null, "Localizar");
+                ind = sbufer.indexOf(findString);
+                jtpInstrucoes.setCaretPosition(ind);
+                jtpInstrucoes.setSelectionStart(ind);
+                jtpInstrucoes.setSelectionEnd(ind+findString.length());
+            }
+        } catch (IllegalArgumentException npe) {
+            JOptionPane.showMessageDialog(null, "Palavra não encontrada!");
+        } catch (NullPointerException nfe) {
+
+        }        
+    }//GEN-LAST:event_jbLocalizarActionPerformed
+
+    private void jmiAbrir4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiAbrir4ActionPerformed
         // TODO add your handling code here:
         jbAbrirActionPerformed(evt);
-    }//GEN-LAST:event_jmiAbrirActionPerformed
+    }//GEN-LAST:event_jmiAbrir4ActionPerformed
 
     private void jmiSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiSalvarActionPerformed
         // TODO add your handling code here:
@@ -629,185 +880,69 @@ public class EditarQuestaoAbertaGUI extends javax.swing.JDialog {
         jbMenuActionPerformed(evt);
     }//GEN-LAST:event_jmiMenuActionPerformed
 
-    private void jbSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSalvarActionPerformed
+    private void jtNomeFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtNomeFocusGained
         // TODO add your handling code here:
-        try {
-            if (!jtpEnunciado.getText().isEmpty()) {
-                if (jcbConteudo.getItemCount() != 0) {
-                    int x = JOptionPane.showConfirmDialog(this.getContentPane(), "Tem certeza que deseja salvar esta questão?", "Salvar questão",
-                    JOptionPane.YES_NO_CANCEL_OPTION);
-                    if (x==0) {
-                        enunciado = jtpEnunciado.getText();
-                        dificuldade = Integer.parseInt(jcbDificuldade.getSelectedItem().toString());
-                        rs = questoesBanco.pegarConteudosID(jcbConteudo.getSelectedItem().toString());
-                        if (rs!=null) {
-                            do {
-                                idConteudo = rs.getInt("Conteudos_ID");                        
-                            } while (rs.next());
-                            SalvarQuestao(enunciado, dificuldade, idConteudo, idQuestao); 
-                            AddImagem(idQuestao);
-                            RemoverImagem(idQuestao);
-                        }
-                        
-                        jtpEnunciado.setText("");
-                        JOptionPane.showMessageDialog(this, "Questão atualizada com sucesso!");
-                        dispose();
-                    } else if (x==1) {
-                        dispose();
-                    }
-                } else {
-                    JOptionPane.showMessageDialog(this, "Não há conteúdo cadastrado nesta disciplina!");
-                }
-            } else {
-                JOptionPane.showMessageDialog(this, "O enunciado da questão não pode ser vazio!");
-            }
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(this, "Ocorreu um erro. Tente novamente");
-        }
-    }//GEN-LAST:event_jbSalvarActionPerformed
+        t1 = true;
+        t2 = false;
+        t3 = false;
+        t4 = false;
+        t5 = false;
+        t6 = false;
+    }//GEN-LAST:event_jtNomeFocusGained
 
-    private void jbAbrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAbrirActionPerformed
+    private void jtTituloFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtTituloFocusGained
         // TODO add your handling code here:
-    }//GEN-LAST:event_jbAbrirActionPerformed
+        t1 = false;
+        t2 = false;
+        t3 = true;
+        t4 = false;
+        t5 = false;
+        t6 = false;
+    }//GEN-LAST:event_jtTituloFocusGained
 
-    private void jbCarregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCarregarActionPerformed
+    private void jtSubtituloFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtSubtituloFocusGained
         // TODO add your handling code here:
-        AdicionarImagemGUI a = new AdicionarImagemGUI(null, true);
-        a.setVisible(true); 
-        img = a.certo;
-        posicaoImagem = a.posicao;
-        input = a.input;
-        fileName = a.fileName;
-        jlImagem.setText(fileName);
-        jbRemover.setEnabled(true);
-        jmiRemover.setEnabled(true);
-    }//GEN-LAST:event_jbCarregarActionPerformed
+        t1 = false;
+        t2 = false;
+        t3 = false;
+        t4 = true;
+        t5 = false;
+        t6 = false;
+    }//GEN-LAST:event_jtSubtituloFocusGained
 
-    private void jbRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbRemoverActionPerformed
+    private void jtSerieFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtSerieFocusGained
         // TODO add your handling code here:
-        int x = JOptionPane.showConfirmDialog(this.getContentPane(), "Tem certeza que deseja remover a imagem?", "Remover imagem",
-        JOptionPane.YES_NO_CANCEL_OPTION);
-        if (x==0) {
-            if (img) {
-                img = false;
-                if (!img2) {
-                    fileName = "Não há imagem cadastrada";
-                    jlImagem.setText(fileName);            
-                } else {
-                    jlImagem.setText(fileNameAntigo);     
-                }
-            } else if (img2) {
-                img2 = false;
-                fileName = "Não há imagem cadastrada";
-                jlImagem.setText(fileName);   
-                remover = true;
-            } 
-            if ((!img)&&(!img2)) {
-                jbRemover.setEnabled(false);
-                jmiRemover.setEnabled(false);
-            }
-        }
-    }//GEN-LAST:event_jbRemoverActionPerformed
+        t1 = false;
+        t2 = true;
+        t3 = false;
+        t4 = false;
+        t5 = false;
+        t6 = false;
+    }//GEN-LAST:event_jtSerieFocusGained
 
-    private void jbMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbMenuActionPerformed
+    private void jtValorFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtValorFocusGained
         // TODO add your handling code here:
-        int x = JOptionPane.showConfirmDialog(this.getContentPane(), "Deseja salvar antes de sair?", "Encerrar",
-            JOptionPane.YES_NO_CANCEL_OPTION);
-        if (x==0) {
-            jbSalvarActionPerformed(evt);
-            if (!jtpEnunciado.getText().isEmpty()) {
-                if (jcbConteudo.getItemCount() != 0) {
-                    dispose();
-                }
-            }
-        }
-        if (x==1) {
-            dispose();
-        }
-    }//GEN-LAST:event_jbMenuActionPerformed
+        t1 = false;
+        t2 = false;
+        t3 = false;
+        t4 = false;
+        t5 = true;
+        t6 = false;
+    }//GEN-LAST:event_jtValorFocusGained
 
-    private void jbNegritoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbNegritoActionPerformed
+    private void jtpInstrucoesFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtpInstrucoesFocusGained
         // TODO add your handling code here:
-        jtpEnunciado.requestFocus();
-    }//GEN-LAST:event_jbNegritoActionPerformed
+        t1 = false;
+        t2 = false;
+        t3 = false;
+        t4 = false;
+        t5 = false;
+        t6 = true;
+    }//GEN-LAST:event_jtpInstrucoesFocusGained
 
-    private void jbItalicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbItalicoActionPerformed
+    private void jScrollPane2FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jScrollPane2FocusGained
         // TODO add your handling code here:
-        jtpEnunciado.requestFocus();
-    }//GEN-LAST:event_jbItalicoActionPerformed
-
-    private void jbSublinhadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSublinhadoActionPerformed
-        // TODO add your handling code here:
-        jtpEnunciado.requestFocus();
-    }//GEN-LAST:event_jbSublinhadoActionPerformed
-
-    private void jbFonteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbFonteActionPerformed
-        // TODO add your handling code here:
-        jtpEnunciado.requestFocus();
-    }//GEN-LAST:event_jbFonteActionPerformed
-
-    private void jbCorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCorActionPerformed
-        // TODO add your handling code here:
-        jtpEnunciado.requestFocus();
-    }//GEN-LAST:event_jbCorActionPerformed
-
-    private void jbDesfazerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbDesfazerActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jbDesfazerActionPerformed
-
-    private void jbRefazerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbRefazerActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jbRefazerActionPerformed
-
-    private void jbRecortarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbRecortarActionPerformed
-        // TODO add your handling code here:
-        jtpEnunciado.cut();
-    }//GEN-LAST:event_jbRecortarActionPerformed
-
-    private void jbCopiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCopiarActionPerformed
-        // TODO add your handling code here:
-        jtpEnunciado.copy();
-    }//GEN-LAST:event_jbCopiarActionPerformed
-
-    private void jbColarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbColarActionPerformed
-        // TODO add your handling code here:
-        jtpEnunciado.paste();
-    }//GEN-LAST:event_jbColarActionPerformed
-
-    private void jbLocalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbLocalizarActionPerformed
-        // TODO add your handling code here:
-        try {
-            sbufer = new StringBuffer(jtpEnunciado.getText());
-            findString = JOptionPane.showInputDialog(null, "Localizar");
-            ind = sbufer.indexOf(findString);
-            jtpEnunciado.setCaretPosition(ind);
-            jtpEnunciado.setSelectionStart(ind);
-            jtpEnunciado.setSelectionEnd(ind+findString.length());
-        } catch (IllegalArgumentException npe) {
-            JOptionPane.showMessageDialog(null, "Palavra não encontrada!");
-        } catch (NullPointerException nfe) {
-
-        }
-    }//GEN-LAST:event_jbLocalizarActionPerformed
-
-    private void jcbDisciplinaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbDisciplinaActionPerformed
-        // TODO add your handling code here:
-        try {
-            jcbConteudo.removeAllItems();
-            strList.removeAll(strList);
-            rs = questoesBanco.pegarConteudos(jcbDisciplina.getSelectedItem().toString());
-            if (rs!=null) {
-                do {
-                    strList.add(
-                            rs.getString("NomeConteudos"));
-                } while (rs.next());                   
-            }             
-            modelComboBox = new DefaultComboBoxModel(strList.toArray());
-            jcbConteudo.setModel(modelComboBox);
-        } catch (SQLException e) {
-            
-        }
-    }//GEN-LAST:event_jcbDisciplinaActionPerformed
+    }//GEN-LAST:event_jScrollPane2FocusGained
 
     /**
      * @param args the command line arguments
@@ -826,20 +961,20 @@ public class EditarQuestaoAbertaGUI extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(EditarQuestaoAbertaGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EditarCabecalhoGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(EditarQuestaoAbertaGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EditarCabecalhoGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(EditarQuestaoAbertaGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EditarCabecalhoGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(EditarQuestaoAbertaGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EditarCabecalhoGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                EditarQuestaoAbertaGUI dialog = new EditarQuestaoAbertaGUI(new javax.swing.JFrame(), true);
+                EditarCabecalhoGUI dialog = new EditarCabecalhoGUI(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -850,11 +985,12 @@ public class EditarQuestaoAbertaGUI extends javax.swing.JDialog {
             }
         });
     }
-    
-    //SALVAR QUESTÃO
-    public void SalvarQuestao(String e, int d, int idConteudo, int idQuestao) {        
+
+    //SALVAR CABECALHO
+    public void SalvarCabecalho(String nome, String instrucoes, String titulo, String subtitulo, 
+            String serie, String valor, int id) {        
         try {
-            questoesBanco.inserirQuestaoAbertaEditada(e, d, idConteudo, idQuestao);
+            cabecalho.inserirCabecalhoEditado(nome, instrucoes, titulo, subtitulo, serie, valor, idCabecalho);
         } catch (SQLException sqlEx) {
             JOptionPane.showMessageDialog(this, "Error SQL: "+sqlEx);
         }
@@ -864,60 +1000,11 @@ public class EditarQuestaoAbertaGUI extends javax.swing.JDialog {
     public void AddImagem(int idDestaQuestao) {        
         if (img) {
             try {
-                rs = questoesBanco.confereSeTemImagem(idDestaQuestao);
-                if (rs!=null) {
-                    questoesBanco.inserirImagemEditada(input, posicaoImagem, idDestaQuestao, fileName);              
-                } else {
-                    questoesBanco.inserirImagem(idDestaQuestao, input, posicaoImagem, fileName);              
-                }
+                cabecalho.inserirImagemCabecalhoEditada(input, fileName, idDestaQuestao);                              
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(this, "Ocorreu um erro, tente novamente!");
             }
         }
-    }
-    
-    //REMOVER IMAGEM
-    public void RemoverImagem(int idDestaQuestao) {        
-        if (remover) {            
-            try {
-                questoesBanco.removerImagem(idDestaQuestao);
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(this, "Erro ao remover imagem.\nErro:"+e);
-            }
-        }
-    }    
-    
-    //CARREGAR COMBOBOXES
-    public void CarregarComboBox() {     
-        try {
-            //Disciplinas   
-            strList.removeAll(strList);
-            rs = questoesBanco.pegarDisciplinas();
-            if (rs!=null) {
-                do {
-                    strList.add(
-                            rs.getString("NomeDisciplinas"));
-                } while (rs.next());
-            }
-            modelComboBox = new DefaultComboBoxModel(strList.toArray());
-            jcbDisciplina.setModel(modelComboBox);
-            
-            //Conteúdos
-            strList.removeAll(strList);
-            rs = questoesBanco.pegarConteudos(jcbDisciplina.getSelectedItem().toString());
-            if (rs!=null) {
-                do {
-                    strList.add(
-                            rs.getString("NomeConteudos"));
-                } while (rs.next());                   
-            }             
-            modelComboBox = new DefaultComboBoxModel(strList.toArray());
-            jcbConteudo.setModel(modelComboBox);     
-        } catch (SQLException sqlEx) {
-            JOptionPane.showMessageDialog(this, "Error SQL: "+sqlEx);
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Error: "+ex);
-        }      
     }
     
     //NEGRITO
@@ -1188,84 +1275,23 @@ public class EditarQuestaoAbertaGUI extends javax.swing.JDialog {
             }
         }
     }
-
-    //UNDO AND REDOACTION CLASSES
-    //THIS PASRT OF CODE WAS TAKEN FROM THE NOTEPAD DEMO FOUND IN THE JDK1.4.1 DEMO DIRECTORY
-    class UndoAction extends AbstractAction {
-	public UndoAction() {
-	    super("Undo");
-	    setEnabled(false);
-	}
-
-	public void actionPerformed(ActionEvent e) {
-	    try {
-		undo.undo();
-	    } catch (CannotUndoException ex) {
-		System.out.println("Unable to undo: " + ex);
-	    }
-	    update();
-	    redoAction.update();
-	}
-
-	protected void update() {
-	    if (undo.canUndo()) {
-		jbDesfazer.setEnabled(true);
-		putValue("Undo", undo.getUndoPresentationName());
-	    }
-	    else {
-		jbDesfazer.setEnabled(false);
-		putValue(Action.NAME, "Undo");
-	    }
-	}
-    }
-
-    class RedoAction extends AbstractAction {
-        public RedoAction() {
-            super("Redo");
-            setEnabled(false);
-        }
-
-        public void actionPerformed(ActionEvent e) {
-            try {
-                undo.redo();
-            } catch (CannotRedoException ex) {
-                System.out.println("Unable to redo: " + ex);
-            }
-            update();
-            undoAction.update();
-        }
-
-        protected void update() {
-            if (undo.canRedo()) {
-                jbRefazer.setEnabled(true);
-                putValue("Redo", undo.getRedoPresentationName());
-            } else {
-                jbRefazer.setEnabled(false);
-                putValue(Action.NAME, "Redo");
-            }
-        }
-    }
-    
-    //CLASS FOR UNDOLISTENER
-    public class MyUndoableEditListener implements UndoableEditListener {
-        public void undoableEditHappened(UndoableEditEvent e) {
-            //Remember the edit and update the menus
-            undo.addEdit(e.getEdit());
-            undoAction.update();
-            redoAction.update();
-        }
-    } 
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JMenuBar jMenuBar4;
+    private javax.swing.JMenuBar jMenuBar5;
+    private javax.swing.JMenuBar jMenuBar6;
+    private javax.swing.JMenuBar jMenuBar7;
+    private javax.swing.JMenuBar jMenuBar8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JToolBar.Separator jSeparator1;
     private javax.swing.JToolBar.Separator jSeparator2;
     private javax.swing.JToolBar.Separator jSeparator3;
@@ -1291,16 +1317,26 @@ public class EditarQuestaoAbertaGUI extends javax.swing.JDialog {
     private javax.swing.JButton jbRemover;
     private javax.swing.JButton jbSalvar;
     private javax.swing.JButton jbSublinhado;
-    private javax.swing.JComboBox jcbConteudo;
-    private javax.swing.JComboBox jcbDificuldade;
-    private javax.swing.JComboBox jcbDisciplina;
     private javax.swing.JLabel jlImagem;
     private javax.swing.JMenuItem jmiAbrir;
+    private javax.swing.JMenuItem jmiAbrir1;
+    private javax.swing.JMenuItem jmiAbrir2;
+    private javax.swing.JMenuItem jmiAbrir3;
+    private javax.swing.JMenuItem jmiAbrir4;
     private javax.swing.JMenu jmiArquivo;
+    private javax.swing.JMenu jmiArquivo1;
+    private javax.swing.JMenu jmiArquivo2;
+    private javax.swing.JMenu jmiArquivo3;
+    private javax.swing.JMenu jmiArquivo4;
     private javax.swing.JMenuItem jmiCarregar;
     private javax.swing.JMenuItem jmiMenu;
     private javax.swing.JMenuItem jmiRemover;
     private javax.swing.JMenuItem jmiSalvar;
-    private javax.swing.JTextPane jtpEnunciado;
+    private javax.swing.JTextField jtNome;
+    private javax.swing.JTextField jtSerie;
+    private javax.swing.JTextField jtSubtitulo;
+    private javax.swing.JTextField jtTitulo;
+    private javax.swing.JTextField jtValor;
+    private javax.swing.JTextPane jtpInstrucoes;
     // End of variables declaration//GEN-END:variables
 }

@@ -4,9 +4,9 @@
  * and open the template in the editor.
  */
 
-package editorQuestoes;
+package editorCabecalho;
 
-import banco.Questoes;
+import banco.Cabecalho;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -15,13 +15,9 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileInputStream;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
 import javax.swing.JComboBox;
@@ -44,43 +40,36 @@ import javax.swing.text.StyledEditorKit;
 import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
 import javax.swing.undo.UndoManager;
+import telas.MenuGUI;
+
 /**
  *
  * @author Couth
  */
-public class EditarQuestaoFechadaGUI extends javax.swing.JDialog {
+public class AdicionarCabecalhoGUI extends javax.swing.JFrame {
 
     /**
-     * Creates new form EditarQuestaoFechadaGUI
+     * Creates new form AdicionarCabecalhoGUI
      */
-    Questoes questoesBanco = new Questoes();
-    JDialog dialog = new JDialog();
-    List<String> strList = new ArrayList<String>();
+    JFrame frame = new JFrame();
+    Cabecalho cabecalho = new Cabecalho();
     
-    ResultSet rs;
-    DefaultComboBoxModel modelComboBox;  
-    FileInputStream input;
-    String fileName, fileNameAntigo, enunciado, disciplina, conteudo, alternativaA, alternativaB, alternativaC, alternativaD, alternativaE, alternativaF, findString;
-    int idQuestao, dificuldade, idConteudo, posicaoImagem, ind = 0;      
-    boolean img, img2, remover, t1, t2, t3, t4, t5, t6, t7;        
     StringBuffer sbufer;
+    String fileName, findString;    
+    FileInputStream input;
+    boolean t1, t2, t3, t4, t5, t6, img;
+    int ind = 0;
     
     UndoManager undo = new UndoManager();
     UndoAction undoAction = new UndoAction();
     RedoAction redoAction = new RedoAction();
-    public EditarQuestaoFechadaGUI(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
+    public AdicionarCabecalhoGUI() {
         initComponents();
-    }
-    
-    public EditarQuestaoFechadaGUI(java.awt.Frame parent, boolean modal, int id) {
-        super(parent, modal);
-        initComponents();
-        this.setLocationRelativeTo(this);
-        this.setTitle("Editor de Questão FECHADA");
-        jlImagem.setMaximumSize(new Dimension(14, 225));
-        jbRemover.setEnabled(false);
-        jmiRemover.setEnabled(false);
+        
+        img = false;
+        this.setTitle("Cadastro de Cabeçalho");
+        this.setLocationRelativeTo(null);
+        this.setResizable(false);
         
         t1 = false;
         t2 = false;
@@ -88,102 +77,42 @@ public class EditarQuestaoFechadaGUI extends javax.swing.JDialog {
         t4 = false;
         t5 = false;
         t6 = false;
-        t7 = false;
-        remover = false;
         
-        //Carregar os dois combobox (disciplinas e conteúdos)
-        CarregarComboBox();
+        jlImagem.setMaximumSize(new Dimension(14, 254));
         
         //MenuItem Negrito
-        Action boldAction = new EditarQuestaoFechadaGUI.BoldAction();
+        Action boldAction = new AdicionarCabecalhoGUI.BoldAction();
         boldAction.putValue(Action.NAME, "Negrito");
         jbNegrito.addActionListener(boldAction);
         
         //MenuItem Itálico
-        Action italicAction = new EditarQuestaoFechadaGUI.ItalicAction();
+        Action italicAction = new AdicionarCabecalhoGUI.ItalicAction();
         italicAction.putValue(Action.NAME, "Itálico");
         jbItalico.addActionListener(italicAction);
 
         //MenuItem Sublinhado
-        Action underlineAction = new EditarQuestaoFechadaGUI.UnderlineAction();
+        Action underlineAction = new AdicionarCabecalhoGUI.UnderlineAction();
         underlineAction.putValue(Action.NAME, "Sublinhado");
         jbSublinhado.addActionListener(underlineAction);
 
         //MenuItem Cor
-        Action foregroundAction = new EditarQuestaoFechadaGUI.ForegroundAction();
+        Action foregroundAction = new AdicionarCabecalhoGUI.ForegroundAction();
         foregroundAction.putValue(Action.NAME, "Cor do texto");
         jbCor.addActionListener(foregroundAction);
 
         //MenuItem Fonte
-        Action formatTextAction = new EditarQuestaoFechadaGUI.FontAndSizeAction();
+        Action formatTextAction = new AdicionarCabecalhoGUI.FontAndSizeAction();
         formatTextAction.putValue(Action.NAME, "Fonte");
         jbFonte.addActionListener(formatTextAction);
         
-        jtpEnunciado.requestFocus();
+        jtNome.requestFocus();
         
-        try {            
-            rs = questoesBanco.pegarQuestaoPeloId(id);
-            if (rs!=null) {                                
-                idQuestao = rs.getInt("Questoes_ID");
-                enunciado = rs.getString("Enunciado");
-                dificuldade = rs.getInt("Dificuldade");
-                idConteudo = rs.getInt("ID_Conteudos");
-
-                alternativaA = rs.getString("AlternativaA");
-                alternativaB = rs.getString("AlternativaB");
-                alternativaC = rs.getString("AlternativaC");
-                alternativaD = rs.getString("AlternativaD");
-                alternativaE = rs.getString("AlternativaE");
-                alternativaF = rs.getString("AlternativaF");
-                
-                jtpEnunciado.setText(enunciado);
-                jtpA.setText(alternativaA);
-                jtpB.setText(alternativaB);
-                jtpC.setText(alternativaC);
-                jtpD.setText(alternativaD);
-                jtpE.setText(alternativaE);
-                jtpF.setText(alternativaF);
-                jcbDificuldade.setSelectedIndex(dificuldade);
-                
-                if (!alternativaE.isEmpty()) {
-                    jtpE.setEnabled(true);
-                    jlE.setEnabled(true);
-                    jrbSimE.setSelected(true);
-                }
-                if (!alternativaF.isEmpty()) {
-                    jtpF.setEnabled(true);
-                    jlF.setEnabled(true);
-                    jrbSimF.setSelected(true);
-                }
-            }
-            
-            rs = questoesBanco.pegarNomeDisciplinasPeloConteudosID(idConteudo);
-            if (rs!=null) {                                
-                disciplina = rs.getString("NomeDisciplinas");                
-                jcbDisciplina.setSelectedItem(disciplina);
-            }
-            
-            rs = questoesBanco.pegarNomeConteudosPeloConteudosID(idConteudo);
-            if (rs!=null) {                                
-                conteudo = rs.getString("NomeConteudos");                
-                jcbConteudo.setSelectedItem(conteudo);
-            }
-            
-            rs = questoesBanco.pegarNomeImagem(idQuestao);
-            if (rs!=null) {                                
-                fileNameAntigo = fileName = rs.getString("NomeImagem");
-                jlImagem.setText(fileName);
-                jbRemover.setEnabled(true);
-                jmiRemover.setEnabled(true);
-                img2 = true;
-            } else {
-                img2 = false;
-            }
-        } catch (SQLException sqlEx) {
-            JOptionPane.showMessageDialog(this, "Error SQL: "+sqlEx);
-        }
-        
-        jtpEnunciado.getDocument().addUndoableEditListener(new EditarQuestaoFechadaGUI.MyUndoableEditListener());
+        jtNome.getDocument().addUndoableEditListener(new MyUndoableEditListener());
+        jtSerie.getDocument().addUndoableEditListener(new MyUndoableEditListener());
+        jtTitulo.getDocument().addUndoableEditListener(new MyUndoableEditListener());
+        jtSubtitulo.getDocument().addUndoableEditListener(new MyUndoableEditListener());
+        jtValor.getDocument().addUndoableEditListener(new MyUndoableEditListener());
+        jtpInstrucoes.getDocument().addUndoableEditListener(new MyUndoableEditListener());
         
         jbDesfazer.addActionListener(undoAction);
         jbRefazer.addActionListener(redoAction);
@@ -198,8 +127,6 @@ public class EditarQuestaoFechadaGUI extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        letraE = new javax.swing.ButtonGroup();
-        letraF = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         jToolBar1 = new javax.swing.JToolBar();
         jbSalvar = new javax.swing.JButton();
@@ -224,42 +151,24 @@ public class EditarQuestaoFechadaGUI extends javax.swing.JDialog {
         jbColar = new javax.swing.JButton();
         jSeparator3 = new javax.swing.JToolBar.Separator();
         jbLocalizar = new javax.swing.JButton();
-        jPanel3 = new javax.swing.JPanel();
-        jcbDisciplina = new javax.swing.JComboBox();
+        jPanel2 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
+        jtNome = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
-        jcbConteudo = new javax.swing.JComboBox();
+        jtTitulo = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
-        jcbDificuldade = new javax.swing.JComboBox();
+        jtSubtitulo = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jtpEnunciado = new javax.swing.JTextPane();
+        jtSerie = new javax.swing.JTextField();
+        jtValor = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
-        jlImagem = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jtpInstrucoes = new javax.swing.JTextPane();
         jLabel12 = new javax.swing.JLabel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        jtpA = new javax.swing.JTextPane();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        jtpB = new javax.swing.JTextPane();
-        jLabel13 = new javax.swing.JLabel();
-        jScrollPane5 = new javax.swing.JScrollPane();
-        jtpC = new javax.swing.JTextPane();
-        jLabel14 = new javax.swing.JLabel();
-        jScrollPane6 = new javax.swing.JScrollPane();
-        jtpD = new javax.swing.JTextPane();
-        jlE = new javax.swing.JLabel();
-        jScrollPane7 = new javax.swing.JScrollPane();
-        jtpE = new javax.swing.JTextPane();
-        jlF = new javax.swing.JLabel();
-        jScrollPane8 = new javax.swing.JScrollPane();
-        jtpF = new javax.swing.JTextPane();
-        jrbSimE = new javax.swing.JRadioButton();
-        jrbNaoE = new javax.swing.JRadioButton();
-        jrbSimF = new javax.swing.JRadioButton();
-        jrbNaoF = new javax.swing.JRadioButton();
-        jMenuBar1 = new javax.swing.JMenuBar();
-        jmArquivo = new javax.swing.JMenu();
+        jlImagem = new javax.swing.JLabel();
+        jMenuBar4 = new javax.swing.JMenuBar();
+        jmiArquivo = new javax.swing.JMenu();
         jmiAbrir = new javax.swing.JMenuItem();
         jmiSalvar = new javax.swing.JMenuItem();
         jSeparator6 = new javax.swing.JPopupMenu.Separator();
@@ -268,7 +177,7 @@ public class EditarQuestaoFechadaGUI extends javax.swing.JDialog {
         jSeparator7 = new javax.swing.JPopupMenu.Separator();
         jmiMenu = new javax.swing.JMenuItem();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(178, 203, 243));
 
@@ -321,6 +230,7 @@ public class EditarQuestaoFechadaGUI extends javax.swing.JDialog {
         jbRemover.setBackground(new java.awt.Color(178, 203, 243));
         jbRemover.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/removeImage.png"))); // NOI18N
         jbRemover.setToolTipText("Remover Imagem");
+        jbRemover.setEnabled(false);
         jbRemover.setFocusable(false);
         jbRemover.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jbRemover.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -498,246 +408,125 @@ public class EditarQuestaoFechadaGUI extends javax.swing.JDialog {
         });
         jToolBar2.add(jbLocalizar);
 
-        jPanel3.setBackground(new java.awt.Color(209, 224, 248));
+        jPanel2.setBackground(new java.awt.Color(209, 224, 248));
 
-        jcbDisciplina.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jcbDisciplinaActionPerformed(evt);
-            }
-        });
+        jLabel6.setText("Nome da Instituição:");
 
-        jLabel6.setText("Disciplina:");
-
-        jLabel7.setText("Conteúdo:");
-
-        jLabel8.setText("Dificuldade:");
-
-        jcbDificuldade.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
-
-        jLabel9.setText("Enunciado:");
-
-        jtpEnunciado.addFocusListener(new java.awt.event.FocusAdapter() {
+        jtNome.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                jtpEnunciadoFocusGained(evt);
+                jtNomeFocusGained(evt);
             }
         });
-        jScrollPane2.setViewportView(jtpEnunciado);
 
-        jLabel10.setText("Imagem:");
+        jLabel7.setText("Título:");
 
-        jLabel11.setText("Alternativa A:");
-
-        jLabel12.setText("Alternativa B:");
-
-        jtpA.addFocusListener(new java.awt.event.FocusAdapter() {
+        jtTitulo.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                jtpAFocusGained(evt);
+                jtTituloFocusGained(evt);
             }
         });
-        jScrollPane3.setViewportView(jtpA);
 
-        jtpB.addFocusListener(new java.awt.event.FocusAdapter() {
+        jLabel8.setText("Subtítulo:");
+
+        jtSubtitulo.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                jtpBFocusGained(evt);
+                jtSubtituloFocusGained(evt);
             }
         });
-        jScrollPane4.setViewportView(jtpB);
 
-        jLabel13.setText("Alternativa C:");
+        jLabel9.setText("Série:");
 
-        jtpC.addFocusListener(new java.awt.event.FocusAdapter() {
+        jtSerie.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                jtpCFocusGained(evt);
+                jtSerieFocusGained(evt);
             }
         });
-        jScrollPane5.setViewportView(jtpC);
 
-        jLabel14.setText("Alternativa D:");
-
-        jtpD.addFocusListener(new java.awt.event.FocusAdapter() {
+        jtValor.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                jtpDFocusGained(evt);
+                jtValorFocusGained(evt);
             }
         });
-        jScrollPane6.setViewportView(jtpD);
 
-        jlE.setText("Alternativa E:");
-        jlE.setEnabled(false);
+        jLabel10.setText("Valor:");
 
-        jtpE.setEnabled(false);
-        jtpE.addFocusListener(new java.awt.event.FocusAdapter() {
+        jLabel11.setText("Instruções:");
+
+        jScrollPane2.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                jtpEFocusGained(evt);
+                jScrollPane2FocusGained(evt);
             }
         });
-        jScrollPane7.setViewportView(jtpE);
 
-        jlF.setText("Alternativa F:");
-        jlF.setEnabled(false);
-
-        jtpF.setEnabled(false);
-        jtpF.addFocusListener(new java.awt.event.FocusAdapter() {
+        jtpInstrucoes.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                jtpFFocusGained(evt);
+                jtpInstrucoesFocusGained(evt);
             }
         });
-        jScrollPane8.setViewportView(jtpF);
+        jScrollPane2.setViewportView(jtpInstrucoes);
 
-        jrbSimE.setBackground(new java.awt.Color(209, 224, 248));
-        letraE.add(jrbSimE);
-        jrbSimE.setText("Sim");
-        jrbSimE.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jrbSimEActionPerformed(evt);
-            }
-        });
+        jLabel12.setText("Imagem:");
 
-        jrbNaoE.setBackground(new java.awt.Color(209, 224, 248));
-        letraE.add(jrbNaoE);
-        jrbNaoE.setSelected(true);
-        jrbNaoE.setText("Não");
-        jrbNaoE.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jrbNaoEActionPerformed(evt);
-            }
-        });
-
-        jrbSimF.setBackground(new java.awt.Color(209, 224, 248));
-        letraF.add(jrbSimF);
-        jrbSimF.setText("Sim");
-        jrbSimF.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jrbSimFActionPerformed(evt);
-            }
-        });
-
-        jrbNaoF.setBackground(new java.awt.Color(209, 224, 248));
-        letraF.add(jrbNaoF);
-        jrbNaoF.setSelected(true);
-        jrbNaoF.setText("Não");
-        jrbNaoF.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jrbNaoFActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jLabel6)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jcbDisciplina, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabel9))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jLabel7)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jcbConteudo, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel8)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jcbDificuldade, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jLabel10)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jlImagem)))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel7)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jtTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
+                        .addComponent(jLabel8)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jtSubtitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel11)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
                         .addComponent(jLabel12)
-                        .addGap(246, 246, 246))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel13)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jlE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jrbSimE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jrbNaoE)))
-                        .addGap(0, 0, Short.MAX_VALUE))))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jScrollPane5, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(jlF)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jrbSimF)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jrbNaoF))
-                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(jPanel3Layout.createSequentialGroup()
-                            .addGap(10, 10, 10)
-                            .addComponent(jLabel14))
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE)
-                        .addComponent(jScrollPane6)
-                        .addComponent(jScrollPane8))))
+                        .addComponent(jlImagem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(14, 14, 14)
+                        .addComponent(jLabel10)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jtValor, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel9)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jtSerie, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+            .addComponent(jScrollPane2)
         );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jcbDisciplina, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6)
+                    .addComponent(jLabel9)
+                    .addComponent(jtSerie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jtTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel7)
-                    .addComponent(jcbConteudo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8)
-                    .addComponent(jcbDificuldade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jtSubtitulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel9)
-                            .addComponent(jLabel10)
-                            .addComponent(jlImagem))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel12, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel11))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jtValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel10)
+                    .addComponent(jLabel11)
+                    .addComponent(jLabel12)
+                    .addComponent(jlImagem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel13)
-                    .addComponent(jLabel14))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jlE)
-                        .addComponent(jrbSimE)
-                        .addComponent(jrbNaoE))
-                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jlF)
-                        .addComponent(jrbSimF)
-                        .addComponent(jrbNaoF)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -746,27 +535,30 @@ public class EditarQuestaoFechadaGUI extends javax.swing.JDialog {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jToolBar2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jToolBar2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jToolBar2, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jmArquivo.setText("Arquivo");
+        jmiArquivo.setText("Arquivo");
 
         jmiAbrir.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
         jmiAbrir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/openFile.png"))); // NOI18N
         jmiAbrir.setText("Abrir Arquivo");
         jmiAbrir.setEnabled(false);
-        jmArquivo.add(jmiAbrir);
+        jmiAbrir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiAbrirActionPerformed(evt);
+            }
+        });
+        jmiArquivo.add(jmiAbrir);
 
         jmiSalvar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
         jmiSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/saveFile.png"))); // NOI18N
@@ -776,8 +568,8 @@ public class EditarQuestaoFechadaGUI extends javax.swing.JDialog {
                 jmiSalvarActionPerformed(evt);
             }
         });
-        jmArquivo.add(jmiSalvar);
-        jmArquivo.add(jSeparator6);
+        jmiArquivo.add(jmiSalvar);
+        jmiArquivo.add(jSeparator6);
 
         jmiCarregar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/addImage.png"))); // NOI18N
         jmiCarregar.setText("Carregar Imagem");
@@ -786,17 +578,18 @@ public class EditarQuestaoFechadaGUI extends javax.swing.JDialog {
                 jmiCarregarActionPerformed(evt);
             }
         });
-        jmArquivo.add(jmiCarregar);
+        jmiArquivo.add(jmiCarregar);
 
         jmiRemover.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/removeImage.png"))); // NOI18N
         jmiRemover.setText("Remover Imagem");
+        jmiRemover.setEnabled(false);
         jmiRemover.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jmiRemoverActionPerformed(evt);
             }
         });
-        jmArquivo.add(jmiRemover);
-        jmArquivo.add(jSeparator7);
+        jmiArquivo.add(jmiRemover);
+        jmiArquivo.add(jSeparator7);
 
         jmiMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/exit.png"))); // NOI18N
         jmiMenu.setText("Menu Principal");
@@ -805,11 +598,11 @@ public class EditarQuestaoFechadaGUI extends javax.swing.JDialog {
                 jmiMenuActionPerformed(evt);
             }
         });
-        jmArquivo.add(jmiMenu);
+        jmiArquivo.add(jmiMenu);
 
-        jMenuBar1.add(jmArquivo);
+        jMenuBar4.add(jmiArquivo);
 
-        setJMenuBar(jMenuBar1);
+        setJMenuBar(jMenuBar4);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -824,6 +617,11 @@ public class EditarQuestaoFechadaGUI extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jmiAbrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiAbrirActionPerformed
+        // TODO add your handling code here:
+        jbAbrirActionPerformed(evt);
+    }//GEN-LAST:event_jmiAbrirActionPerformed
 
     private void jmiSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiSalvarActionPerformed
         // TODO add your handling code here:
@@ -848,77 +646,34 @@ public class EditarQuestaoFechadaGUI extends javax.swing.JDialog {
     private void jbSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSalvarActionPerformed
         // TODO add your handling code here:
         try {
-            if ((!jtpEnunciado.getText().isEmpty())&&(!jtpA.getText().isEmpty())&&(!jtpB.getText().isEmpty())
-                    &&(!jtpC.getText().isEmpty())&&(!jtpD.getText().isEmpty())) {
-                if (((!jtpE.getText().isEmpty())&&(jrbSimE.isSelected()))||(jrbNaoE.isSelected())) {
-                    if (((!jtpF.getText().isEmpty())&&(jrbSimF.isSelected()))||(jrbNaoF.isSelected())) {
-                        if (jcbConteudo.getItemCount() != 0) {
-                            int x = JOptionPane.showConfirmDialog(this.getContentPane(), "Tem certeza que deseja salvar esta questão?", "Salvar questão",
-                            JOptionPane.YES_NO_CANCEL_OPTION);
-                            if (x==0) {
-                                enunciado = jtpEnunciado.getText();
-                                dificuldade = Integer.parseInt(jcbDificuldade.getSelectedItem().toString());
-                                alternativaA = jtpA.getText();
-                                alternativaB = jtpB.getText();
-                                alternativaC = jtpC.getText();
-                                alternativaD = jtpD.getText();
-                                alternativaE = "";
-                                alternativaF = "";
-                                if (jrbSimE.isSelected()) {
-                                    alternativaE = jtpE.getText();
-                                }
-                                if (jrbSimF.isSelected()) {
-                                    alternativaF = jtpF.getText();
-                                }
-
-                                rs = questoesBanco.pegarConteudosID(jcbConteudo.getSelectedItem().toString());
-                                if (rs!=null) {
-                                    do {
-                                        idConteudo = rs.getInt("Conteudos_ID");    
-                                    } while (rs.next());
-                                    SalvarQuestao(enunciado, dificuldade, alternativaA, alternativaB, alternativaC, 
-                                            alternativaD, alternativaE, alternativaF, idConteudo, idQuestao);
-                                    AddImagem(idQuestao);
-                                    RemoverImagem(idQuestao);
-                                }                            
-
-                                jtpEnunciado.setText("");
-                                jtpA.setText("");
-                                jtpB.setText("");
-                                jtpC.setText("");
-                                jtpD.setText("");
-                                jtpE.setText("");
-                                jtpF.setText("");
-
-                                jlE.setEnabled(false);
-                                jlF.setEnabled(false);
-                                jtpE.setEnabled(false);
-                                jtpF.setEnabled(false);
-
-                                jrbNaoE.setSelected(true);
-                                jrbNaoF.setSelected(true); 
-                                
-                                JOptionPane.showMessageDialog(this, "Questão atualizada com sucesso!");
-                                dispose();
-                            }
-                        } else {
-                            JOptionPane.showMessageDialog(this, "Não há conteúdo cadastrado nesta disciplina!");
-                        }
-                    } else {
-                        JOptionPane.showMessageDialog(this, "A letra F está vazia!");
-                    }
-                } else {
-                    JOptionPane.showMessageDialog(this, "A letra E está vazia!");
+            String nome = jtNome.getText();
+            String instrucoes = jtpInstrucoes.getText();
+            String titulo = jtTitulo.getText();
+            String subtitulo = jtSubtitulo.getText();
+            String serie = jtSerie.getText();
+            String valor = jtSerie.getText();
+            if ((!nome.isEmpty())&&(!instrucoes.isEmpty())) {
+                int x = JOptionPane.showConfirmDialog(this.getContentPane(), "Os dados estão corretos? Salvar agora?", "Salvar cabeçalho",
+                    JOptionPane.YES_NO_CANCEL_OPTION);
+                if (x==0) {
+                    cabecalho.inserirCabecalho(nome, instrucoes, titulo, subtitulo, serie, valor, input, fileName);
+                    JOptionPane.showMessageDialog(this, "Cabeçalho cadastrado com sucesso!");
+                    MenuGUI menu = new MenuGUI();
+                    menu.setVisible(true);
+                    menu.setLocationRelativeTo(null);
+                    dispose();
                 }
             } else {
-                if (jtpEnunciado.getText().isEmpty()) {
-                    JOptionPane.showMessageDialog(this, "O enunciado da questão não pode ser vazio!");
-                } else {
-                    JOptionPane.showMessageDialog(this, "Uma ou mais opções estão vazias!");
+                if ((nome.isEmpty())&&(instrucoes.isEmpty())) {
+                    JOptionPane.showMessageDialog(this, "Nome da instituição e a instrução não podem ser vazias!");
+                } else if (nome.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Nome da instituição não pode ser vazio!");
+                } else if (instrucoes.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "A instrução não pode ser vazia!");
                 }
             }
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(this, "Ocorreu um erro. Tente novamente");
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Error: "+ex);
         }
     }//GEN-LAST:event_jbSalvarActionPerformed
 
@@ -928,10 +683,9 @@ public class EditarQuestaoFechadaGUI extends javax.swing.JDialog {
 
     private void jbCarregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCarregarActionPerformed
         // TODO add your handling code here:
-        AdicionarImagemGUI a = new AdicionarImagemGUI(null, true);
+        AdicionarImagemGUI a = new AdicionarImagemGUI(this, true);
         a.setVisible(true); 
         img = a.certo;
-        posicaoImagem = a.posicao;
         input = a.input;
         fileName = a.fileName;
         jlImagem.setText(fileName);
@@ -941,48 +695,31 @@ public class EditarQuestaoFechadaGUI extends javax.swing.JDialog {
 
     private void jbRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbRemoverActionPerformed
         // TODO add your handling code here:
-        int x = JOptionPane.showConfirmDialog(this.getContentPane(), "Tem certeza que deseja remover a imagem?", "Remover imagem",
-        JOptionPane.YES_NO_CANCEL_OPTION);
-        if (x==0) {
-            if (img) {
-                img = false;
-                if (!img2) {
-                    fileName = "Não há imagem cadastrada";
-                    jlImagem.setText(fileName);            
-                } else {
-                    jlImagem.setText(fileNameAntigo);     
-                }
-            } else if (img2) {
-                img2 = false;
-                fileName = "Não há imagem cadastrada";
-                jlImagem.setText(fileName);   
-                remover = true;
-            } 
-            if ((!img)&&(!img2)) {
-                jbRemover.setEnabled(false);
-                jmiRemover.setEnabled(false);
-            }
-        }
+        img = false;
+        fileName = "Nenhuma imagem selecionada";
+        jlImagem.setText(fileName);
+        jbRemover.setEnabled(false);
+        jmiRemover.setEnabled(false);
     }//GEN-LAST:event_jbRemoverActionPerformed
 
     private void jbMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbMenuActionPerformed
         // TODO add your handling code here:
+        MenuGUI menu = new MenuGUI();
         int x = JOptionPane.showConfirmDialog(this.getContentPane(), "Deseja salvar antes de sair?", "Encerrar",
             JOptionPane.YES_NO_CANCEL_OPTION);
         if (x==0) {
             jbSalvarActionPerformed(evt);
-            if ((!jtpEnunciado.getText().isEmpty())&&(!jtpA.getText().isEmpty())&&(!jtpB.getText().isEmpty())
-                &&(!jtpC.getText().isEmpty())&&(!jtpD.getText().isEmpty())) {
-                if (((!jtpE.getText().isEmpty())&&(jrbSimE.isSelected()))||(jrbNaoE.isSelected())) {
-                    if (((!jtpF.getText().isEmpty())&&(jrbSimF.isSelected()))||(jrbNaoF.isSelected())) {
-                        if (jcbConteudo.getItemCount() != 0) {
-                            dispose();
-                        }
-                    }
+            if (!jtNome.getText().isEmpty()) {
+                if (!jtpInstrucoes.getText().isEmpty()) {
+                    menu.setLocationRelativeTo(null);
+                    menu.setVisible(true);
+                    dispose();
                 }
             }
         }
         if (x==1) {
+            menu.setLocationRelativeTo(null);
+            menu.setVisible(true);
             dispose();
         }
     }//GEN-LAST:event_jbMenuActionPerformed
@@ -990,125 +727,110 @@ public class EditarQuestaoFechadaGUI extends javax.swing.JDialog {
     private void jbNegritoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbNegritoActionPerformed
         // TODO add your handling code here:
         if (t1) {
-            jtpEnunciado.requestFocus();
+            jtNome.requestFocus();
         }
         if (t2) {
-            jtpA.requestFocus();
+            jtSerie.requestFocus();
         }
         if (t3) {
-            jtpB.requestFocus();
+            jtTitulo.requestFocus();
         }
         if (t4) {
-            jtpC.requestFocus();
+            jtSubtitulo.requestFocus();
         }
         if (t5) {
-            jtpD.requestFocus();
+            jtValor.requestFocus();
         }
         if (t6) {
-            jtpE.requestFocus();
-        }
-        if (t7) {
-            jtpF.requestFocus();
+            jtpInstrucoes.requestFocus();
         }
     }//GEN-LAST:event_jbNegritoActionPerformed
 
     private void jbItalicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbItalicoActionPerformed
         // TODO add your handling code here:
         if (t1) {
-            jtpEnunciado.requestFocus();
+            jtNome.requestFocus();
         }
         if (t2) {
-            jtpA.requestFocus();
+            jtSerie.requestFocus();
         }
         if (t3) {
-            jtpB.requestFocus();
+            jtTitulo.requestFocus();
         }
         if (t4) {
-            jtpC.requestFocus();
+            jtSubtitulo.requestFocus();
         }
         if (t5) {
-            jtpD.requestFocus();
+            jtValor.requestFocus();
         }
         if (t6) {
-            jtpE.requestFocus();
-        }
-        if (t7) {
-            jtpF.requestFocus();
+            jtpInstrucoes.requestFocus();
         }
     }//GEN-LAST:event_jbItalicoActionPerformed
 
     private void jbSublinhadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSublinhadoActionPerformed
         // TODO add your handling code here:
         if (t1) {
-            jtpEnunciado.requestFocus();
+            jtNome.requestFocus();
         }
         if (t2) {
-            jtpA.requestFocus();
+            jtSerie.requestFocus();
         }
         if (t3) {
-            jtpB.requestFocus();
+            jtTitulo.requestFocus();
         }
         if (t4) {
-            jtpC.requestFocus();
+            jtSubtitulo.requestFocus();
         }
         if (t5) {
-            jtpD.requestFocus();
+            jtValor.requestFocus();
         }
         if (t6) {
-            jtpE.requestFocus();
-        }
-        if (t7) {
-            jtpF.requestFocus();
+            jtpInstrucoes.requestFocus();
         }
     }//GEN-LAST:event_jbSublinhadoActionPerformed
 
     private void jbFonteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbFonteActionPerformed
         // TODO add your handling code here:
         if (t1) {
-            jtpEnunciado.requestFocus();
+            jtNome.requestFocus();
         }
         if (t2) {
-            jtpA.requestFocus();
+            jtSerie.requestFocus();
         }
         if (t3) {
-            jtpB.requestFocus();
+            jtTitulo.requestFocus();
         }
         if (t4) {
-            jtpC.requestFocus();
+            jtSubtitulo.requestFocus();
         }
         if (t5) {
-            jtpD.requestFocus();
+            jtValor.requestFocus();
         }
         if (t6) {
-            jtpE.requestFocus();
-        }
-        if (t7) {
-            jtpF.requestFocus();
+            jtpInstrucoes.requestFocus();
         }
     }//GEN-LAST:event_jbFonteActionPerformed
 
     private void jbCorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCorActionPerformed
         // TODO add your handling code here:
         if (t1) {
-            jtpEnunciado.requestFocus();
+            jtNome.requestFocus();
         }
         if (t2) {
-            jtpA.requestFocus();
+            jtSerie.requestFocus();
         }
         if (t3) {
-            jtpB.requestFocus();
+            jtTitulo.requestFocus();
         }
         if (t4) {
-            jtpC.requestFocus();
+            jtSubtitulo.requestFocus();
         }
         if (t5) {
-            jtpD.requestFocus();
+            jtValor.requestFocus();
         }
         if (t6) {
-            jtpE.requestFocus();
-        }
-        if (t7) {
-            jtpF.requestFocus();
+            jtpInstrucoes.requestFocus();
         }
     }//GEN-LAST:event_jbCorActionPerformed
 
@@ -1123,75 +845,66 @@ public class EditarQuestaoFechadaGUI extends javax.swing.JDialog {
     private void jbRecortarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbRecortarActionPerformed
         // TODO add your handling code here:
         if (t1) {
-            jtpEnunciado.cut();
+            jtNome.cut();
         }
         if (t2) {
-            jtpA.cut();
+            jtSerie.cut();
         }
         if (t3) {
-            jtpB.cut();
+            jtTitulo.cut();
         }
         if (t4) {
-            jtpC.cut();
+            jtSubtitulo.cut();
         }
         if (t5) {
-            jtpD.cut();
+            jtValor.cut();
         }
         if (t6) {
-            jtpE.cut();
-        }
-        if (t7) {
-            jtpF.cut();
+            jtpInstrucoes.cut();
         }
     }//GEN-LAST:event_jbRecortarActionPerformed
 
     private void jbCopiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCopiarActionPerformed
         // TODO add your handling code here:
         if (t1) {
-            jtpEnunciado.copy();
+            jtNome.copy();
         }
         if (t2) {
-            jtpA.copy();
+            jtSerie.copy();
         }
         if (t3) {
-            jtpB.copy();
+            jtTitulo.copy();
         }
         if (t4) {
-            jtpC.copy();
+            jtSubtitulo.copy();
         }
         if (t5) {
-            jtpD.copy();
+            jtValor.copy();
         }
         if (t6) {
-            jtpE.copy();
-        }
-        if (t7) {
-            jtpF.copy();
+            jtpInstrucoes.copy();
         }
     }//GEN-LAST:event_jbCopiarActionPerformed
 
     private void jbColarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbColarActionPerformed
         // TODO add your handling code here:
         if (t1) {
-            jtpEnunciado.paste();
+            jtNome.paste();
         }
         if (t2) {
-            jtpA.paste();
+            jtSerie.paste();
         }
         if (t3) {
-            jtpB.paste();
+            jtTitulo.paste();
         }
         if (t4) {
-            jtpC.paste();
+            jtSubtitulo.paste();
         }
         if (t5) {
-            jtpD.paste();
+            jtValor.paste();
         }
         if (t6) {
-            jtpE.paste();
-        }
-        if (t7) {
-            jtpF.paste();
+            jtpInstrucoes.paste();
         }
     }//GEN-LAST:event_jbColarActionPerformed
 
@@ -1199,69 +912,61 @@ public class EditarQuestaoFechadaGUI extends javax.swing.JDialog {
         // TODO add your handling code here:
         try {
             if (t1) {
-                sbufer = new StringBuffer(jtpEnunciado.getText());
+                sbufer = new StringBuffer(jtNome.getText());
                 findString = JOptionPane.showInputDialog(null, "Localizar");
                 ind = sbufer.indexOf(findString);
-                jtpEnunciado.setCaretPosition(ind);
-                jtpEnunciado.setSelectionStart(ind);
-                jtpEnunciado.setSelectionEnd(ind+findString.length());
+                jtNome.setCaretPosition(ind);
+                jtNome.setSelectionStart(ind);
+                jtNome.setSelectionEnd(ind+findString.length());
             }
             if (t2) {
-                sbufer = new StringBuffer(jtpA.getText());
+                sbufer = new StringBuffer(jtSerie.getText());
                 findString = JOptionPane.showInputDialog(null, "Localizar");
                 ind = sbufer.indexOf(findString);
-                jtpA.setCaretPosition(ind);
-                jtpA.setSelectionStart(ind);
-                jtpA.setSelectionEnd(ind+findString.length());
+                jtSerie.setCaretPosition(ind);
+                jtSerie.setSelectionStart(ind);
+                jtSerie.setSelectionEnd(ind+findString.length());
             }
             if (t3) {
-                sbufer = new StringBuffer(jtpB.getText());
+                sbufer = new StringBuffer(jtTitulo.getText());
                 findString = JOptionPane.showInputDialog(null, "Localizar");
                 ind = sbufer.indexOf(findString);
-                jtpB.setCaretPosition(ind);
-                jtpB.setSelectionStart(ind);
-                jtpB.setSelectionEnd(ind+findString.length());
+                jtTitulo.setCaretPosition(ind);
+                jtTitulo.setSelectionStart(ind);
+                jtTitulo.setSelectionEnd(ind+findString.length());
             }
             if (t4) {
-                sbufer = new StringBuffer(jtpC.getText());
+                sbufer = new StringBuffer(jtSubtitulo.getText());
                 findString = JOptionPane.showInputDialog(null, "Localizar");
                 ind = sbufer.indexOf(findString);
-                jtpC.setCaretPosition(ind);
-                jtpC.setSelectionStart(ind);
-                jtpC.setSelectionEnd(ind+findString.length());
+                jtSubtitulo.setCaretPosition(ind);
+                jtSubtitulo.setSelectionStart(ind);
+                jtSubtitulo.setSelectionEnd(ind+findString.length());
             }
             if (t5) {
-                sbufer = new StringBuffer(jtpD.getText());
+                sbufer = new StringBuffer(jtValor.getText());
                 findString = JOptionPane.showInputDialog(null, "Localizar");
                 ind = sbufer.indexOf(findString);
-                jtpD.setCaretPosition(ind);
-                jtpD.setSelectionStart(ind);
-                jtpD.setSelectionEnd(ind+findString.length());
+                jtValor.setCaretPosition(ind);
+                jtValor.setSelectionStart(ind);
+                jtValor.setSelectionEnd(ind+findString.length());
             }
             if (t6) {
-                sbufer = new StringBuffer(jtpE.getText());
+                sbufer = new StringBuffer(jtpInstrucoes.getText());
                 findString = JOptionPane.showInputDialog(null, "Localizar");
                 ind = sbufer.indexOf(findString);
-                jtpE.setCaretPosition(ind);
-                jtpE.setSelectionStart(ind);
-                jtpE.setSelectionEnd(ind+findString.length());
-            }
-            if (t7) {
-                sbufer = new StringBuffer(jtpF.getText());
-                findString = JOptionPane.showInputDialog(null, "Localizar");
-                ind = sbufer.indexOf(findString);
-                jtpF.setCaretPosition(ind);
-                jtpF.setSelectionStart(ind);
-                jtpF.setSelectionEnd(ind+findString.length());
+                jtpInstrucoes.setCaretPosition(ind);
+                jtpInstrucoes.setSelectionStart(ind);
+                jtpInstrucoes.setSelectionEnd(ind+findString.length());
             }
         } catch (IllegalArgumentException npe) {
             JOptionPane.showMessageDialog(null, "Palavra não encontrada!");
         } catch (NullPointerException nfe) {
-
+        
         }
     }//GEN-LAST:event_jbLocalizarActionPerformed
 
-    private void jtpEnunciadoFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtpEnunciadoFocusGained
+    private void jtNomeFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtNomeFocusGained
         // TODO add your handling code here:
         t1 = true;
         t2 = false;
@@ -1269,10 +974,9 @@ public class EditarQuestaoFechadaGUI extends javax.swing.JDialog {
         t4 = false;
         t5 = false;
         t6 = false;
-        t7 = false;
-    }//GEN-LAST:event_jtpEnunciadoFocusGained
+    }//GEN-LAST:event_jtNomeFocusGained
 
-    private void jtpAFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtpAFocusGained
+    private void jtSerieFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtSerieFocusGained
         // TODO add your handling code here:
         t1 = false;
         t2 = true;
@@ -1280,10 +984,9 @@ public class EditarQuestaoFechadaGUI extends javax.swing.JDialog {
         t4 = false;
         t5 = false;
         t6 = false;
-        t7 = false;
-    }//GEN-LAST:event_jtpAFocusGained
+    }//GEN-LAST:event_jtSerieFocusGained
 
-    private void jtpBFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtpBFocusGained
+    private void jtTituloFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtTituloFocusGained
         // TODO add your handling code here:
         t1 = false;
         t2 = false;
@@ -1291,10 +994,9 @@ public class EditarQuestaoFechadaGUI extends javax.swing.JDialog {
         t4 = false;
         t5 = false;
         t6 = false;
-        t7 = false;
-    }//GEN-LAST:event_jtpBFocusGained
+    }//GEN-LAST:event_jtTituloFocusGained
 
-    private void jtpCFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtpCFocusGained
+    private void jtSubtituloFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtSubtituloFocusGained
         // TODO add your handling code here:
         t1 = false;
         t2 = false;
@@ -1302,10 +1004,9 @@ public class EditarQuestaoFechadaGUI extends javax.swing.JDialog {
         t4 = true;
         t5 = false;
         t6 = false;
-        t7 = false;
-    }//GEN-LAST:event_jtpCFocusGained
+    }//GEN-LAST:event_jtSubtituloFocusGained
 
-    private void jtpDFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtpDFocusGained
+    private void jtValorFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtValorFocusGained
         // TODO add your handling code here:
         t1 = false;
         t2 = false;
@@ -1313,10 +1014,13 @@ public class EditarQuestaoFechadaGUI extends javax.swing.JDialog {
         t4 = false;
         t5 = true;
         t6 = false;
-        t7 = false;
-    }//GEN-LAST:event_jtpDFocusGained
+    }//GEN-LAST:event_jtValorFocusGained
 
-    private void jtpEFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtpEFocusGained
+    private void jScrollPane2FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jScrollPane2FocusGained
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jScrollPane2FocusGained
+
+    private void jtpInstrucoesFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtpInstrucoesFocusGained
         // TODO add your handling code here:
         t1 = false;
         t2 = false;
@@ -1324,70 +1028,7 @@ public class EditarQuestaoFechadaGUI extends javax.swing.JDialog {
         t4 = false;
         t5 = false;
         t6 = true;
-        t7 = false;
-    }//GEN-LAST:event_jtpEFocusGained
-
-    private void jtpFFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtpFFocusGained
-        // TODO add your handling code here:
-        t1 = false;
-        t2 = false;
-        t3 = false;
-        t4 = false;
-        t5 = false;
-        t6 = false;
-        t7 = true;
-    }//GEN-LAST:event_jtpFFocusGained
-
-    private void jrbSimEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jrbSimEActionPerformed
-        // TODO add your handling code here:
-        jtpE.setEnabled(true);
-        jlE.setEnabled(true);
-    }//GEN-LAST:event_jrbSimEActionPerformed
-
-    private void jrbNaoEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jrbNaoEActionPerformed
-        // TODO add your handling code here:
-        jtpE.setEnabled(false);
-        jlE.setEnabled(false);
-        jtpF.setEnabled(false);
-        jlF.setEnabled(false);
-        jrbNaoF.setSelected(true);
-    }//GEN-LAST:event_jrbNaoEActionPerformed
-
-    private void jrbSimFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jrbSimFActionPerformed
-        // TODO add your handling code here:
-        if (jrbSimE.isSelected()) {
-            jtpF.setEnabled(true);
-            jlF.setEnabled(true);
-        } else {
-            JOptionPane.showMessageDialog(this, "Não é possível adicionar a letra F sem antes adicionar a letra E!");
-            jrbNaoF.setSelected(true);
-        }
-    }//GEN-LAST:event_jrbSimFActionPerformed
-
-    private void jrbNaoFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jrbNaoFActionPerformed
-        // TODO add your handling code here:
-        jtpF.setEnabled(false);
-        jlF.setEnabled(false);
-    }//GEN-LAST:event_jrbNaoFActionPerformed
-
-    private void jcbDisciplinaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbDisciplinaActionPerformed
-        // TODO add your handling code here:
-        try {
-            jcbConteudo.removeAllItems();
-            strList.removeAll(strList);
-            rs = questoesBanco.pegarConteudos(jcbDisciplina.getSelectedItem().toString());
-            if (rs!=null) {
-                do {
-                    strList.add(
-                            rs.getString("NomeConteudos"));
-                } while (rs.next());                   
-            }             
-            modelComboBox = new DefaultComboBoxModel(strList.toArray());
-            jcbConteudo.setModel(modelComboBox);
-        } catch (SQLException e) {
-
-        }
-    }//GEN-LAST:event_jcbDisciplinaActionPerformed
+    }//GEN-LAST:event_jtpInstrucoesFocusGained
 
     /**
      * @param args the command line arguments
@@ -1406,106 +1047,24 @@ public class EditarQuestaoFechadaGUI extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(EditarQuestaoFechadaGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AdicionarCabecalhoGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(EditarQuestaoFechadaGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AdicionarCabecalhoGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(EditarQuestaoFechadaGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AdicionarCabecalhoGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(EditarQuestaoFechadaGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AdicionarCabecalhoGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
-        /* Create and display the dialog */
+        /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                EditarQuestaoFechadaGUI dialog = new EditarQuestaoFechadaGUI(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
+                new AdicionarCabecalhoGUI().setVisible(true);
             }
         });
     }
 
-    //SALVAR QUESTÃO
-    public void SalvarQuestao(String e, int d, String letraA, String letraB, String letraC,
-                              String letraD, String letraE, String letraF, int idConteudo, int idQuestao) {        
-        try {
-            questoesBanco.inserirQuestaoFechadaEditada(
-                    e, d, letraA, letraB, letraC, letraD, letraE, letraF, idConteudo, idQuestao);
-        } catch (SQLException sqlEx) {
-            JOptionPane.showMessageDialog(this, "Error SQL: "+sqlEx);
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Error: "+ex);
-        }
-    }
-    
-    //SALVAR IMAGEM
-    public void AddImagem(int idDestaQuestao) {        
-        if (img) {
-            try {
-                rs = questoesBanco.confereSeTemImagem(idDestaQuestao);
-                if (rs!=null) {
-                    //PASSAR FILENAME
-                    questoesBanco.inserirImagemEditada(input, posicaoImagem, idDestaQuestao, fileName);              
-                } else {
-                    //PASSAR FILENAME
-                    questoesBanco.inserirImagem(idDestaQuestao, input, posicaoImagem, fileName);              
-                }
-            } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(this, "Ocorreu um erro, tente novamente!");
-            }
-        }
-    }
-    
-    //REMOVER IMAGEM
-    public void RemoverImagem(int idDestaQuestao) {        
-        if (remover) {            
-            try {
-                questoesBanco.removerImagem(idDestaQuestao);
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(this, "Erro ao remover imagem.\nErro:"+e);
-            }
-        }
-    } 
-    
-    //CARREGAR COMBOBOXES
-    public void CarregarComboBox() {     
-        try {
-            //Disciplinas   
-            strList.removeAll(strList);
-            rs = questoesBanco.pegarDisciplinas();
-            if (rs!=null) {
-                do {
-                    strList.add(
-                            rs.getString("NomeDisciplinas"));
-                } while (rs.next());
-            }
-            modelComboBox = new DefaultComboBoxModel(strList.toArray());
-            jcbDisciplina.setModel(modelComboBox);
-            
-            //Conteúdos
-            strList.removeAll(strList);
-            rs = questoesBanco.pegarConteudos(jcbDisciplina.getSelectedItem().toString());
-            if (rs!=null) {
-                do {
-                    strList.add(
-                            rs.getString("NomeConteudos"));
-                } while (rs.next());                   
-            }             
-            modelComboBox = new DefaultComboBoxModel(strList.toArray());
-            jcbConteudo.setModel(modelComboBox);     
-        } catch (SQLException sqlEx) {
-            JOptionPane.showMessageDialog(this, "Error SQL: "+sqlEx);
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Error: "+ex);
-        }      
-    }
-    
     //NEGRITO
     class BoldAction extends StyledEditorKit.StyledTextAction {
         private static final long serialVersionUID = 9174670038684056758L;
@@ -1706,7 +1265,7 @@ public class EditarQuestaoFechadaGUI extends javax.swing.JDialog {
 
             formatText = new JDialog(new JFrame(), "Font and Size", true);
             formatText.getContentPane().setLayout(new BorderLayout());
-            formatText.setLocationRelativeTo(dialog.getContentPane());
+            formatText.setLocationRelativeTo(frame.getContentPane());
             //format aq de centralizar a tela
 
             JPanel choosers = new JPanel();
@@ -1840,28 +1399,20 @@ public class EditarQuestaoFechadaGUI extends javax.swing.JDialog {
             undoAction.update();
             redoAction.update();
         }
-    } 
+    }  
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuBar jMenuBar4;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JScrollPane jScrollPane5;
-    private javax.swing.JScrollPane jScrollPane6;
-    private javax.swing.JScrollPane jScrollPane7;
-    private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JToolBar.Separator jSeparator1;
     private javax.swing.JToolBar.Separator jSeparator2;
     private javax.swing.JToolBar.Separator jSeparator3;
@@ -1887,30 +1438,18 @@ public class EditarQuestaoFechadaGUI extends javax.swing.JDialog {
     private javax.swing.JButton jbRemover;
     private javax.swing.JButton jbSalvar;
     private javax.swing.JButton jbSublinhado;
-    private javax.swing.JComboBox jcbConteudo;
-    private javax.swing.JComboBox jcbDificuldade;
-    private javax.swing.JComboBox jcbDisciplina;
-    private javax.swing.JLabel jlE;
-    private javax.swing.JLabel jlF;
     private javax.swing.JLabel jlImagem;
-    private javax.swing.JMenu jmArquivo;
     private javax.swing.JMenuItem jmiAbrir;
+    private javax.swing.JMenu jmiArquivo;
     private javax.swing.JMenuItem jmiCarregar;
     private javax.swing.JMenuItem jmiMenu;
     private javax.swing.JMenuItem jmiRemover;
     private javax.swing.JMenuItem jmiSalvar;
-    private javax.swing.JRadioButton jrbNaoE;
-    private javax.swing.JRadioButton jrbNaoF;
-    private javax.swing.JRadioButton jrbSimE;
-    private javax.swing.JRadioButton jrbSimF;
-    private javax.swing.JTextPane jtpA;
-    private javax.swing.JTextPane jtpB;
-    private javax.swing.JTextPane jtpC;
-    private javax.swing.JTextPane jtpD;
-    private javax.swing.JTextPane jtpE;
-    private javax.swing.JTextPane jtpEnunciado;
-    private javax.swing.JTextPane jtpF;
-    private javax.swing.ButtonGroup letraE;
-    private javax.swing.ButtonGroup letraF;
+    private javax.swing.JTextField jtNome;
+    private javax.swing.JTextField jtSerie;
+    private javax.swing.JTextField jtSubtitulo;
+    private javax.swing.JTextField jtTitulo;
+    private javax.swing.JTextField jtValor;
+    private javax.swing.JTextPane jtpInstrucoes;
     // End of variables declaration//GEN-END:variables
 }

@@ -153,6 +153,13 @@ public class AdicionarQuestaoGUI extends javax.swing.JFrame {
         jtpEnunciado.requestFocus();
         
         jtpEnunciado.getDocument().addUndoableEditListener(new MyUndoableEditListener());
+        jtpEnunciado1.getDocument().addUndoableEditListener(new MyUndoableEditListener());
+        jtpA.getDocument().addUndoableEditListener(new MyUndoableEditListener());
+        jtpB.getDocument().addUndoableEditListener(new MyUndoableEditListener());
+        jtpC.getDocument().addUndoableEditListener(new MyUndoableEditListener());
+        jtpD.getDocument().addUndoableEditListener(new MyUndoableEditListener());
+        jtpE.getDocument().addUndoableEditListener(new MyUndoableEditListener());
+        jtpF.getDocument().addUndoableEditListener(new MyUndoableEditListener());        
         
         jbDesfazer.addActionListener(undoAction);
         jbRefazer.addActionListener(redoAction);
@@ -873,6 +880,7 @@ public class AdicionarQuestaoGUI extends javax.swing.JFrame {
 
         jmiRemover.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/removeImage.png"))); // NOI18N
         jmiRemover.setText("Remover Imagem");
+        jmiRemover.setEnabled(false);
         jmiRemover.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jmiRemoverActionPerformed(evt);
@@ -1642,7 +1650,7 @@ public class AdicionarQuestaoGUI extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
