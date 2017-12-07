@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Provas" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="a49284dd-9ef5-4465-a63b-fd0e43493d2c">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="3"/>
+	<parameter name="Instituicao" class="java.lang.String"/>
+	<parameter name="Titulo" class="java.lang.String"/>
+	<parameter name="SubTitulo" class="java.lang.String"/>
+	<parameter name="Instrucoes" class="java.lang.String"/>
+	<parameter name="Serie" class="java.lang.String"/>
+	<parameter name="Valor" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT
+	Questoes.Questoes_ID,
+	Questoes.Enunciado,
+	Questoes.Dificuldade,
+	Questoes.ID_Conteudos,
+	Questoes.MultiplaEscolha,
+	CASE WHEN Questoes.AlternativaA <> '' THEN CONCAT('A) ', Questoes.AlternativaA) ELSE '_______________________________________________________________________________________' END AS AlternativaA,
+	CASE WHEN Questoes.AlternativaB <> '' THEN CONCAT('B) ', Questoes.AlternativaB) ELSE '_______________________________________________________________________________________' END AS AlternativaB,
+	CASE WHEN Questoes.AlternativaC <> '' THEN CONCAT('C) ', Questoes.AlternativaC) ELSE '_______________________________________________________________________________________' END AS AlternativaC,
+	CASE WHEN Questoes.AlternativaD <> '' THEN CONCAT('D) ', Questoes.AlternativaD) ELSE '_______________________________________________________________________________________' END AS AlternativaD,
+	CASE WHEN Questoes.AlternativaE <> '' THEN CONCAT('E) ', Questoes.AlternativaE) ELSE '_______________________________________________________________________________________' END AS AlternativaE,
+	CASE WHEN Questoes.AlternativaF <> '' THEN CONCAT('F) ', Questoes.AlternativaF) ELSE '_______________________________________________________________________________________' END AS AlternativaF,
+	ImagemQuest.ImagemQuest_ID,
+	ImagemQuest.ID_Questao,
+	ImagemQuest.Imagem,
+	ImagemQuest.POSICAO,
+	ImagemQuest.NomeImagem
+FROM
+	Questoes INNER JOIN ImagemQuest ON Questoes.Questoes_ID = ImagemQuest.ID_Questao]]>
+	</queryString>
+	<field name="Questoes_ID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Enunciado" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Dificuldade" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ID_Conteudos" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="MultiplaEscolha" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="AlternativaA" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="AlternativaB" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="AlternativaC" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="AlternativaD" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="AlternativaE" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="AlternativaF" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ImagemQuest_ID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ID_Questao" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Imagem" class="java.io.InputStream">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="POSICAO" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="NomeImagem" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="154" splitType="Stretch">
+			<textField>
+				<reportElement x="227" y="0" width="100" height="20" uuid="638a59ff-a11e-4509-8d28-61f92705aadd"/>
+				<textFieldExpression><![CDATA[$P{Instituicao}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="227" y="20" width="100" height="20" uuid="545f748c-ed76-4729-83cd-d76a9360cf56"/>
+				<textFieldExpression><![CDATA[$P{Titulo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="227" y="40" width="100" height="20" uuid="97fee555-9116-4ff4-8f38-b27fbaab256f"/>
+				<textFieldExpression><![CDATA[$P{SubTitulo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="92" width="555" height="62" uuid="276d985c-161d-4187-a690-55ae8fe53476"/>
+				<textFieldExpression><![CDATA[$P{Instrucoes}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="0" y="0" width="120" height="60" uuid="27acb110-288b-4510-a73a-de326d2b665f"/>
+			</image>
+			<staticText>
+				<reportElement x="0" y="60" width="33" height="13" uuid="4d54b2e1-a894-44c5-a654-eef350645f05"/>
+				<text><![CDATA[Nome:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="73" width="53" height="13" uuid="997978fd-bee0-4492-938a-0eea0b6e34e8"/>
+				<text><![CDATA[Professor:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="33" y="73" width="336" height="1" uuid="cdba0ff5-1b9e-4970-b1bb-9dd0b9f9df07"/>
+			</line>
+			<staticText>
+				<reportElement x="369" y="60" width="33" height="13" uuid="03311881-a131-439b-ab4b-9210a20e7231"/>
+				<text><![CDATA[Data:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="402" y="60" width="69" height="13" uuid="96ab1ad7-ea3f-4cd3-880d-fac732c8accc"/>
+				<text><![CDATA[___/___/____]]></text>
+			</staticText>
+			<line>
+				<reportElement x="53" y="85" width="155" height="1" uuid="86d1503b-1cd4-4b72-857e-7aaf2f1d3254"/>
+			</line>
+			<staticText>
+				<reportElement x="208" y="72" width="36" height="13" uuid="db835a72-8185-471c-81e5-be65f166b35e"/>
+				<text><![CDATA[Série:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="244" y="72" width="83" height="13" uuid="d9d3fa98-49c8-4d41-9769-72978469ab58"/>
+				<textFieldExpression><![CDATA[$P{Serie}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="327" y="74" width="36" height="13" uuid="325d9c34-fc26-4eb2-911f-68c351a82dac"/>
+				<text><![CDATA[Valor:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="363" y="73" width="100" height="14" uuid="03f3176c-296f-4006-b5be-fdfc8dad0e8f"/>
+				<textFieldExpression><![CDATA[$P{Valor}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="10" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="205" splitType="Stretch">
+			<textField isStretchWithOverflow="true">
+				<reportElement x="0" y="7" width="555" height="15" uuid="3d6d3609-1eb7-4f6b-af0f-18a74f41ec3d"/>
+				<textElement>
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Enunciado}]]></textFieldExpression>
+			</textField>
+			<image scaleImage="RealHeight">
+				<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="0" y="22" width="191" height="53" isRemoveLineWhenBlank="true" uuid="372b297b-e038-4727-acc3-78181e050d51">
+					<printWhenExpression><![CDATA[$F{POSICAO}.equals(1)]]></printWhenExpression>
+				</reportElement>
+				<imageExpression><![CDATA[$F{Imagem}]]></imageExpression>
+			</image>
+			<image scaleImage="RealHeight">
+				<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="191" y="22" width="178" height="53" isRemoveLineWhenBlank="true" uuid="8cae303f-04a7-4583-8fb8-97118bbcded8">
+					<printWhenExpression><![CDATA[$F{POSICAO}.equals(2)]]></printWhenExpression>
+				</reportElement>
+				<imageExpression><![CDATA[$F{Imagem}]]></imageExpression>
+			</image>
+			<image scaleImage="RealHeight" isUsingCache="true">
+				<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="369" y="22" width="186" height="53" isRemoveLineWhenBlank="true" uuid="8f811826-3669-4f85-9cea-695842154097">
+					<printWhenExpression><![CDATA[$F{POSICAO}.equals(3)]]></printWhenExpression>
+				</reportElement>
+				<imageExpression><![CDATA[$F{Imagem}]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="83" width="555" height="20" uuid="08679776-4fcd-4c23-a8e6-39bfee52f074"/>
+				<textFieldExpression><![CDATA[$F{AlternativaA}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="103" width="555" height="20" uuid="2d542e0d-efc9-4d65-a77b-95db4cc2a0dc"/>
+				<textFieldExpression><![CDATA[$F{AlternativaB}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="123" width="555" height="20" uuid="5997de39-680c-4e58-be9a-a3bdd13324d3"/>
+				<textFieldExpression><![CDATA[$F{AlternativaC}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="143" width="555" height="20" uuid="d443ce31-6ad1-49f8-900e-d4127885917e"/>
+				<textFieldExpression><![CDATA[$F{AlternativaD}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="163" width="555" height="20" uuid="2bfcd7e0-76c2-40d1-91b8-11056abb2e62"/>
+				<textFieldExpression><![CDATA[$F{AlternativaE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="183" width="555" height="20" uuid="9cbe6eee-f082-43b8-af93-1db61c73a640"/>
+				<textFieldExpression><![CDATA[$F{AlternativaF}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="19" splitType="Stretch">
+			<textField>
+				<reportElement x="500" y="0" width="55" height="19" uuid="f3eec52f-9e53-4944-bab5-a7bf880478aa"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

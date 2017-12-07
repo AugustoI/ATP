@@ -71,6 +71,11 @@ public class ProvaPrincipalGUI extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                formComponentShown(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(209, 224, 248));
 
@@ -85,12 +90,22 @@ public class ProvaPrincipalGUI extends javax.swing.JFrame {
         jLabel1.setText("Cabeçalho:");
         jToolBar1.add(jLabel1);
 
+        cbCabecalho.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbCabecalhoItemStateChanged(evt);
+            }
+        });
         jToolBar1.add(cbCabecalho);
         jToolBar1.add(jSeparator1);
 
         jLabel2.setText("Disciplinas:");
         jToolBar1.add(jLabel2);
 
+        cbDisciplinas.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbDisciplinasItemStateChanged(evt);
+            }
+        });
         jToolBar1.add(cbDisciplinas);
         jToolBar1.add(jSeparator3);
 
@@ -142,9 +157,24 @@ public class ProvaPrincipalGUI extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Selecionado", "ID", "Nome Conteúdo", "Série"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Boolean.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
+            };
+            boolean[] canEdit = new boolean [] {
+                true, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         tbConteudos.setGridColor(new java.awt.Color(255, 255, 255));
         tbConteudos.setRowHeight(20);
         tbConteudos.setSelectionBackground(new java.awt.Color(122, 203, 243));
@@ -155,13 +185,13 @@ public class ProvaPrincipalGUI extends javax.swing.JFrame {
         tbQuestoes.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         tbQuestoes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {},
+                {},
+                {},
+                {}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+
             }
         ));
         tbQuestoes.setGridColor(new java.awt.Color(255, 255, 255));
@@ -174,13 +204,13 @@ public class ProvaPrincipalGUI extends javax.swing.JFrame {
         tbSelecionadas.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         tbSelecionadas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {},
+                {},
+                {},
+                {}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+
             }
         ));
         tbSelecionadas.setGridColor(new java.awt.Color(255, 255, 255));
@@ -397,6 +427,23 @@ public class ProvaPrincipalGUI extends javax.swing.JFrame {
         menu.setVisible(true);
         dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
+        // TODO add your handling code here:
+        PreencheCabecalho();
+        PreencheDisciplinas();
+        PreencheConteudos();
+        ConfiguraSelecionadas();
+    }//GEN-LAST:event_formComponentShown
+
+    private void cbCabecalhoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbCabecalhoItemStateChanged
+        // TODO add your handling code here:        
+    }//GEN-LAST:event_cbCabecalhoItemStateChanged
+
+    private void cbDisciplinasItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbDisciplinasItemStateChanged
+        // TODO add your handling code here:
+        PreencheConteudos();
+    }//GEN-LAST:event_cbDisciplinasItemStateChanged
 
     /**
      * @param args the command line arguments
